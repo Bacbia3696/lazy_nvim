@@ -40,6 +40,21 @@ return {
     end,
   },
   {
+    "jay-babu/mason-null-ls.nvim",
+    event = { "BufReadPre", "BufNewFile" },
+    dependencies = {
+      "williamboman/mason.nvim",
+      "jose-elias-alvarez/null-ls.nvim",
+    },
+    opts = {
+      ensure_installed = {
+        "goimports",
+      },
+      automatic_installation = false,
+      handlers = {},
+    },
+  },
+  {
     "simrat39/rust-tools.nvim",
     ft = "rust",
     config = function(_, opts)

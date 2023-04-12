@@ -14,14 +14,19 @@ map("n", "<M-a>", "ggVG")
 map("n", ";", ":", { nowait = true, noremap = true, silent = true })
 
 -- emacs like in insert and command mode
-map("!", "<C-a>", "<Home>")
-map("!", "<C-e>", "<End>")
-map("!", "<C-p>", "<Up>")
-map("!", "<C-n>", "<Down>")
-map("!", "<C-b>", "<Left>", { desc = "c-b" })
-map("!", "<C-f>", "<Right>")
-map("!", "<M-b>", "<S-Left>")
-map("!", "<M-f>", "<S-Right>")
+map("!", "<C-a>", "<Home>", { desc = "move begin line" })
+map("!", "<C-e>", "<End>", { desc = "move eol" })
+map("!", "<C-p>", "<Up>", { desc = "move up" })
+map("!", "<C-n>", "<Down>", { desc = "move down" })
+map("!", "<C-b>", "<Left>", { desc = "move left" })
+map("!", "<C-f>", "<Right>", { desc = "move right" })
+map("!", "<M-b>", "<S-Left>", { desc = "move 1 word" })
+map("!", "<M-f>", "<S-Right>", { desc = "move back 1 word" })
+
+-- togle term
+if Util.has("toggleterm.nvim") then
+  map({ "n", "t" }, "<C-\\>", "<Cmd>ToggleTerm<cr>")
+end
 
 -- path manipulation
 map("n", "so", [[:execute '!open %'<CR>]])
@@ -32,7 +37,6 @@ map("n", "sd", function()
   local line = vim.fn.expand("%:p") .. ":" .. vim.fn.line(".")
   local command = "echo -n '" .. line .. "' | pbcopy"
   command = "!" .. vim.fn.escape(command, "!")
-  print(command)
   vim.fn.execute(command)
 end, { desc = "copy file and line number" })
 
@@ -56,4 +60,28 @@ if Util.has("neotest") then
   map("n", "<leader>t]", nt.jump.next, { desc = "Jump to next test" })
   map("n", "<leader>t[", nt.jump.next, { desc = "Jump to prev test" })
   map("n", "<leader>th", "<cmd>Coverage<cr>", { desc = "Toggle show converage" })
+end
+
+if Util.has("nvim-dap") then
+  local dap = require("dap")
+  -- modified function keys found with `showkey -a` in the terminal to get key code
+  -- run `nvim -V3log +quit` and search through the "Terminal info" in the `log` file for the correct keyname
+  map("n", "<F5>", dap.continue, { desc = "Debugger: Start" })
+  map("n", "<F17>", dap.terminate, { desc = "Debugger: Stop" }) -- Shift + F5
+  map("n", "<F29>", dap.restart_frame, { desc = "Debugger: Restart" }) -- Control + F5
+  map("n", "<F6>", dap.pause, { desc = "Debugger: Pause" })
+  map("n", "<F9>", dap.toggle_breakpoint, { desc = "Debugger: Toggle Breakpoint" })
+  map("n", "<F21>", function()
+    dap.set_breakpoint(vim.fn.input("Condition: "))
+  end, { desc = "Debugger: Set condition breakpoint" })
+  map("n", "<F10>", dap.step_over, { desc = "Debugger: Step Over" })
+  map("n", "<F11>", dap.step_into, { desc = "Debugger: Step Into" })
+  map("n", "<F23>", dap.step_out, { desc = "Debugger: Step Out" }) -- Shift + F11
+  map("n", "<leader>dq", dap.close, { desc = "Debugger: Close session" })
+  map("n", "<leader>dC", dap.clear_breakpoints, { desc = "Debugger: Clear all breakpoints" })
+  map("n", "<leader>dR", dap.repl.toggle, { desc = "Toggle REPL" })
+  if Util.has("nvim-dap-ui") then
+    map("n", "<leader>du", require("dapui").toggle, { desc = "Toggle Debugger UI" })
+    map("n", "<leader>dh", require("dap.ui.widgets").hover, { desc = "Debugger Hover" })
+  end
 end
