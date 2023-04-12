@@ -1,12 +1,34 @@
 return {
-  -- add symbols-outline
   {
-    "simrat39/symbols-outline.nvim",
-    cmd = "SymbolsOutline",
-    keys = { { "<leader>cs", "<cmd>SymbolsOutline<cr>", desc = "Symbols Outline" } },
+    "stevearc/aerial.nvim",
+    cmd = { "AerialToggle" },
+    init = function()
+      require("telescope").load_extension("aerial")
+    end,
     opts = {
-      -- add your options that should be passed to the setup() function here
-      position = "right",
+      attach_mode = "global",
+      backends = { "lsp", "treesitter", "markdown", "man" },
+      layout = { min_width = 28 },
+      show_guides = true,
+      filter_kind = false,
+      guides = {
+        mid_item = "├ ",
+        last_item = "└ ",
+        nested_top = "│ ",
+        whitespace = "  ",
+      },
+      keymaps = {
+        ["o"] = "actions.jump",
+        ["{"] = "actions.prev",
+        ["}"] = "actions.next",
+        ["[["] = "actions.prev_up",
+        ["]]"] = "actions.next_up",
+        ["[y"] = false,
+        ["]y"] = false,
+        ["[Y"] = false,
+        ["]Y"] = false,
+        ["?"] = false,
+      },
     },
   },
   {

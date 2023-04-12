@@ -85,3 +85,7 @@ if Util.has("nvim-dap") then
     map("n", "<leader>dh", require("dap.ui.widgets").hover, { desc = "Debugger Hover" })
   end
 end
+
+if Util.has("aerial.nvim") then
+  map("n", "<leader>cs", "<cmd>AerialToggle<cr>", { desc = "Toggle LSP Symbol" })
+end
