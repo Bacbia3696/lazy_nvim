@@ -1,7 +1,10 @@
+local Util = require("lazyvim.util")
+
 return {
+  { "ggandor/flit.nvim", enabled = false },
+  { "ggandor/leap.nvim", enabled = false },
   {
     "mrjones2014/smart-splits.nvim",
-    lazy = false,
     opts = { ignored_filetypes = { "nofile", "quickfix", "qf", "prompt" }, ignored_buftypes = { "nofile" } },
   },
   {
@@ -13,7 +16,6 @@ return {
   },
   {
     "s1n7ax/nvim-window-picker",
-    lazy = false,
     config = function()
       require("window-picker").setup({
         selection_chars = "QWEASDZXCRFVTGBYHNUJM",
@@ -32,15 +34,12 @@ return {
       },
     },
   },
-  { "ggandor/flit.nvim", enabled = false },
-  { "ggandor/leap.nvim", enabled = false },
   {
     "folke/zen-mode.nvim",
     events = "ZenMode",
   },
   {
     "kevinhwang91/nvim-ufo",
-    lazy = false,
     dependencies = "kevinhwang91/promise-async",
     opts = {
       provider_selector = function(bufnr, filetype, buftype)
@@ -53,7 +52,6 @@ return {
     cmd = { "ToggleTerm", "TermExec" },
     opts = {
       size = 10,
-      open_mapping = [[<F7>]],
       shading_factor = 2,
       direction = "float",
       float_opts = {
@@ -64,6 +62,11 @@ return {
   },
   {
     "nvim-telescope/telescope.nvim",
+    keys = {
+      { "<leader>/", Util.telescope("live_grep", { debounce = 500 }), desc = "Find in Files (Grep)" },
+      { "<leader>sg", Util.telescope("live_grep", { debounce = 500 }), desc = "Grep (root dir)" },
+      { "<leader>sG", Util.telescope("live_grep", { cwd = false, debounce = 500 }), desc = "Grep (cwd)" },
+    },
     opts = function(_, opts)
       opts.defaults.path_display = { shorten = 5, exclude = { 1, -1 } }
       opts.defaults.prompt_prefix = "🔭 "
@@ -74,7 +77,7 @@ return {
       opts.pickers = {
         lsp_references = { include_declaration = false, show_line = false },
         lsp_implementations = { show_line = false },
-        live_grep = { glob_pattern = { "!api/*", "!go.sum" } },
+        -- live_grep = { glob_pattern = { "!api/*", "!go.sum" } },
       }
     end,
   },
