@@ -1,5 +1,10 @@
 return {
   {
+    "mrjones2014/smart-splits.nvim",
+    lazy = false,
+    opts = { ignored_filetypes = { "nofile", "quickfix", "qf", "prompt" }, ignored_buftypes = { "nofile" } },
+  },
+  {
     "szw/vim-maximizer",
     keys = "<M-m>",
     init = function()
@@ -9,7 +14,6 @@ return {
   {
     "s1n7ax/nvim-window-picker",
     lazy = false,
-    tag = "v1.*",
     config = function()
       require("window-picker").setup({
         selection_chars = "QWEASDZXCRFVTGBYHNUJM",
@@ -57,5 +61,21 @@ return {
         highlights = { border = "Normal", background = "Normal" },
       },
     },
+  },
+  {
+    "nvim-telescope/telescope.nvim",
+    opts = function(_, opts)
+      opts.defaults.path_display = { shorten = 5, exclude = { 1, -1 } }
+      opts.defaults.prompt_prefix = "🔭 "
+      opts.defaults.selection_caret = " "
+      opts.defaults.mappings.i["<C-j>"] = require("telescope.actions").move_selection_next
+      opts.defaults.mappings.i["<C-k>"] = require("telescope.actions").move_selection_previous
+
+      opts.pickers = {
+        lsp_references = { include_declaration = false, show_line = false },
+        lsp_implementations = { show_line = false },
+        live_grep = { glob_pattern = { "!api/*", "!go.sum" } },
+      }
+    end,
   },
 }

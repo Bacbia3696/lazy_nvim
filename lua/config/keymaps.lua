@@ -16,14 +16,14 @@ map("n", "<C-q>", "<Cmd>quit<cr>")
 map("t", "<C-q>", "<C-\\><C-n>")
 
 -- emacs like in insert and command mode
-map("!", "<C-a>", "<Home>", { desc = "move begin line" })
-map("!", "<C-e>", "<End>", { desc = "move eol" })
-map("!", "<C-p>", "<Up>", { desc = "move up" })
-map("!", "<C-n>", "<Down>", { desc = "move down" })
-map("!", "<C-b>", "<Left>", { desc = "move left" })
-map("!", "<C-f>", "<Right>", { desc = "move right" })
-map("!", "<M-b>", "<S-Left>", { desc = "move 1 word" })
-map("!", "<M-f>", "<S-Right>", { desc = "move back 1 word" })
+map("!", "<C-a>", "<Home>", { desc = "move begin line", silent = false })
+map("!", "<C-e>", "<End>", { desc = "move eol", silent = false })
+map("!", "<C-p>", "<Up>", { desc = "move up", silent = false })
+map("!", "<C-n>", "<Down>", { desc = "move down", silent = false })
+map("!", "<C-b>", "<Left>", { desc = "move left", silent = false })
+map("!", "<C-f>", "<Right>", { desc = "move right", silent = false })
+map("!", "<M-b>", "<S-Left>", { desc = "move 1 word", silent = false })
+map("!", "<M-f>", "<S-Right>", { desc = "move back 1 word", silent = false })
 
 -- togle term
 if Util.has("toggleterm.nvim") then
@@ -98,4 +98,8 @@ if Util.has("nvim-window-picker") then
     local picked_window_id = picker.pick_window() or vim.api.nvim_get_current_win()
     vim.api.nvim_set_current_win(picked_window_id)
   end, { desc = "Pick a window" })
+end
+
+if Util.has("smart-splits.nvim") then
+  map("n", "<leader>w ", require("smart-splits").start_resize_mode, { desc = "Start resize mode" })
 end
