@@ -11,7 +11,9 @@ local function map(mode, lhs, rhs, opts)
 end
 
 map("n", "<M-a>", "ggVG")
-map("n", ";", ":", { nowait = true, noremap = true, silent = true })
+map("n", ";", ":", { nowait = true, silent = false })
+map("n", "<C-q>", "<Cmd>quit<cr>")
+map("t", "<C-q>", "<C-\\><C-n>")
 
 -- emacs like in insert and command mode
 map("!", "<C-a>", "<Home>", { desc = "move begin line" })
@@ -72,13 +74,13 @@ if Util.has("nvim-dap") then
   map("n", "<F6>", dap.pause, { desc = "Debugger: Pause" })
   map("n", "<F9>", dap.toggle_breakpoint, { desc = "Debugger: Toggle Breakpoint" })
   map("n", "<F21>", function()
-    dap.set_breakpoint(vim.fn.input("Condition: "))
+    dap.set_breakpoint(vim.fn.input("Set condition:"))
   end, { desc = "Debugger: Set condition breakpoint" })
+  map("n", "<F33>", dap.clear_breakpoints, { desc = "Debugger: Clear all breakpoints" })
   map("n", "<F10>", dap.step_over, { desc = "Debugger: Step Over" })
   map("n", "<F11>", dap.step_into, { desc = "Debugger: Step Into" })
   map("n", "<F23>", dap.step_out, { desc = "Debugger: Step Out" }) -- Shift + F11
   map("n", "<leader>dq", dap.close, { desc = "Debugger: Close session" })
-  map("n", "<leader>dC", dap.clear_breakpoints, { desc = "Debugger: Clear all breakpoints" })
   map("n", "<leader>dR", dap.repl.toggle, { desc = "Toggle REPL" })
   if Util.has("nvim-dap-ui") then
     map("n", "<leader>du", require("dapui").toggle, { desc = "Toggle Debugger UI" })

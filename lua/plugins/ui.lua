@@ -15,6 +15,10 @@ return {
       on_colors = function(colors)
         colors.border = "#565f89"
       end,
+      style = "moon",
+      hide_inactive_statusline = true,
+      dim_inactive = true,
+      lualine_bold = true,
     },
   },
 }
