@@ -91,3 +91,11 @@ end
 if Util.has("aerial.nvim") then
   map("n", "<leader>cs", "<cmd>AerialToggle<cr>", { desc = "Toggle LSP Symbol" })
 end
+
+if Util.has("nvim-window-picker") then
+  local picker = require("window-picker")
+  map("n", "-", function()
+    local picked_window_id = picker.pick_window() or vim.api.nvim_get_current_win()
+    vim.api.nvim_set_current_win(picked_window_id)
+  end, { desc = "Pick a window" })
+end

@@ -7,6 +7,16 @@ return {
     end,
   },
   {
+    "s1n7ax/nvim-window-picker",
+    lazy = false,
+    tag = "v1.*",
+    config = function()
+      require("window-picker").setup({
+        selection_chars = "QWEASDZXCRFVTGBYHNUJM",
+      })
+    end,
+  },
+  {
     "nvim-neo-tree/neo-tree.nvim",
     opts = {
       window = {
