@@ -16,7 +16,8 @@ require("lazyvim.util").on_attach(function(client, _)
         end
       end,
     })
-    vim.lsp.codelens.refresh()
+    -- NOTE: this is quite hacky, because we can call codelens in the begining
+    vim.fn.timer_start(100, vim.lsp.codelens.refresh, { ["repeat"] = 5 })
     local keys = require("lazyvim.plugins.lsp.keymaps").get()
     keys[#keys + 1] = { "gL", vim.lsp.codelens.refresh, desc = "LSP CodeLens refresh", mode = { "n" } }
     keys[#keys + 1] = { "gl", vim.lsp.codelens.run, desc = "LSP CodeLens run", mode = { "n" } }

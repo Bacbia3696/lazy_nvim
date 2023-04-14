@@ -100,3 +100,11 @@ end
 if Util.has("smart-splits.nvim") then
   map("n", "<leader>w ", require("smart-splits").start_resize_mode, { desc = "Start resize mode" })
 end
+
+-- Move Lines
+map("n", "<A-s>", "<cmd>m .+1<cr>==", { desc = "Move down" })
+map("n", "<A-w>", "<cmd>m .-2<cr>==", { desc = "Move up" })
+map("i", "<A-s>", "<esc><cmd>m .+1<cr>==gi", { desc = "Move down" })
+map("i", "<A-w>", "<esc><cmd>m .-2<cr>==gi", { desc = "Move up" })
+map("v", "<A-s>", ":m '>+1<cr>gv=gv", { desc = "Move down" })
+map("v", "<A-w>", ":m '<-2<cr>gv=gv", { desc = "Move up" })

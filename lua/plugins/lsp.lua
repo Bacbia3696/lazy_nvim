@@ -85,15 +85,7 @@ return {
   {
     "simrat39/rust-tools.nvim",
     ft = "rust",
-    config = function(_, opts)
-      local rt = require("rust-tools")
-      rt.setup(opts)
-      require("lazyvim.util").on_attach(function(client, bufnr)
-        if client.name == "rust_analyzer" then
-          vim.keymap.set("n", "<S-k>", rt.hover_actions.hover_actions, { buffer = bufnr, desc = "LSP hover actions" })
-        end
-      end)
-    end,
+    event = { "BufRead Cargo.toml" },
     opts = {
       server = {
         cmd = { "rustup", "run", "nightly", "rust-analyzer" },
@@ -102,9 +94,9 @@ return {
             assist = { expressionFillDefault = "default" },
             cargo = {
               allFeatures = true,
-              -- buildScripts = { enable = true },
+              buildScripts = { enable = true },
             },
-            -- hover = { actions = { references = { enable = true } } },
+            hover = { actions = { references = { enable = true } } },
             inlayHints = { locationLinks = true },
             diagnostics = {
               enable = true,
@@ -122,7 +114,7 @@ return {
           },
         },
       },
-      tools = { hover_actions = { auto_focus = true } },
+      -- tools = { hover_actions = { auto_focus = true } },
     },
   },
 }
