@@ -59,7 +59,16 @@ return {
     "s1n7ax/nvim-window-picker",
     config = function()
       require("window-picker").setup({
-        selection_chars = "QWEASDZXCRFVTGBYHNUJM",
+        selection_chars = "123qweasdzxc",
+        fg_color = "#FFABCB",
+        include_current_win = true,
+        other_win_hl_color = "#41644A",
+        filter_rules = {
+          bo = {
+            filetype = {},
+            buftype = {},
+          },
+        },
       })
     end,
   },
@@ -120,5 +129,52 @@ return {
         -- live_grep = { glob_pattern = { "!api/*", "!go.sum" } },
       }
     end,
+  },
+  {
+    "rest-nvim/rest.nvim",
+    requires = { "nvim-lua/plenary.nvim" },
+    lazy = false,
+    keys = {
+      {
+        "<leader>rr",
+        function()
+          require("rest-nvim").run()
+        end,
+        desc = "Send Rest request",
+      },
+      {
+        "<leader>rl",
+        function()
+          require("rest-nvim").last()
+        end,
+        desc = "Send last Rest request",
+      },
+    },
+    opts = {
+      -- Open request results in a horizontal split
+      result_split_horizontal = false,
+      -- Keep the http file buffer above|left when split horizontal|vertical
+      result_split_in_place = false,
+      -- Skip SSL verification, useful for unknown certificates
+      skip_ssl_verification = false,
+      -- Encode URL before making request
+      encode_url = true,
+      -- Highlight request on run
+      highlight = {
+        enabled = true,
+        timeout = 150,
+      },
+      result = {
+        -- toggle showing URL, HTTP info, headers at top the of result window
+        show_url = true,
+        show_http_info = true,
+        show_headers = true,
+      },
+      -- Jump to request line on run
+      jump_to_request = false,
+      env_file = ".env",
+      custom_dynamic_variables = {},
+      yank_dry_run = true,
+    },
   },
 }

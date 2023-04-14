@@ -34,12 +34,36 @@ return {
   {
     "neovim/nvim-lspconfig",
     init = function()
+      require("lspconfig.ui.windows").default_options = {
+        border = "rounded",
+      }
       local keys = require("lazyvim.plugins.lsp.keymaps").get()
       keys[#keys + 1] = { "ga", vim.lsp.buf.code_action, desc = "Code Action", mode = { "n", "v" }, has = "codeAction" }
       keys[#keys + 1] = { "go", vim.diagnostic.open_float, desc = "Line Diagnostics" }
       keys[#keys + 1] = { "gi", "<cmd>Telescope lsp_implementations<cr>", desc = "Goto Implementation" }
+      keys[#keys + 1] = { "gL", vim.lsp.codelens.refresh, desc = "LSP CodeLens refresh" }
+      keys[#keys + 1] = { "gl", vim.lsp.codelens.run, desc = "LSP CodeLens run" }
+
+      -- add codelens for on_attach function
+      require("lazyvim.util").on_attach(function(client, _)
+        local capabilities = client.server_capabilities
+        if capabilities.codeLensProvider then
+          vim.api.nvim_create_autocmd({ "InsertLeave", "BufEnter" }, {
+            group = Augroup("lsp_codelens_refresh"),
+            callback = function()
+              if vim.g.codelens_enabled then
+                vim.lsp.codelens.refresh()
+              end
+            end,
+          })
+          -- NOTE: this is quite hacky, because we can call codelens in the begining
+          vim.fn.timer_start(100, vim.lsp.codelens.refresh, { ["repeat"] = 5 })
+        end
+      end)
     end,
     opts = function(_, opts)
+      opts.diagnostics.virtual_text = { spacing = 4, prefix = "●", source = true }
+      opts.diagnostics.float = { border = "rounded" }
       opts.servers["tailwindcss"] = {}
       opts.servers["gopls"] = {
         settings = {
@@ -116,5 +140,9 @@ return {
       },
       -- tools = { hover_actions = { auto_focus = true } },
     },
+  },
+  {
+    "williamboman/mason.nvim",
+    opts = { ui = { border = "rounded", width = 0.8, height = 0.8 } },
   },
 }

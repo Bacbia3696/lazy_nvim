@@ -76,22 +76,22 @@ return {
   {
     "nvim-tree/nvim-web-devicons",
     opts = {
-      deb = { icon = "", name = "Deb" },
-      lock = { icon = "", name = "Lock" },
-      mp3 = { icon = "", name = "Mp3" },
-      mp4 = { icon = "", name = "Mp4" },
-      out = { icon = "", name = "Out" },
-      ["robots.txt"] = { icon = "ﮧ", name = "Robots" },
-      ttf = { icon = "", name = "TrueTypeFont" },
-      rpm = { icon = "", name = "Rpm" },
-      woff = { icon = "", name = "WebOpenFontFormat" },
-      woff2 = { icon = "", name = "WebOpenFontFormat2" },
-      xz = { icon = "", name = "Xz" },
-      zip = { icon = "", name = "Zip" },
+      default = true,
+      override = {
+        deb = { icon = "", name = "Deb" },
+        http = { icon = "", name = "FireFox", color = "#98D8AA" },
+        lock = { icon = "", name = "Lock" },
+        mp3 = { icon = "", name = "Mp3" },
+        mp4 = { icon = "", name = "Mp4" },
+        out = { icon = "", name = "Out" },
+        ["robots.txt"] = { icon = "ﮧ", name = "Robots" },
+        ttf = { icon = "", name = "TrueTypeFont" },
+        rpm = { icon = "", name = "Rpm" },
+        woff = { icon = "", name = "WebOpenFontFormat" },
+        woff2 = { icon = "", name = "WebOpenFontFormat2" },
+        xz = { icon = "", name = "Xz" },
+        zip = { icon = "", name = "Zip" },
+      },
     },
-    config = function(_, opts)
-      require("nvim-web-devicons").set_default_icon("", "#6d8086", 65)
-      require("nvim-web-devicons").set_icon(opts)
-    end,
   },
 }

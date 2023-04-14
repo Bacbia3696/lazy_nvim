@@ -4,38 +4,32 @@
 
 local Util = require("lazyvim.util")
 
-local function map(mode, lhs, rhs, opts)
-  opts = opts or {}
-  opts.silent = opts.silent ~= false
-  vim.keymap.set(mode, lhs, rhs, opts)
-end
-
-map("n", "<M-a>", "ggVG")
-map("n", ";", ":", { nowait = true, silent = false })
-map("n", "<C-q>", "<Cmd>quit<cr>")
-map("t", "<C-q>", "<C-\\><C-n>")
+Map("n", "<M-a>", "ggVG")
+Map("n", ";", ":", { nowait = true, silent = false })
+Map("n", "<C-q>", "<Cmd>quit<cr>")
+Map("t", "<C-q>", "<C-\\><C-n>")
 
 -- emacs like in insert and command mode
-map("!", "<C-a>", "<Home>", { desc = "move begin line", silent = false })
-map("!", "<C-e>", "<End>", { desc = "move eol", silent = false })
-map("!", "<C-p>", "<Up>", { desc = "move up", silent = false })
-map("!", "<C-n>", "<Down>", { desc = "move down", silent = false })
-map("!", "<C-b>", "<Left>", { desc = "move left", silent = false })
-map("!", "<C-f>", "<Right>", { desc = "move right", silent = false })
-map("!", "<M-b>", "<S-Left>", { desc = "move 1 word", silent = false })
-map("!", "<M-f>", "<S-Right>", { desc = "move back 1 word", silent = false })
+Map("!", "<C-a>", "<Home>", { desc = "move begin line", silent = false })
+Map("!", "<C-e>", "<End>", { desc = "move eol", silent = false })
+Map("!", "<C-p>", "<Up>", { desc = "move up", silent = false })
+Map("!", "<C-n>", "<Down>", { desc = "move down", silent = false })
+Map("!", "<C-b>", "<Left>", { desc = "move left", silent = false })
+Map("!", "<C-f>", "<Right>", { desc = "move right", silent = false })
+Map("!", "<M-b>", "<S-Left>", { desc = "move 1 word", silent = false })
+Map("!", "<M-f>", "<S-Right>", { desc = "move back 1 word", silent = false })
 
 -- togle term
 if Util.has("toggleterm.nvim") then
-  map({ "n", "t" }, "<C-\\>", "<Cmd>ToggleTerm<cr>")
+  Map({ "n", "t" }, "<C-\\>", "<Cmd>ToggleTerm<cr>")
 end
 
 -- path manipulation
-map("n", "so", [[:execute '!open %'<CR>]])
-map("n", "sp", [[:execute '!echo -n %:p:h | pbcopy'<CR>]])
-map("n", "sf", [[:execute '!echo -n %:p | pbcopy'<CR>]])
-map("n", "sc", [[:execute 'cd %:p:h'<CR>]])
-map("n", "sd", function()
+Map("n", "so", [[:execute '!open %'<CR>]])
+Map("n", "sp", [[:execute '!echo -n %:p:h | pbcopy'<CR>]])
+Map("n", "sf", [[:execute '!echo -n %:p | pbcopy'<CR>]])
+Map("n", "sc", [[:execute 'cd %:p:h'<CR>]])
+Map("n", "sd", function()
   local line = vim.fn.expand("%:p") .. ":" .. vim.fn.line(".")
   local command = "echo -n '" .. line .. "' | pbcopy"
   command = "!" .. vim.fn.escape(command, "!")
@@ -44,67 +38,78 @@ end, { desc = "copy file and line number" })
 
 -- git
 if Util.has("gitsigns.nvim") then
-  map("n", "<leader>gT", require("gitsigns").toggle_current_line_blame, { desc = "Toggle current line blame" })
+  Map("n", "<leader>gT", require("gitsigns").toggle_current_line_blame, { desc = "Toggle current line blame" })
 end
 
 -- neotest
 if Util.has("neotest") then
   local nt = require("neotest")
-  map("n", "<leader>tr", nt.run.run, { desc = "Run unit test" })
-  map("n", "<leader>ts", nt.summary.toggle, { desc = "Toggle neotest summary" })
-  map("n", "<leader>tR", function()
+  Map("n", "<leader>tr", nt.run.run, { desc = "Run unit test" })
+  Map("n", "<leader>ts", nt.summary.toggle, { desc = "Toggle neotest summary" })
+  Map("n", "<leader>tR", function()
     require("neotest").run.run(vim.fn.expand("%"))
   end, { desc = "Run all unit test in file" })
-  map("n", "<leader>to", nt.output.open, { desc = "Open unit test output" })
-  map("n", "<leader>t]", nt.jump.next, { desc = "Jump to next test" })
-  map("n", "<leader>t[", nt.jump.next, { desc = "Jump to prev test" })
-  map("n", "<leader>th", "<cmd>Coverage<cr>", { desc = "Toggle show converage" })
+  Map("n", "<leader>to", nt.output.open, { desc = "Open unit test output" })
+  Map("n", "<leader>t]", nt.jump.next, { desc = "Jump to next test" })
+  Map("n", "<leader>t[", nt.jump.next, { desc = "Jump to prev test" })
+  Map("n", "<leader>th", "<cmd>Coverage<cr>", { desc = "Toggle show converage" })
 end
 
 if Util.has("nvim-dap") then
   local dap = require("dap")
   -- modified function keys found with `showkey -a` in the terminal to get key code
   -- run `nvim -V3log +quit` and search through the "Terminal info" in the `log` file for the correct keyname
-  map("n", "<F5>", dap.continue, { desc = "Debugger: Start" })
-  map("n", "<F17>", dap.terminate, { desc = "Debugger: Stop" }) -- Shift + F5
-  map("n", "<F29>", dap.restart_frame, { desc = "Debugger: Restart" }) -- Control + F5
-  map("n", "<F6>", dap.pause, { desc = "Debugger: Pause" })
-  map("n", "<F9>", dap.toggle_breakpoint, { desc = "Debugger: Toggle Breakpoint" })
-  map("n", "<F21>", function()
+  Map("n", "<F5>", dap.continue, { desc = "Debugger: Start" })
+  Map("n", "<F17>", dap.terminate, { desc = "Debugger: Stop" }) -- Shift + F5
+  Map("n", "<F29>", dap.restart_frame, { desc = "Debugger: Restart" }) -- Control + F5
+  Map("n", "<F6>", dap.pause, { desc = "Debugger: Pause" })
+  Map("n", "<F9>", dap.toggle_breakpoint, { desc = "Debugger: Toggle Breakpoint" })
+  Map("n", "<F21>", function()
     dap.set_breakpoint(vim.fn.input("Set condition:"))
   end, { desc = "Debugger: Set condition breakpoint" })
-  map("n", "<F33>", dap.clear_breakpoints, { desc = "Debugger: Clear all breakpoints" })
-  map("n", "<F10>", dap.step_over, { desc = "Debugger: Step Over" })
-  map("n", "<F11>", dap.step_into, { desc = "Debugger: Step Into" })
-  map("n", "<F23>", dap.step_out, { desc = "Debugger: Step Out" }) -- Shift + F11
-  map("n", "<leader>dq", dap.close, { desc = "Debugger: Close session" })
-  map("n", "<leader>dR", dap.repl.toggle, { desc = "Toggle REPL" })
+  Map("n", "<F33>", dap.clear_breakpoints, { desc = "Debugger: Clear all breakpoints" })
+  Map("n", "<F10>", dap.step_over, { desc = "Debugger: Step Over" })
+  Map("n", "<F11>", dap.step_into, { desc = "Debugger: Step Into" })
+  Map("n", "<F23>", dap.step_out, { desc = "Debugger: Step Out" }) -- Shift + F11
+  Map("n", "<leader>dq", dap.close, { desc = "Debugger: Close session" })
+  Map("n", "<leader>dR", dap.repl.toggle, { desc = "Toggle REPL" })
+  Map("n", "<leader>dh", require("dap.ui.widgets").hover, { desc = "Debugger Hover" })
   if Util.has("nvim-dap-ui") then
-    map("n", "<leader>du", require("dapui").toggle, { desc = "Toggle Debugger UI" })
-    map("n", "<leader>dh", require("dap.ui.widgets").hover, { desc = "Debugger Hover" })
+    local dapui = require("dapui")
+    Map("n", "<leader>du", dapui.toggle, { desc = "Toggle Debugger UI" })
+    Map("n", "<leader>df", function()
+      vim.ui.select({ "scopes", "stacks", "watches", "breakpoints", "repl", "console" }, {
+        prompt = "DAP UI Element",
+        format_item = function(item)
+          return "Show: " .. item
+        end,
+      }, function(elem)
+        dapui.float_element(elem)
+      end)
+    end, { desc = "DapUI: open float" })
   end
 end
 
 if Util.has("aerial.nvim") then
-  map("n", "<leader>cs", "<cmd>AerialToggle<cr>", { desc = "Toggle LSP Symbol" })
+  Map("n", "<leader>cs", "<cmd>AerialToggle<cr>", { desc = "Toggle LSP Symbol" })
 end
 
 if Util.has("nvim-window-picker") then
   local picker = require("window-picker")
-  map("n", "-", function()
+  Map("n", "1", function()
     local picked_window_id = picker.pick_window() or vim.api.nvim_get_current_win()
     vim.api.nvim_set_current_win(picked_window_id)
   end, { desc = "Pick a window" })
 end
 
 if Util.has("smart-splits.nvim") then
-  map("n", "<leader>w ", require("smart-splits").start_resize_mode, { desc = "Start resize mode" })
+  Map("n", "<leader>w ", require("smart-splits").start_resize_mode, { desc = "Start resize mode" })
 end
 
 -- Move Lines
-map("n", "<A-s>", "<cmd>m .+1<cr>==", { desc = "Move down" })
-map("n", "<A-w>", "<cmd>m .-2<cr>==", { desc = "Move up" })
-map("i", "<A-s>", "<esc><cmd>m .+1<cr>==gi", { desc = "Move down" })
-map("i", "<A-w>", "<esc><cmd>m .-2<cr>==gi", { desc = "Move up" })
-map("v", "<A-s>", ":m '>+1<cr>gv=gv", { desc = "Move down" })
-map("v", "<A-w>", ":m '<-2<cr>gv=gv", { desc = "Move up" })
+Map("n", "<A-s>", "<cmd>m .+1<cr>==", { desc = "Move down" })
+Map("n", "<A-w>", "<cmd>m .-2<cr>==", { desc = "Move up" })
+Map("i", "<A-s>", "<esc><cmd>m .+1<cr>==gi", { desc = "Move down" })
+Map("i", "<A-w>", "<esc><cmd>m .-2<cr>==gi", { desc = "Move up" })
+Map("v", "<A-s>", ":m '>+1<cr>gv=gv", { desc = "Move down" })
+Map("v", "<A-w>", ":m '<-2<cr>gv=gv", { desc = "Move up" })
