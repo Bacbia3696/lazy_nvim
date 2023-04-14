@@ -33,6 +33,12 @@ return {
   },
   {
     "neovim/nvim-lspconfig",
+    init = function()
+      local keys = require("lazyvim.plugins.lsp.keymaps").get()
+      keys[#keys + 1] = { "ga", vim.lsp.buf.code_action, desc = "Code Action", mode = { "n", "v" }, has = "codeAction" }
+      keys[#keys + 1] = { "go", vim.diagnostic.open_float, desc = "Line Diagnostics" }
+      keys[#keys + 1] = { "gi", "<cmd>Telescope lsp_implementations<cr>", desc = "Goto Implementation" }
+    end,
     opts = function(_, opts)
       opts.servers["tailwindcss"] = {}
       opts.servers["gopls"] = {

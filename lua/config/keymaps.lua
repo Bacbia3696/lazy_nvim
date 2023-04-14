@@ -44,10 +44,7 @@ end, { desc = "copy file and line number" })
 
 -- git
 if Util.has("gitsigns.nvim") then
-  local gs = require("gitsigns")
-  map("n", "<leader>gT", gs.toggle_current_line_blame, { desc = "Toggle current line blame" })
-  map("n", "<leader>gr", gs.reset_hunk, { desc = "Reset current hunk" })
-  map("n", "<leader>gR", gs.reset_buffer, { desc = "Reset current buffer" })
+  map("n", "<leader>gT", require("gitsigns").toggle_current_line_blame, { desc = "Toggle current line blame" })
 end
 
 -- neotest
