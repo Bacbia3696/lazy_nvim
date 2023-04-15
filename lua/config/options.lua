@@ -7,5 +7,6 @@ vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decr
 vim.o.foldlevelstart = 10
 vim.o.foldenable = true
 vim.o.swapfile = false
+vim.o.fillchars = [[eob: ,fold: ,foldopen:,foldsep:│,foldclose:]]
 
 vim.g.codelens_enabled = true

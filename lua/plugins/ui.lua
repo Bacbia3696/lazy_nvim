@@ -47,6 +47,12 @@ return {
     opts = {
       on_colors = function(colors)
         colors.border = "#565f89"
+        colors.bg = "#1d1e29"
+      end,
+      on_highlights = function(hl, colors)
+        hl.NeoTreeNormal = { bg = colors.bg }
+        hl.FoldColumn = { bg = colors.none, fg = colors.comment }
+        hl.SignColumn = { bg = colors.none }
       end,
       style = "night",
       hide_inactive_statusline = true,
