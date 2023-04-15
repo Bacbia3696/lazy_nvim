@@ -47,7 +47,7 @@ return {
     opts = {
       on_colors = function(colors)
         colors.border = "#565f89"
-        colors.bg = "#1d1e29"
+        colors.bg = "#1e1f2a"
       end,
       on_highlights = function(hl, colors)
         hl.NeoTreeNormal = { bg = colors.bg }
