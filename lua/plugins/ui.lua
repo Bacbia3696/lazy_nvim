@@ -46,13 +46,14 @@ return {
     "folke/tokyonight.nvim",
     opts = {
       on_colors = function(colors)
-        colors.border = "#565f89"
         colors.bg = "#1e1f2a"
       end,
       on_highlights = function(hl, colors)
         hl.NeoTreeNormal = { bg = colors.bg }
         hl.FoldColumn = { bg = colors.none, fg = colors.comment }
         hl.SignColumn = { bg = colors.none }
+        -- hl.WinSeparator = { fg = colors.bg_dark, bg = colors.bg_dark }
+        hl.WinSeparator = { link = "FloatBorder" }
       end,
       style = "night",
       hide_inactive_statusline = true,

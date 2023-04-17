@@ -104,7 +104,7 @@ return {
       },
       buffers = {
         colors = {
-          blend = -0.2,
+          blend = -0.4,
         },
       },
     },
@@ -141,12 +141,22 @@ return {
   {
     "akinsho/toggleterm.nvim",
     cmd = { "ToggleTerm", "TermExec" },
+    keys = {
+      { "<C-\\>" },
+    },
     opts = {
       size = 10,
+      open_mapping = [[<c-\>]],
       shading_factor = 2,
+      autochdir = true,
+      highlights = {
+        FloatBorder = {
+          link = "FloatBorder",
+        },
+      },
       direction = "float",
       float_opts = {
-        border = "curved",
+        border = "rounded",
         highlights = { border = "Normal", background = "Normal" },
       },
     },
