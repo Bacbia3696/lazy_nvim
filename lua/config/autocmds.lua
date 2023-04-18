@@ -42,3 +42,13 @@ vim.api.nvim_create_autocmd("BufEnter", {
     end
   end,
 })
+
+vim.api.nvim_create_autocmd("FileType", {
+  group = Augroup("http"),
+  pattern = "http",
+  callback = function()
+    vim.keymap.set("n", "r", require("rest-nvim").run, { buffer = true, desc = "Rest run current" })
+    vim.keymap.set("n", "<c-r>", require("rest-nvim").last, { buffer = true, desc = "Rest run all" })
+    vim.keymap.set("n", "K", "<Plug>RestNvimPreview", { buffer = true, desc = "Rest preview curl" })
+  end,
+})
