@@ -1,32 +1,11 @@
 return {
   {
     "folke/noice.nvim",
+    -- stylua: ignore
     keys = function(_, keys)
       -- use <C-d>, <C-u> instead of <C-f>, <C-b>
-      keys[5] = {
-        "<c-d>",
-        function()
-          if not require("noice.lsp").scroll(4) then
-            return "<c-d>"
-          end
-        end,
-        silent = true,
-        expr = true,
-        desc = "Scroll forward",
-        mode = { "i", "n", "s" },
-      }
-      keys[6] = {
-        "<c-u>",
-        function()
-          if not require("noice.lsp").scroll(-4) then
-            return "<c-u>"
-          end
-        end,
-        silent = true,
-        expr = true,
-        desc = "Scroll backward",
-        mode = { "i", "n", "s" },
-      }
+      keys[6] = { "<c-d>", function() if not require("noice.lsp").scroll(4) then return "<c-d>" end end, silent = true, expr = true, desc = "Scroll forward", mode = { "i", "n", "s" }, }
+      keys[7] = { "<c-u>", function() if not require("noice.lsp").scroll(-4) then return "<c-u>" end end, silent = true, expr = true, desc = "Scroll backward", mode = { "i", "n", "s" }, }
     end,
     config = {
       presets = {
@@ -52,8 +31,7 @@ return {
         hl.NeoTreeNormal = { bg = colors.bg }
         hl.FoldColumn = { bg = colors.none, fg = colors.comment }
         hl.SignColumn = { bg = colors.none }
-        -- hl.WinSeparator = { fg = colors.bg_dark, bg = colors.bg_dark }
-        hl.WinSeparator = { link = "FloatBorder" }
+        hl.WinSeparator = { fg = colors.bg_dark, bg = colors.bg_dark }
       end,
       style = "night",
       hide_inactive_statusline = true,

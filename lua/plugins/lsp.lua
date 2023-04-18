@@ -57,7 +57,7 @@ return {
               end
             end,
           })
-          -- NOTE: this is quite hacky, because we can call codelens in the begining
+          -- NOTE: this is quite hacky, because we cann't call codelens in the begining
           vim.fn.timer_start(100, vim.lsp.codelens.refresh, { ["repeat"] = 5 })
         end
       end)
@@ -65,6 +65,10 @@ return {
     opts = function(_, opts)
       opts.diagnostics.virtual_text = { spacing = 4, prefix = "●", source = true }
       opts.diagnostics.float = { border = "rounded" }
+      opts.format = {
+        formatting_options = nil,
+        timeout_ms = 5000,
+      }
       opts.servers["tailwindcss"] = {}
       opts.servers["gopls"] = {
         settings = {

@@ -75,6 +75,25 @@ return {
   {
     "nvim-neo-tree/neo-tree.nvim",
     opts = {
+      event_handlers = {
+        {
+          event = "neo_tree_window_after_open",
+          handler = function(args)
+            if args.position == "left" or args.position == "right" then
+              vim.cmd("wincmd =")
+            end
+          end,
+        },
+        {
+          event = "neo_tree_window_after_close",
+          handler = function(args)
+            if args.position == "left" or args.position == "right" then
+              vim.cmd("wincmd =")
+            end
+          end,
+        },
+      },
+      use_libuv_file_watcher = true,
       window = {
         width = 30,
         mappings = {
@@ -86,7 +105,69 @@ return {
           ["g?"] = "show_help",
         },
       },
+      filesystem = {
+        window = {
+          mappings = {
+            ["i"] = "run_command",
+            ["<space>"] = "none",
+            ["Y"] = "copy_filename",
+          },
+        },
+        commands = {
+          run_command = function(state)
+            local node = state.tree:get_node()
+            local path = node:get_id()
+            vim.api.nvim_input(": " .. path .. "<Home>")
+          end,
+          copy_filename = function(state)
+            local file_name = state.tree:get_node().name
+            vim.cmd("!echo " .. file_name .. " | pbcopy")
+          end,
+        },
+      },
     },
+  },
+  {
+    "gbprod/yanky.nvim",
+    config = function()
+      local utils = require("yanky.utils")
+      local mapping = require("yanky.telescope.mapping")
+
+      require("yanky").setup({
+        picker = {
+          telescope = {
+            highlight = {
+              timer = 250,
+            },
+            mappings = {
+              default = mapping.put("p"),
+              i = {
+                ["<cr>"] = mapping.put("p"),
+                ["<S-CR>"] = mapping.put("P"),
+                ["<c-x>"] = mapping.delete(),
+                ["<c-r>"] = mapping.set_register(utils.get_default_register()),
+                ["<c-k>"] = require("telescope.actions").move_selection_previous,
+              },
+              n = {
+                p = mapping.put("p"),
+                P = mapping.put("P"),
+                d = mapping.delete(),
+                r = mapping.set_register(utils.get_default_register()),
+              },
+            },
+          },
+        },
+      })
+      vim.keymap.set({ "n", "x" }, "p", "<Plug>(YankyPutAfter)")
+      vim.keymap.set({ "n", "x" }, "P", "<Plug>(YankyPutBefore)")
+      vim.keymap.set({ "n", "x" }, "gp", "<Plug>(YankyGPutAfter)")
+      vim.keymap.set({ "n", "x" }, "gP", "<Plug>(YankyGPutBefore)")
+      vim.keymap.set("n", "<c-n>", "<Plug>(YankyCycleForward)")
+      vim.keymap.set("n", "<c-p>", "<Plug>(YankyCycleBackward)")
+
+      require("telescope").load_extension("yank_history")
+      vim.keymap.set("n", "<leader>sy", require("telescope").extensions.yank_history.yank_history)
+    end,
   },
   {
     "shortcuts/no-neck-pain.nvim",
@@ -164,11 +245,12 @@ return {
   {
     "nvim-telescope/telescope.nvim",
     opts = function(_, opts)
-      opts.defaults.path_display = { shorten = 5, exclude = { 1, -1 } }
+      opts.defaults.path_display = { shorten = 7, exclude = { 1, -1 } }
       opts.defaults.prompt_prefix = "🔭 "
       opts.defaults.selection_caret = " "
       opts.defaults.mappings.i["<C-j>"] = require("telescope.actions").move_selection_next
       opts.defaults.mappings.i["<C-k>"] = require("telescope.actions").move_selection_previous
+      opts.defaults.vimgrep_arguments = { "rg", "--vimgrep", "--smart-case", "-M", "200" }
 
       opts.pickers = {
         lsp_references = { include_declaration = false, show_line = false },
@@ -176,6 +258,19 @@ return {
         -- live_grep = { glob_pattern = { "!api/*", "!go.sum" } },
       }
     end,
+  },
+  {
+    "windwp/nvim-spectre",
+    -- stylua: ignore
+    opts = {
+      mapping = {
+        ["run_current_replace"] = {
+          map = "r",
+          cmd = "<cmd>lua require('spectre.actions').run_current_replace()<CR>",
+          desc = "replace current line",
+        },
+      },
+    },
   },
   {
     "rest-nvim/rest.nvim",

@@ -8,5 +8,7 @@ vim.o.foldlevelstart = 10
 vim.o.foldenable = true
 vim.o.swapfile = false
 vim.o.fillchars = [[eob: ,fold: ,foldopen:,foldsep:│,foldclose:]]
+vim.o.wrap = true
+vim.o.linebreak = true
 
 vim.g.codelens_enabled = true
