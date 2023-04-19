@@ -59,7 +59,7 @@ return {
     "s1n7ax/nvim-window-picker",
     config = function()
       require("window-picker").setup({
-        selection_chars = "qweasdzxc123",
+        selection_chars = "QWEASDZXC",
         fg_color = "#FFABCB",
         include_current_win = true,
         other_win_hl_color = "#41644A",
@@ -170,11 +170,11 @@ return {
       local utils = require("yanky.utils")
       local mapping = require("yanky.telescope.mapping")
       require("yanky").setup({
+        highlight = {
+          timer = 250,
+        },
         picker = {
           telescope = {
-            highlight = {
-              timer = 250,
-            },
             mappings = {
               default = mapping.put("p"),
               i = {

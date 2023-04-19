@@ -104,9 +104,7 @@ return {
       "jose-elias-alvarez/null-ls.nvim",
     },
     opts = {
-      ensure_installed = {
-        "goimports",
-      },
+      ensure_installed = {},
       automatic_installation = false,
       handlers = {},
     },

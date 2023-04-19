@@ -25,15 +25,16 @@ return {
     "folke/tokyonight.nvim",
     opts = {
       on_colors = function(colors)
-        colors.bg = "#1e1f2a"
+        colors.bg = "#24283d"
       end,
       on_highlights = function(hl, colors)
         hl.NeoTreeNormal = { bg = colors.bg }
         hl.FoldColumn = { bg = colors.none, fg = colors.comment }
         hl.SignColumn = { bg = colors.none }
         hl.WinSeparator = { fg = colors.bg_dark, bg = colors.bg_dark }
+        hl.DiagnosticUnnecessary = { link = "NonText" }
       end,
-      style = "night",
+      -- style = "night",
       hide_inactive_statusline = true,
       dim_inactive = true,
       lualine_bold = true,

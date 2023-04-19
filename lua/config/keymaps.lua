@@ -13,8 +13,8 @@ Map("t", "<C-q>", "<C-\\><C-n>")
 -- emacs like in insert and command mode
 Map("!", "<C-a>", "<Home>", { desc = "move begin line", silent = false })
 Map("!", "<C-e>", "<End>", { desc = "move eol", silent = false })
--- Map("!", "<C-p>", "<Up>", { desc = "move up", silent = false })
--- Map("!", "<C-n>", "<Down>", { desc = "move down", silent = false })
+Map("!", "<C-p>", "<Up>", { desc = "move up", silent = false })
+Map("!", "<C-n>", "<Down>", { desc = "move down", silent = false })
 Map("!", "<C-b>", "<Left>", { desc = "move left", silent = false })
 Map("!", "<C-f>", "<Right>", { desc = "move right", silent = false })
 Map("!", "<M-b>", "<S-Left>", { desc = "move 1 word", silent = false })
@@ -40,6 +40,8 @@ end, { desc = "copy file and line number" })
 -- git
 if Util.has("gitsigns.nvim") then
   Map("n", "<leader>gT", require("gitsigns").toggle_current_line_blame, { desc = "Toggle current line blame" })
+  Map("n", "]g", require("gitsigns").next_hunk, { desc = "Next git hunk" })
+  Map("n", "[g", require("gitsigns").prev_hunk, { desc = "Prev git hunk" })
 end
 
 -- neotest
