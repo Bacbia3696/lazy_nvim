@@ -120,10 +120,10 @@ return {
           ["rust-analyzer"] = {
             assist = { expressionFillDefault = "default" },
             cargo = {
-              allFeatures = true,
+              allFeatures = false,
               buildScripts = { enable = true },
             },
-            hover = { actions = { references = { enable = true } } },
+            -- hover = { actions = { references = { enable = true } } },
             inlayHints = { locationLinks = true },
             diagnostics = {
               enable = true,
