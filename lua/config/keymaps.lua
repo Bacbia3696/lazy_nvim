@@ -6,9 +6,16 @@ local Util = require("lazyvim.util")
 
 Map("n", "<M-a>", "ggVG")
 Map("n", ";", ":", { nowait = true, silent = false })
+Map("n", "0", "^", { nowait = true, silent = false })
 Map("n", "<C-q>", "<Cmd>quit<cr>")
 Map("n", "<leader>W", "<Cmd>noa w<cr>", { desc = "Save without format" })
+Map("n", "<C-g>", "2<C-g>")
+Map("n", "<A-q>", "<Cmd>tabp<cr>")
+Map("n", "<A-e>", "<Cmd>tabn<cr>")
 Map("t", "<C-q>", "<C-\\><C-n>")
+-- reset key
+Map("v", "<", "<")
+Map("v", ">", ">")
 
 -- emacs like in insert and command mode
 Map("!", "<C-a>", "<Home>", { desc = "move begin line", silent = false })

@@ -1,8 +1,10 @@
-local Util = require("lazyvim.util")
-
 return {
   { "ggandor/flit.nvim", enabled = false },
   { "ggandor/leap.nvim", enabled = false },
+  {
+    "aserowy/tmux.nvim",
+    opts = {},
+  },
   {
     "saecki/crates.nvim",
     event = { "BufRead Cargo.toml" },
@@ -182,7 +184,7 @@ return {
                 ["<S-CR>"] = mapping.put("P"),
                 ["<c-x>"] = mapping.delete(),
                 ["<c-r>"] = mapping.set_register(utils.get_default_register()),
-                ["<c-k>"] = require("telescope.actions").move_selection_previous,
+                -- ["<c-k>"] = require("telescope.actions").move_selection_previous,
               },
               n = {
                 p = mapping.put("p"),

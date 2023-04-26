@@ -13,19 +13,44 @@ return {
         documentation = cmp.config.window.bordered(border_opts),
       }
       opts.preselect = cmp.PreselectMode.None
-      opts.sources = cmp.config.sources(vim.list_extend(opts.sources, { { name = "emoji" } }))
+      opts.sources = vim.list_extend(opts.sources, { { name = "emoji" } })
       -- original LazyVim kind icon formatter
       local format_kinds = opts.formatting.format
       opts.formatting.format = function(entry, item)
         format_kinds(entry, item) -- add icons
         return require("tailwindcss-colorizer-cmp").formatter(entry, item)
       end
+      local option = { behavior = cmp.SelectBehavior.Insert }
       opts.mapping = {
-        ["<C-j>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
-        ["<C-k>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
+        ["<C-n>"] = function(fallback)
+          if cmp.visible() then
+            if not cmp.select_next_item(option) then
+              local release = require("cmp").core:suspend()
+              fallback()
+              vim.schedule(release)
+            end
+          else
+            if not require("cmp").complete() then
+              fallback()
+            end
+          end
+        end,
+        ["<C-p>"] = function(fallback)
+          if cmp.visible() then
+            if not cmp.select_prev_item(option) then
+              local release = require("cmp").core:suspend()
+              fallback()
+              vim.schedule(release)
+            end
+          else
+            if not require("cmp").complete() then
+              fallback()
+            end
+          end
+        end,
         ["<C-u>"] = cmp.mapping.scroll_docs(-4),
         ["<C-d>"] = cmp.mapping.scroll_docs(4),
-        ["<C-Space>"] = cmp.mapping.complete(),
+        -- ["<C-Space>"] = cmp.mapping.complete(),
         ["<C-y>"] = cmp.mapping.abort(),
         ["<CR>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
         ["<S-CR>"] = cmp.mapping.confirm({

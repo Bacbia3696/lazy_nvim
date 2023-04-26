@@ -1,5 +1,15 @@
 return {
   {
+    "tamago324/nlsp-settings.nvim",
+    opts = {
+      config_home = vim.fn.stdpath("config") .. "/nlsp-settings",
+      local_settings_dir = ".nlsp-settings",
+      local_settings_root_markers_fallback = { ".git" },
+      append_default_schemas = true,
+      loader = "json",
+    },
+  },
+  {
     "stevearc/aerial.nvim",
     cmd = { "AerialToggle" },
     init = function()
@@ -69,6 +79,22 @@ return {
         formatting_options = nil,
         timeout_ms = 5000,
       }
+      -- opts.servers["sqlls"] = {
+      --   settings = {
+      --     sqlLanguageServer = {
+      --       connections = {
+      --         {
+      --           name = "postgres_project",
+      --           adapter = "postgres",
+      --           host = "127.0.0.1",
+      --           port = 5432,
+      --           user = "nguyenthanhdat",
+      --           database = "postgres",
+      --         },
+      --       },
+      --     },
+      --   },
+      -- }
       opts.servers["tailwindcss"] = {}
       opts.servers["gopls"] = {
         settings = {
@@ -120,7 +146,7 @@ return {
           ["rust-analyzer"] = {
             assist = { expressionFillDefault = "default" },
             cargo = {
-              allFeatures = false,
+              allFeatures = true,
               buildScripts = { enable = true },
             },
             -- hover = { actions = { references = { enable = true } } },

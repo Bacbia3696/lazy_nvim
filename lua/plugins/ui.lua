@@ -25,18 +25,18 @@ return {
     "folke/tokyonight.nvim",
     opts = {
       on_colors = function(colors)
-        colors.bg = "#24283d"
+        colors.bg = colors.bg_dark
       end,
       on_highlights = function(hl, colors)
         hl.NeoTreeNormal = { bg = colors.bg }
         hl.FoldColumn = { bg = colors.none, fg = colors.comment }
         hl.SignColumn = { bg = colors.none }
-        hl.WinSeparator = { fg = colors.bg_dark, bg = colors.bg_dark }
+        hl.WinSeparator = { link = "FloatBorder" }
         hl.DiagnosticUnnecessary = { link = "NonText" }
       end,
       -- style = "night",
       hide_inactive_statusline = true,
-      dim_inactive = true,
+      dim_inactive = false,
       lualine_bold = true,
     },
   },
@@ -64,6 +64,7 @@ return {
     opts = {
       default = true,
       override = {
+        astro = { icon = "󰘯", name = "Astro", color = "#FF6969" },
         deb = { icon = "", name = "Deb" },
         http = { icon = "", name = "FireFox", color = "#98D8AA" },
         lock = { icon = "", name = "Lock" },

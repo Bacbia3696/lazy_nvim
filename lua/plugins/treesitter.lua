@@ -1,6 +1,7 @@
 return {
   {
     "nvim-treesitter/nvim-treesitter",
+    commit = "eedc519",
     keys = {
       { "<cr>", desc = "Increment selection" },
       { "<s-cr>", desc = "Increment selection" },
