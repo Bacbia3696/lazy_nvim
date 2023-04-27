@@ -3,6 +3,17 @@ return {
   { "ggandor/leap.nvim", enabled = false },
   {
     "aserowy/tmux.nvim",
+    lazy = true,
+    keys = {
+      "<M-h>",
+      "<M-j>",
+      "<M-k>",
+      "<M-l>",
+      "<C-h>",
+      "<C-j>",
+      "<C-k>",
+      "<C-l>",
+    },
     opts = {},
   },
   {
@@ -24,21 +35,21 @@ return {
             })
           end
 
-          map("n", "<leader>ct", crates.toggle, "crates toggle")
-          map("n", "<leader>cr", crates.reload, "crates reload")
-          map("n", "<leader>cv", crates.show_versions_popup, "crates show version popup")
-          map("n", "<leader>cf", crates.show_features_popup, "crates show features popup")
-          map("n", "<leader>cd", crates.show_dependencies_popup, "crates show dependencies popup")
-          map("n", "<leader>cu", crates.update_crate, "crates update")
-          map("v", "<leader>cu", crates.update_crates, "crates update")
-          map("n", "<leader>ca", crates.update_all_crates, "crates update all")
-          map("n", "<leader>cU", crates.upgrade_crate, "crates upgrade")
-          map("v", "<leader>cU", crates.upgrade_crates, "crates upgrade")
-          map("n", "<leader>cA", crates.upgrade_all_crates, "crates upgrade all")
-          map("n", "<leader>cH", crates.open_homepage, "crates open homepage")
-          map("n", "<leader>cR", crates.open_repository, "crates open repository")
-          map("n", "<leader>cD", crates.open_documentation, "crates open documentation")
-          map("n", "<leader>cC", crates.open_crates_io, "crates open crates.io")
+          map("n", "ct", crates.toggle, "crates toggle")
+          map("n", "cr", crates.reload, "crates reload")
+          map("n", "cv", crates.show_versions_popup, "crates show version popup")
+          map("n", "cf", crates.show_features_popup, "crates show features popup")
+          map("n", "cd", crates.show_dependencies_popup, "crates show dependencies popup")
+          map("n", "cu", crates.update_crate, "crates update")
+          map("v", "cu", crates.update_crates, "crates update")
+          map("n", "ca", crates.update_all_crates, "crates update all")
+          map("n", "cU", crates.upgrade_crate, "crates upgrade")
+          map("v", "cU", crates.upgrade_crates, "crates upgrade")
+          map("n", "cA", crates.upgrade_all_crates, "crates upgrade all")
+          map("n", "cH", crates.open_homepage, "crates open homepage")
+          map("n", "cR", crates.open_repository, "crates open repository")
+          map("n", "cD", crates.open_documentation, "crates open documentation")
+          map("n", "cC", crates.open_crates_io, "crates open crates.io")
         end,
       })
     end,
@@ -252,7 +263,7 @@ return {
       },
     },
     opts = {
-      provider_selector = function(bufnr, filetype, buftype)
+      provider_selector = function()
         return { "treesitter", "indent" }
       end,
     },
@@ -286,8 +297,6 @@ return {
       opts.defaults.path_display = { shorten = 7, exclude = { 1, -1 } }
       opts.defaults.prompt_prefix = "🔭 "
       opts.defaults.selection_caret = " "
-      opts.defaults.mappings.i["<C-j>"] = require("telescope.actions").move_selection_next
-      opts.defaults.mappings.i["<C-k>"] = require("telescope.actions").move_selection_previous
       opts.defaults.vimgrep_arguments = { "rg", "--vimgrep", "--smart-case", "-M", "200" }
 
       opts.pickers = {

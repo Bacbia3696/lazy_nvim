@@ -43,6 +43,7 @@ return {
   },
   {
     "neovim/nvim-lspconfig",
+    -- stylua: ignore
     init = function()
       require("lspconfig.ui.windows").default_options = {
         border = "rounded",
@@ -54,6 +55,8 @@ return {
       keys[#keys + 1] = { "gt", "<cmd>Telescope lsp_type_definitions<cr>", desc = "Goto Type Definition" }
       keys[#keys + 1] = { "gL", vim.lsp.codelens.refresh, desc = "LSP CodeLens refresh" }
       keys[#keys + 1] = { "gl", vim.lsp.codelens.run, desc = "LSP CodeLens run" }
+      keys[#keys + 1] = { "[D", function() vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR }) end, desc = "diagnostic goto prev ERROR"}
+      keys[#keys + 1] = { "]D", function() vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR }) end, desc = "diagnostic goto prev ERROR"}
 
       -- add codelens for on_attach function
       require("lazyvim.util").on_attach(function(client, _)

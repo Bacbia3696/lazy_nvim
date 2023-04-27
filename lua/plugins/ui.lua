@@ -21,6 +21,9 @@ return {
       }, ---@see section on views
     },
   },
+  { "rcarriga/nvim-notify", opts = {
+    top_down = false,
+  } },
   {
     "folke/tokyonight.nvim",
     opts = {
