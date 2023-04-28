@@ -27,11 +27,6 @@ Map("!", "<C-f>", "<Right>", { desc = "move right", silent = false })
 Map("!", "<M-b>", "<S-Left>", { desc = "move 1 word", silent = false })
 Map("!", "<M-f>", "<S-Right>", { desc = "move back 1 word", silent = false })
 
--- togle term
--- if Util.has("toggleterm.nvim") then
---   Map({ "n", "t" }, "<C-\\>", "<Cmd>ToggleTerm<cr>")
--- end
-
 -- path manipulation
 Map("n", "so", [[:execute '!open %'<CR>]])
 Map("n", "sp", [[:execute '!echo -n %:p:h | pbcopy'<CR>]])

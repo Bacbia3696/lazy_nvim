@@ -16,6 +16,6 @@ return {
         }, function(elem)
             dapui.float_element(elem)
           end)
-    end, desc = "DapUI: open float" },
+    end, desc = "DapUI: Open floating window" },
   },
 }

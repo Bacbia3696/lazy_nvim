@@ -178,47 +178,6 @@ return {
     },
   },
   {
-    "gbprod/yanky.nvim",
-    config = function()
-      local utils = require("yanky.utils")
-      local mapping = require("yanky.telescope.mapping")
-      require("yanky").setup({
-        highlight = {
-          timer = 250,
-        },
-        picker = {
-          telescope = {
-            mappings = {
-              default = mapping.put("p"),
-              i = {
-                ["<cr>"] = mapping.put("p"),
-                ["<S-CR>"] = mapping.put("P"),
-                ["<c-x>"] = mapping.delete(),
-                ["<c-r>"] = mapping.set_register(utils.get_default_register()),
-                -- ["<c-k>"] = require("telescope.actions").move_selection_previous,
-              },
-              n = {
-                p = mapping.put("p"),
-                P = mapping.put("P"),
-                d = mapping.delete(),
-                r = mapping.set_register(utils.get_default_register()),
-              },
-            },
-          },
-        },
-      })
-      vim.keymap.set({ "n", "x" }, "p", "<Plug>(YankyPutAfter)")
-      vim.keymap.set({ "n", "x" }, "P", "<Plug>(YankyPutBefore)")
-      vim.keymap.set({ "n", "x" }, "gp", "<Plug>(YankyGPutAfter)")
-      vim.keymap.set({ "n", "x" }, "gP", "<Plug>(YankyGPutBefore)")
-      vim.keymap.set("n", "<c-n>", "<Plug>(YankyCycleForward)")
-      vim.keymap.set("n", "<c-p>", "<Plug>(YankyCycleBackward)")
-
-      require("telescope").load_extension("yank_history")
-      vim.keymap.set("n", "<leader>sy", require("telescope").extensions.yank_history.yank_history)
-    end,
-  },
-  {
     "shortcuts/no-neck-pain.nvim",
     opts = {
       scratchPad = {
@@ -268,28 +227,78 @@ return {
       end,
     },
   },
+  -- {
+  --   "akinsho/toggleterm.nvim",
+  --   cmd = { "ToggleTerm", "TermExec" },
+  --   keys = {
+  --     { "<C-\\>" },
+  --   },
+  --   opts = {
+  --     size = 10,
+  --     open_mapping = [[<c-\>]],
+  --     shading_factor = 2,
+  --     autochdir = true,
+  --     highlights = {
+  --       FloatBorder = {
+  --         link = "FloatBorder",
+  --       },
+  --     },
+  --     direction = "float",
+  --     float_opts = {
+  --       border = "rounded",
+  --       highlights = { border = "Normal", background = "Normal" },
+  --     },
+  --   },
+  -- },
   {
-    "akinsho/toggleterm.nvim",
-    cmd = { "ToggleTerm", "TermExec" },
-    keys = {
-      { "<C-\\>" },
-    },
-    opts = {
-      size = 10,
-      open_mapping = [[<c-\>]],
-      shading_factor = 2,
-      autochdir = true,
-      highlights = {
-        FloatBorder = {
-          link = "FloatBorder",
+    "gbprod/yanky.nvim",
+    config = function()
+      local utils = require("yanky.utils")
+      local mapping = require("yanky.telescope.mapping")
+      require("yanky").setup({
+        highlight = {
+          timer = 250,
         },
-      },
-      direction = "float",
-      float_opts = {
-        border = "rounded",
-        highlights = { border = "Normal", background = "Normal" },
-      },
+        picker = {
+          telescope = {
+            mappings = {
+              default = mapping.put("p"),
+              i = {
+                ["<cr>"] = mapping.put("p"),
+                ["<S-CR>"] = mapping.put("P"),
+                ["<c-x>"] = mapping.delete(),
+                ["<c-r>"] = mapping.set_register(utils.get_default_register()),
+                -- ["<c-k>"] = require("telescope.actions").move_selection_previous,
+              },
+              n = {
+                p = mapping.put("p"),
+                P = mapping.put("P"),
+                d = mapping.delete(),
+                r = mapping.set_register(utils.get_default_register()),
+              },
+            },
+          },
+        },
+      })
+      vim.keymap.set({ "n", "x" }, "p", "<Plug>(YankyPutAfter)")
+      vim.keymap.set({ "n", "x" }, "P", "<Plug>(YankyPutBefore)")
+      vim.keymap.set({ "n", "x" }, "gp", "<Plug>(YankyGPutAfter)")
+      vim.keymap.set({ "n", "x" }, "gP", "<Plug>(YankyGPutBefore)")
+      vim.keymap.set("n", "<c-n>", "<Plug>(YankyCycleForward)")
+      vim.keymap.set("n", "<c-p>", "<Plug>(YankyCycleBackward)")
+
+      require("telescope").load_extension("yank_history")
+      vim.keymap.set("n", "<leader>sy", require("telescope").extensions.yank_history.yank_history)
+    end,
+  },
+  {
+    "xiyaowong/telescope-emoji.nvim",
+    keys = {
+      { "<leader>se", "<cmd>Telescope emoji<cr>", desc = "Telescope search emoji" },
     },
+    config = function()
+      require("telescope").load_extension("emoji")
+    end,
   },
   {
     "nvim-telescope/telescope.nvim",
@@ -303,6 +312,20 @@ return {
         lsp_references = { include_declaration = false, show_line = false },
         lsp_implementations = { show_line = false },
         -- live_grep = { glob_pattern = { "!api/*", "!go.sum" } },
+      }
+      opts.extensions = {
+        emoji = {
+          action = function(emoji)
+            -- argument emoji is a table.
+            -- {name="", value="", cagegory="", description=""}
+
+            -- vim.fn.setreg("*", emoji.value)
+            -- print([[Press p or "*p to paste this emoji]] .. emoji.value)
+
+            -- insert emoji when picked
+            vim.api.nvim_put({ emoji.value }, "b", false, true)
+          end,
+        },
       }
     end,
   },
