@@ -58,10 +58,6 @@ return {
     end,
   },
   {
-    "mrjones2014/smart-splits.nvim",
-    opts = { ignored_filetypes = { "nofile", "quickfix", "qf", "prompt" }, ignored_buftypes = { "nofile" } },
-  },
-  {
     "szw/vim-maximizer",
     keys = "<M-m>",
     init = function()
@@ -87,43 +83,12 @@ return {
   },
   {
     "nvim-neo-tree/neo-tree.nvim",
-    dependencies = {
-      { "mrbjarksen/neo-tree-diagnostics.nvim" },
-    },
     opts = {
       sources = {
         "filesystem",
         "buffers",
         "git_status",
-        "diagnostics",
         "document_symbols",
-      },
-      diagnostics = {
-        auto_preview = { -- May also be set to `true`
-          enabled = true, -- Whether to automatically enable preview mode
-          preview_config = {}, -- Config table to pass to auto preview (for example `{ use_float = true }`)
-          event = "neo_tree_buffer_enter", -- The event to enable auto preview upon (for example `"neo_tree_window_after_open"`)
-        },
-        bind_to_cwd = true,
-        diag_sort_function = "severity", -- "severity" means diagnostic items are sorted by severity in addition to their positions.
-        -- "position" means diagnostic items are sorted strictly by their positions.
-        -- May also be a function.
-        follow_behavior = { -- Behavior when `follow_current_file` is true
-          always_focus_file = false, -- Focus the followed file, even when focus is currently on a diagnostic item belonging to that file.
-          expand_followed = true, -- Ensure the node of the followed file is expanded
-          collapse_others = true, -- Ensure other nodes are collapsed
-        },
-        follow_current_file = true,
-        group_dirs_and_files = true, -- when true, empty folders and files will be grouped together
-        group_empty_dirs = true, -- when true, empty directories will be grouped together
-        show_unloaded = true, -- show diagnostics from unloaded buffers
-        refresh = {
-          delay = 100, -- Time (in ms) to wait before updating diagnostics. Might resolve some issues with Neovim hanging.
-          event = "vim_diagnostic_changed", -- Event to use for updating diagnostics (for example `"neo_tree_buffer_enter"`)
-          -- Set to `false` or `"none"` to disable automatic refreshing
-          max_items = false, -- The maximum number of diagnostic items to attempt processing
-          -- Set to `false` for no maximum
-        },
       },
       event_handlers = {
         {
@@ -262,13 +227,13 @@ return {
         picker = {
           telescope = {
             mappings = {
-              default = mapping.put("p"),
+              -- default = mapping.put("p"),
               i = {
+                ["<c-p>"] = require("telescope.actions").move_selection_previous,
                 ["<cr>"] = mapping.put("p"),
                 ["<S-CR>"] = mapping.put("P"),
                 ["<c-x>"] = mapping.delete(),
                 ["<c-r>"] = mapping.set_register(utils.get_default_register()),
-                -- ["<c-k>"] = require("telescope.actions").move_selection_previous,
               },
               n = {
                 p = mapping.put("p"),

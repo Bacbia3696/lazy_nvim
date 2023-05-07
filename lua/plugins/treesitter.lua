@@ -7,27 +7,15 @@ return {
       { "<s-cr>", desc = "Increment selection" },
       { "<bs>", desc = "Decrement selection", mode = "x" },
     },
-    opts = function(_, opts)
-      opts.ensure_installed = {
-        "bash",
-        "c",
-        "html",
-        "javascript",
-        "json",
-        "lua",
-        "luadoc",
-        "luap",
-        "markdown",
-        "markdown_inline",
-        "python",
-        "query",
-        "regex",
-        "tsx",
-        "typescript",
-        "vim",
-        "yaml",
-      }
-      opts.incremental_selection = {
+    dependencies = {
+      { "HiPhish/nvim-ts-rainbow2" },
+      { "windwp/nvim-ts-autotag" },
+    },
+    opts = {
+      highlight = { enable = true },
+      indent = { enable = true },
+      context_commentstring = { enable = true, enable_autocmd = true },
+      incremental_selection = {
         enable = true,
         keymaps = {
           init_selection = "<cr>",
@@ -35,8 +23,8 @@ return {
           scope_incremental = "<s-cr>",
           node_decremental = "<bs>",
         },
-      }
-      opts.textobjects = {
+      },
+      textobjects = {
         swap = {
           enable = true,
           swap_next = {
@@ -46,11 +34,15 @@ return {
             ["<leader>A"] = "@parameter.inner",
           },
         },
+      },
+
+      -- extension config
+      rainbow = {
+        enable = true,
+      },
+      autotag = {
+        enable = true,
       }
-    end,
-    ---@param opts TSConfig
-    config = function(_, opts)
-      require("nvim-treesitter.configs").setup(opts)
-    end,
+    },
   },
 }

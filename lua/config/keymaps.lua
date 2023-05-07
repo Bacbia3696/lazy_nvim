@@ -13,6 +13,7 @@ Map("n", "<C-g>", "2<C-g>")
 Map("n", "<A-q>", "<Cmd>tabp<cr>")
 Map("n", "<A-e>", "<Cmd>tabn<cr>")
 Map("t", "<C-q>", "<C-\\><C-n>")
+
 -- reset key
 Map("v", "<", "<")
 Map("v", ">", ">")
@@ -72,14 +73,21 @@ if Util.has("nvim-window-picker") then
   end, { desc = "Pick a window" })
 end
 
-if Util.has("smart-splits.nvim") then
-  Map("n", "<leader>w ", require("smart-splits").start_resize_mode, { desc = "Start resize mode" })
-end
-
 -- Move Lines
-Map("n", "<A-s>", "<cmd>m .+1<cr>==", { desc = "Move down" })
-Map("n", "<A-w>", "<cmd>m .-2<cr>==", { desc = "Move up" })
-Map("i", "<A-s>", "<esc><cmd>m .+1<cr>==gi", { desc = "Move down" })
-Map("i", "<A-w>", "<esc><cmd>m .-2<cr>==gi", { desc = "Move up" })
-Map("v", "<A-s>", ":m '>+1<cr>gv=gv", { desc = "Move down" })
-Map("v", "<A-w>", ":m '<-2<cr>gv=gv", { desc = "Move up" })
+Map("n", "<M-s>", "<cmd>m .+1<cr>==", { desc = "Move down" })
+Map("n", "<M-w>", "<cmd>m .-2<cr>==", { desc = "Move up" })
+Map("i", "<M-s>", "<esc><cmd>m .+1<cr>==gi", { desc = "Move down" })
+Map("i", "<M-w>", "<esc><cmd>m .-2<cr>==gi", { desc = "Move up" })
+Map("v", "<M-s>", ":m '>+1<cr>gv=gv", { desc = "Move down" })
+Map("v", "<M-w>", ":m '<-2<cr>gv=gv", { desc = "Move up" })
+
+-- this will be replace with Command-S in allacriy config
+Map({ "i", "v", "n", "s" }, "<M-o>", function()
+  if next(vim.lsp.get_active_clients({ bufnr = 0 })) ~= nil then
+    vim.lsp.buf.format({
+      timeout_ms = 5000,
+    })
+  end
+  vim.cmd("up")
+  vim.cmd("stopi")
+end, { desc = "Format and save" })

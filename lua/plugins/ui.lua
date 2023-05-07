@@ -4,8 +4,10 @@ return {
     -- stylua: ignore
     keys = function(_, keys)
       -- use <C-d>, <C-u> instead of <C-f>, <C-b>
-      keys[6] = { "<c-d>", function() if not require("noice.lsp").scroll(4) then return "<c-d>" end end, silent = true, expr = true, desc = "Scroll forward", mode = { "i", "n", "s" }, }
-      keys[7] = { "<c-u>", function() if not require("noice.lsp").scroll(-4) then return "<c-u>" end end, silent = true, expr = true, desc = "Scroll backward", mode = { "i", "n", "s" }, }
+      keys[6] = { "<c-d>", function() if not require("noice.lsp").scroll(4) then return "<c-d>" end end, silent = true,
+        expr = true, desc = "Scroll forward", mode = { "i", "n", "s" }, }
+      keys[7] = { "<c-u>", function() if not require("noice.lsp").scroll(-4) then return "<c-u>" end end, silent = true,
+        expr = true, desc = "Scroll backward", mode = { "i", "n", "s" }, }
     end,
     config = {
       presets = {
@@ -21,9 +23,12 @@ return {
       }, ---@see section on views
     },
   },
-  { "rcarriga/nvim-notify", opts = {
-    top_down = false,
-  } },
+  {
+    "rcarriga/nvim-notify",
+    opts = {
+      top_down = false,
+    },
+  },
   {
     "folke/tokyonight.nvim",
     opts = {
@@ -49,6 +54,8 @@ return {
       opts.options = {
         section_separators = { left = "", right = "" },
       }
+      -- not show key when typing
+      table.remove(opts.sections.lualine_x, 1)
     end,
   },
   {
