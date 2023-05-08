@@ -163,14 +163,15 @@ return {
               experimental = { enable = true },
               disabled = { "unresolved-proc-macro" },
             },
-            check = {
-              command = "clippy",
-              extraArgs = {
-                "--",
-                "-A",
-                "clippy::uninlined_format_args",
-              },
-            },
+            -- use check by clippy is too slow
+            -- check = {
+            --   command = "clippy",
+            --   extraArgs = {
+            --     "--",
+            --     "-A",
+            --     "clippy::uninlined_format_args",
+            --   },
+            -- },
           },
         },
       },

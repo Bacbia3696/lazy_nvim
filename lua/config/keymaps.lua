@@ -10,8 +10,8 @@ Map("n", "0", "^", { nowait = true, silent = false })
 Map("n", "<C-q>", "<Cmd>quit<cr>")
 Map("n", "<leader>W", "<Cmd>noa wa<cr>", { desc = "Save without format all buffers" })
 Map("n", "<C-g>", "2<C-g>")
-Map("n", "<A-q>", "<Cmd>tabp<cr>")
-Map("n", "<A-e>", "<Cmd>tabn<cr>")
+Map("n", "<M-q>", "<Cmd>tabp<cr>")
+Map("n", "<M-e>", "<Cmd>tabn<cr>")
 Map("t", "<C-q>", "<C-\\><C-n>")
 
 -- reset key

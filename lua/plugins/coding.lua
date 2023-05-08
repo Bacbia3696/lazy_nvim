@@ -3,7 +3,10 @@ return {
     "echasnovski/mini.surround",
     enabled = false,
   },
-  { "tpope/vim-surround" },
+  {
+    "kylechui/nvim-surround",
+    event = "VeryLazy",
+  },
   {
     "hrsh7th/nvim-cmp",
     dependencies = { { "hrsh7th/cmp-cmdline" } },

@@ -58,10 +58,33 @@ return {
     end,
   },
   {
-    "szw/vim-maximizer",
-    keys = "<M-m>",
-    init = function()
-      vim.g.maximizer_default_mapping_key = "<M-m>"
+    "anuvyklack/windows.nvim",
+    dependencies = {
+      "anuvyklack/middleclass",
+      "anuvyklack/animation.nvim",
+    },
+    opts = {
+      animation = {
+        enable = true,
+        duration = 150,
+        fps = 40,
+        easing = "in_out_sine"
+      }
+    },
+    config = function(_, opts)
+      local function cmd(command)
+        return table.concat({ "<Cmd>", command, "<CR>" })
+      end
+
+      vim.keymap.set("n", "<C-w>z", cmd("WindowsMaximize"))
+      vim.keymap.set("n", "<C-w>_", cmd("WindowsMaximizeVertically"))
+      vim.keymap.set("n", "<C-w>|", cmd("WindowsMaximizeHorizontally"))
+      vim.keymap.set("n", "<C-w>=", cmd("WindowsEqualize"))
+
+      vim.o.winwidth = 10
+      vim.o.winminwidth = 10
+      vim.o.equalalways = false
+      require("windows").setup(opts)
     end,
   },
   {
@@ -178,8 +201,8 @@ return {
           require("statuscol").setup({
             relculright = true,
             segments = {
-              { text = { builtin.foldfunc }, click = "v:lua.ScFa" },
-              { text = { "%s" }, click = "v:lua.ScSa" },
+              { text = { builtin.foldfunc },      click = "v:lua.ScFa" },
+              { text = { "%s" },                  click = "v:lua.ScSa" },
               { text = { builtin.lnumfunc, " " }, click = "v:lua.ScLa" },
             },
           })
