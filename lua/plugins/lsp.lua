@@ -55,16 +55,10 @@ return {
       keys[#keys + 1] = { "gt", "<cmd>Telescope lsp_type_definitions<cr>", desc = "Goto Type Definition" }
       keys[#keys + 1] = { "gL", vim.lsp.codelens.refresh, desc = "LSP CodeLens refresh" }
       keys[#keys + 1] = { "gl", vim.lsp.codelens.run, desc = "LSP CodeLens run" }
-      keys[#keys + 1] = {
-        "[D",
-        function() vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR }) end,
-        desc = "diagnostic goto prev ERROR"
-      }
-      keys[#keys + 1] = {
-        "]D",
-        function() vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR }) end,
-        desc = "diagnostic goto prev ERROR"
-      }
+      keys[#keys + 1] = { "[D", function() vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR }) end,
+        desc = "diagnostic goto prev ERROR" }
+      keys[#keys + 1] = { "]D", function() vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR }) end,
+        desc = "diagnostic goto prev ERROR" }
       keys[#keys + 1] = { "cc", "<cmd>LspRestart<cr>", desc = "Lsp restart" }
 
       -- add codelens for on_attach function
@@ -112,8 +106,6 @@ return {
       opts.servers["gopls"] = {
         settings = {
           gopls = {
-            completeUnimported = true,
-            usePlaceholders = true,
             codelenses = {
               generate = true,
               gc_details = true,
@@ -131,6 +123,7 @@ return {
               fieldalignment = false,
               shadow = true,
             },
+            -- usePlaceholders = true,
           },
         },
       }
@@ -147,6 +140,42 @@ return {
       ensure_installed = {},
       automatic_installation = false,
       handlers = {},
+    },
+  },
+  {
+    "simrat39/rust-tools.nvim",
+    ft = "rust",
+    event = { "BufRead Cargo.toml" },
+    opts = {
+      server = {
+        cmd = { "rustup", "run", "nightly", "rust-analyzer" },
+        settings = {
+          ["rust-analyzer"] = {
+            assist = { expressionFillDefault = "default" },
+            cargo = {
+              allFeatures = true,
+              buildScripts = { enable = true },
+            },
+            -- hover = { actions = { references = { enable = true } } },
+            inlayHints = { locationLinks = true },
+            diagnostics = {
+              enable = true,
+              experimental = { enable = true },
+              disabled = { "unresolved-proc-macro" },
+            },
+            -- use check by clippy is too slow
+            -- check = {
+            --   command = "clippy",
+            --   extraArgs = {
+            --     "--",
+            --     "-A",
+            --     "clippy::uninlined_format_args",
+            --   },
+            -- },
+          },
+        },
+      },
+      -- tools = { hover_actions = { auto_focus = true } },
     },
   },
   {
