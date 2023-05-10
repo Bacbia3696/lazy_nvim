@@ -1,6 +1,5 @@
--- Autocmds are automatically loaded on the VeryLazy event
--- Default autocmds that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/autocmds.lua
--- Add any additional autocmds here
+local autocmd = vim.api.nvim_create_autocmd
+local augroup = vim.api.nvim_create_augroup
 
 local function set_quit_keymap(buf)
   vim.bo[buf].buflisted = false
@@ -8,7 +7,7 @@ local function set_quit_keymap(buf)
 end
 
 -- close some filetypes with <q>
-vim.api.nvim_create_autocmd("FileType", {
+autocmd("FileType", {
   group = Augroup("close_with_q"),
   pattern = {
     "PlenaryTestPopup",
@@ -32,7 +31,7 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
-vim.api.nvim_create_autocmd("BufEnter", {
+autocmd("BufEnter", {
   group = Augroup("close_with_q2"),
   desc = "Make q empty filetype window",
   pattern = "*",
@@ -43,7 +42,7 @@ vim.api.nvim_create_autocmd("BufEnter", {
   end,
 })
 
-vim.api.nvim_create_autocmd("FileType", {
+autocmd("FileType", {
   group = Augroup("http"),
   pattern = "http",
   callback = function()
@@ -52,3 +51,40 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.keymap.set("n", "K", "<Plug>RestNvimPreview", { buffer = true, desc = "Rest preview curl" })
   end,
 })
+
+-- Persistent Folds
+local save_fold = augroup("Persistent Folds", { clear = true })
+autocmd("BufWinLeave", {
+  pattern = "*.*",
+  callback = function()
+    vim.cmd.mkview()
+  end,
+  group = save_fold,
+})
+autocmd("BufWinEnter", {
+  pattern = "*.*",
+  callback = function()
+    vim.cmd.loadview({ mods = { emsg_silent = true } })
+  end,
+  group = save_fold,
+})
+
+-- Cursor Line on each window
+-- autocmd({ "InsertLeave", "WinEnter" }, {
+--   callback = function()
+--     local ok, cl = pcall(vim.api.nvim_win_get_var, 0, "auto-cursorline")
+--     if ok and cl then
+--       vim.wo.cursorline = true
+--       vim.api.nvim_win_del_var(0, "auto-cursorline")
+--     end
+--   end,
+-- })
+-- autocmd({ "InsertEnter", "WinLeave" }, {
+--   callback = function()
+--     local cl = vim.wo.cursorline
+--     if cl then
+--       vim.api.nvim_win_set_var(0, "auto-cursorline", cl)
+--       vim.wo.cursorline = false
+--     end
+--   end,
+-- })

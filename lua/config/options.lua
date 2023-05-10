@@ -15,5 +15,7 @@ vim.o.wrap = true
 vim.o.linebreak = true
 vim.o.relativenumber = false
 vim.o.laststatus = 3
+vim.o.sessionoptions = vim.o.sessionoptions .. ",folds"
 
+vim.g.python3_host_prog = "~/.pyenv/versions/nvim/bin/python"
 vim.g.codelens_enabled = true

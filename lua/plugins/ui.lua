@@ -9,7 +9,7 @@ return {
       keys[7] = { "<c-u>", function() if not require("noice.lsp").scroll(-4) then return "<c-u>" end end, silent = true,
         expr = true, desc = "Scroll backward", mode = { "i", "n", "s" }, }
     end,
-    config = {
+    opts = {
       presets = {
         bottom_search = true,
         command_palette = true,
