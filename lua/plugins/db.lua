@@ -17,7 +17,6 @@ return {
       -- list of connections
       -- don't commit that, use something like nvim-projector for project specific config.
       connections = {
-        -- example:
         {
           name = "postgres",
           type = "postgres",
@@ -31,8 +30,29 @@ return {
         },
       },
     },
-    config = function()
-      require("dbee").setup( --[[optional config]])
+    config = function(_, opts)
+      require("dbee").setup(opts)
     end,
   },
+  {
+    "dariuscorvus/surrealdb.nvim",
+    config = function()
+      local surrealdb = require("surrealdb-nvim")
+      surrealdb.setup({})
+    end,
+  },
+  {
+    "dariuscorvus/tree-sitter-surrealdb.nvim",
+    dependencies = { "nvim-treesitter" },
+    config = function()
+      require("tree-sitter-surrealdb").setup()
+    end,
+  },
+  -- {
+  --   "dariuscorvus/tree-sitter-language-injection.nvim",
+  --   dependencies = { "nvim-treesitter" },
+  --   config = function()
+  --     require("tree-sitter-language-injection").setup()
+  --   end,
+  -- },
 }

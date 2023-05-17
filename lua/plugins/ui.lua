@@ -4,10 +4,22 @@ return {
     -- stylua: ignore
     keys = function(_, keys)
       -- use <C-d>, <C-u> instead of <C-f>, <C-b>
-      keys[6] = { "<c-d>", function() if not require("noice.lsp").scroll(4) then return "<c-d>" end end, silent = true,
-        expr = true, desc = "Scroll forward", mode = { "i", "n", "s" }, }
-      keys[7] = { "<c-u>", function() if not require("noice.lsp").scroll(-4) then return "<c-u>" end end, silent = true,
-        expr = true, desc = "Scroll backward", mode = { "i", "n", "s" }, }
+      keys[6] = {
+        "<c-d>",
+        function() if not require("noice.lsp").scroll(4) then return "<c-d>" end end,
+        silent = true,
+        expr = true,
+        desc = "Scroll forward",
+        mode = { "i", "n", "s" },
+      }
+      keys[7] = {
+        "<c-u>",
+        function() if not require("noice.lsp").scroll(-4) then return "<c-u>" end end,
+        silent = true,
+        expr = true,
+        desc = "Scroll backward",
+        mode = { "i", "n", "s" },
+      }
     end,
     config = {
       presets = {
@@ -82,6 +94,7 @@ return {
     opts = {
       default = true,
       override = {
+        surql = { icon = "", name = "Datbase" },
         astro = { icon = "󰘯", name = "Astro", color = "#FF6969" },
         deb = { icon = "", name = "Deb" },
         http = { icon = "", name = "FireFox", color = "#98D8AA" },

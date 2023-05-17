@@ -68,8 +68,8 @@ return {
         enable = true,
         duration = 150,
         fps = 40,
-        easing = "in_out_sine"
-      }
+        easing = "in_out_sine",
+      },
     },
     config = function(_, opts)
       local function cmd(command)
@@ -140,6 +140,16 @@ return {
           ["/"] = false,
           ["?"] = false,
           ["g?"] = "show_help",
+          ["ga"] = "git_add_file",
+          ["gr"] = "git_revert_file",
+          ["gt"] = function(state)
+            local node = state.tree:get_node()
+            vim.api.nvim_command("!git checkout --theirs -- " .. node.id)
+          end,
+          ["go"] = function(state)
+            local node = state.tree:get_node()
+            vim.api.nvim_command("!git checkout --ours -- " .. node.id)
+          end,
         },
       },
       filesystem = {
@@ -201,8 +211,8 @@ return {
           require("statuscol").setup({
             relculright = true,
             segments = {
-              { text = { builtin.foldfunc },      click = "v:lua.ScFa" },
-              { text = { "%s" },                  click = "v:lua.ScSa" },
+              { text = { builtin.foldfunc }, click = "v:lua.ScFa" },
+              { text = { "%s" }, click = "v:lua.ScSa" },
               { text = { builtin.lnumfunc, " " }, click = "v:lua.ScLa" },
             },
           })
@@ -294,7 +304,7 @@ return {
       opts.defaults.path_display = { shorten = 7, exclude = { 1, -1 } }
       opts.defaults.prompt_prefix = "🔭 "
       opts.defaults.selection_caret = " "
-      opts.defaults.vimgrep_arguments = { "rg", "--vimgrep", "--smart-case", "-M", "200" }
+      -- opts.defaults.vimgrep_arguments = { "rg", "--vimgrep", "--smart-case", "-M", "200" }
 
       opts.pickers = {
         lsp_references = { include_declaration = false, show_line = false },
