@@ -57,7 +57,7 @@ return {
 
       local border_opts = {
         border = "rounded",
-        winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:Visual,Search:None",
+        winhighlight = "Normal:None,FloatBorder:FloatBorder,CursorLine:Visual,Search:None",
       }
       opts.window = {
         completion = cmp.config.window.bordered(border_opts),

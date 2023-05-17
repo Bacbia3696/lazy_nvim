@@ -22,6 +22,11 @@ return {
       }
     end,
     config = {
+      lsp = {
+        progress = {
+          enabled = false,
+        },
+      },
       presets = {
         bottom_search = true,
         command_palette = true,
@@ -33,41 +38,68 @@ return {
         mini = { win_options = { winblend = 0 } },
         hover = { border = { padding = { 0, 0 } } },
       }, ---@see section on views
+      -- format = {
+      --   spinner = {
+      --     ---@type Spinner
+      --     name = "moon",
+      --     hl_group = nil,
+      --   },
+      -- }, --- @see section on formatting
     },
   },
   {
     "rcarriga/nvim-notify",
     opts = {
       top_down = false,
+      background_colour = "#000000",
+      fps = 60,
+      level = 2,
+      minimum_width = 50,
+      render = "default",
     },
+    config = function(_, opts)
+      for _, level in ipairs({ "ERROR", "WARN", "INFO", "DEBUG", "TRACE" }) do
+        vim.cmd("hi Notify" .. level .. "Body guibg=none")
+        vim.cmd("hi Notify" .. level .. "Title guibg=none")
+        vim.cmd("hi Notify" .. level .. "Border guibg=none")
+      end
+      require("notify").setup(opts)
+    end,
   },
   {
     "folke/tokyonight.nvim",
     opts = {
-      on_colors = function(colors)
-        colors.bg = colors.bg_dark
-      end,
       on_highlights = function(hl, colors)
-        hl.NeoTreeNormal = { bg = colors.bg }
         hl.FoldColumn = { bg = colors.none, fg = colors.comment }
         hl.SignColumn = { bg = colors.none }
         hl.WinSeparator = { link = "FloatBorder" }
         hl.DiagnosticUnnecessary = { link = "NonText" }
       end,
-      -- style = "night",
       hide_inactive_statusline = true,
       dim_inactive = false,
       lualine_bold = true,
+      translarent = true,
+      styles = {
+        sidebars = "transparent", -- style for sidebars, see below
+        floats = "transparent", -- style for floating windows
+      },
     },
   },
   {
     "nvim-lualine/lualine.nvim",
+    dependencies = {
+      "arkav/lualine-lsp-progress",
+    },
     opts = function(_, opts)
       opts.options = {
         section_separators = { left = "", right = "" },
       }
-      -- not show key when typing
-      table.remove(opts.sections.lualine_x, 1)
+      -- show lsp client instead of key
+      opts.sections.lualine_x[1] = {
+        "lsp_progress",
+        timer = { progress_enddelay = 100, spinner = 100, lsp_client_name_enddelay = 100000 },
+        spinner_symbols = { "🌑 ", "🌒 ", "🌓 ", "🌔 ", "🌕 ", "🌖 ", "🌗 ", "🌘 " },
+      }
     end,
   },
   {
@@ -111,5 +143,27 @@ return {
         zip = { icon = "", name = "Zip" },
       },
     },
+  },
+  {
+    "xiyaowong/transparent.nvim",
+    lazy = false,
+    opts = {
+      {
+        extra_groups = {},
+        exclude_groups = {}, -- table: groups you don't want to clear
+      },
+    },
+  },
+  {
+    "mini.animate",
+    config = function(_, opts)
+      opts.open = {
+        enable = false,
+      }
+      opts.close = {
+        enable = false,
+      }
+      require("mini.animate").setup(opts)
+    end,
   },
 }

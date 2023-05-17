@@ -1,23 +1,19 @@
 return {
   {
-    "shortcuts/no-neck-pain.nvim",
+    "folke/zen-mode.nvim",
+    events = "ZenMode",
     opts = {
-      scratchPad = {
-        -- set to `false` to
-        -- disable auto-saving
-        enabled = true,
-        -- set to `nil` to default
-        -- to current working directory
-        location = "~/Documents/",
-      },
-      bo = {
-        filetype = "md",
-      },
-      buffers = {
-        colors = {
-          blend = -0.4,
+      window = {
+        options = {
+          fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]],
         },
       },
+      plugins = {
+        tmux = { enabled = true }, -- disables the tmux statusline
+      },
+      on_open = function ()
+        vim.cmd("hi ZenBg guibg=None")
+      end
     },
   },
   {
