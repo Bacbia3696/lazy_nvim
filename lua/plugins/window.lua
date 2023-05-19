@@ -4,16 +4,14 @@ return {
     events = "ZenMode",
     opts = {
       window = {
+        height = 0.8,
         options = {
           fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]],
         },
       },
-      plugins = {
-        tmux = { enabled = true }, -- disables the tmux statusline
-      },
-      on_open = function ()
+      on_open = function()
         vim.cmd("hi ZenBg guibg=None")
-      end
+      end,
     },
   },
   {
@@ -48,36 +46,40 @@ return {
     end,
   },
   {
-    "anuvyklack/windows.nvim",
-    dependencies = {
-      "anuvyklack/middleclass",
-      "anuvyklack/animation.nvim",
+    "nyngwang/NeoZoom.lua",
+    keys = {
+      { "<S-F>", "<cmd>NeoZoomToggle<cr>", desc = "Toggle NeoZoom" },
     },
     opts = {
-      autowidth = {
-        enable = false,
+      popup = {
+        enabled = true,
+        exclude_buftypes = { "terminal" },
+        exclude_filetypes = { "lspinfo", "mason", "lazy", "fzf", "qf" },
       },
-      animation = {
-        enable = true,
-        duration = 150,
-        fps = 40,
-        easing = "in_out_sine",
+      winopts = {
+        offset = {
+          width = 110,
+          height = 0.9,
+        },
+        border = "rounded",
+      },
+      presets = {
+        {
+          filetypes = { "dapui_.*", "dap-repl" },
+          winopts = {
+            offset = { top = 0, left = 0.6, width = 0.4, height = 0.7 },
+          },
+        },
+        {
+          filetypes = { "markdown" },
+          callbacks = {
+            function()
+              vim.wo.wrap = true
+            end,
+          },
+        },
       },
     },
-    config = function(_, opts)
-      local function cmd(command)
-        return table.concat({ "<Cmd>", command, "<CR>" })
-      end
-
-      vim.keymap.set("n", "<C-w>z", cmd("WindowsMaximize"))
-      vim.keymap.set("n", "<C-w>_", cmd("WindowsMaximizeVertically"))
-      vim.keymap.set("n", "<C-w>|", cmd("WindowsMaximizeHorizontally"))
-      vim.keymap.set("n", "<C-w>=", cmd("WindowsEqualize"))
-
-      vim.o.winwidth = 10
-      vim.o.winminwidth = 10
-      vim.o.equalalways = false
-      require("windows").setup(opts)
-    end,
   },
+  { "kevinhwang91/nvim-bqf", ft = "qf" },
 }

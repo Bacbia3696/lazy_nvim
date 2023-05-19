@@ -52,22 +52,31 @@ autocmd("FileType", {
   end,
 })
 
+autocmd("FileType", {
+  group = Augroup("go"),
+  pattern = "go",
+  callback = function()
+    vim.o.expandtab = false
+  end,
+})
+
 -- Persistent Folds
-local save_fold = augroup("Persistent Folds", { clear = true })
-autocmd("BufWinLeave", {
-  pattern = "*.*",
-  callback = function()
-    vim.cmd.mkview()
-  end,
-  group = save_fold,
-})
-autocmd("BufWinEnter", {
-  pattern = "*.*",
-  callback = function()
-    vim.cmd.loadview({ mods = { emsg_silent = true } })
-  end,
-  group = save_fold,
-})
+-- local save_fold = augroup("Persistent Folds", { clear = true })
+-- autocmd("BufWinLeave", {
+--   pattern = "*.*",
+--   callback = function()
+--     vim.cmd.mkview()
+--   end,
+--   group = save_fold,
+-- })
+-- autocmd("BufWinEnter", {
+--   pattern = "*.*",
+--   callback = function()
+--     vim.cmd.loadview({ mods = { emsg_silent = true } })
+--     vim.cmd("stopinsert")
+--   end,
+--   group = save_fold,
+-- })
 
 -- Cursor Line on each window
 -- autocmd({ "InsertLeave", "WinEnter" }, {

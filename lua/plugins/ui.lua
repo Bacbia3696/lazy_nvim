@@ -74,6 +74,8 @@ return {
         hl.SignColumn = { bg = colors.none }
         hl.WinSeparator = { link = "FloatBorder" }
         hl.DiagnosticUnnecessary = { link = "NonText" }
+        hl.LineNr = { fg = colors.dark3 }
+        hl.CursorLineNr = { fg = colors.blue }
       end,
       hide_inactive_statusline = true,
       dim_inactive = false,
@@ -97,7 +99,7 @@ return {
       -- show lsp client instead of key
       opts.sections.lualine_x[1] = {
         "lsp_progress",
-        timer = { progress_enddelay = 100, spinner = 100, lsp_client_name_enddelay = 100000 },
+        timer = { progress_enddelay = 500, spinner = 1000, lsp_client_name_enddelay = 1000000 },
         spinner_symbols = { "🌑 ", "🌒 ", "🌓 ", "🌔 ", "🌕 ", "🌖 ", "🌗 ", "🌘 " },
       }
     end,
@@ -146,7 +148,6 @@ return {
   },
   {
     "xiyaowong/transparent.nvim",
-    lazy = false,
     opts = {
       {
         extra_groups = {},
@@ -154,16 +155,16 @@ return {
       },
     },
   },
-  {
-    "mini.animate",
-    config = function(_, opts)
-      opts.open = {
-        enable = false,
-      }
-      opts.close = {
-        enable = false,
-      }
-      require("mini.animate").setup(opts)
-    end,
-  },
+  -- {
+  --   "mini.animate",
+  --   config = function(_, opts)
+  --     opts.open = {
+  --       enable = false,
+  --     }
+  --     opts.close = {
+  --       enable = false,
+  --     }
+  --     require("mini.animate").setup(opts)
+  --   end,
+  -- },
 }
