@@ -4,6 +4,7 @@ return {
     ft = "rust",
     event = { "BufRead Cargo.toml" },
     opts = {
+      tools = { inlay_hints = { auto = false } },
       server = {
         cmd = { "rustup", "run", "nightly", "rust-analyzer" },
         settings = {
@@ -32,7 +33,6 @@ return {
           },
         },
       },
-      -- tools = { hover_actions = { auto_focus = true } },
     },
   },
   {
@@ -71,8 +71,6 @@ return {
         end,
       })
     end,
-    config = function()
-      require("crates").setup()
-    end,
+    opts = {},
   },
 }

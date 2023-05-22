@@ -99,7 +99,7 @@ return {
       -- show lsp client instead of key
       opts.sections.lualine_x[1] = {
         "lsp_progress",
-        timer = { progress_enddelay = 500, spinner = 1000, lsp_client_name_enddelay = 1000000 },
+        timer = { progress_enddelay = 500, spinner = 1000, lsp_client_name_enddelay = 10000 },
         spinner_symbols = { "🌑 ", "🌒 ", "🌓 ", "🌔 ", "🌕 ", "🌖 ", "🌗 ", "🌘 " },
       }
     end,
@@ -155,6 +155,7 @@ return {
       },
     },
   },
+  { "lunarvim/synthwave84.nvim" },
   -- {
   --   "mini.animate",
   --   config = function(_, opts)

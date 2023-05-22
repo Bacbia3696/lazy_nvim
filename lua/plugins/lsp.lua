@@ -43,26 +43,47 @@ return {
   },
   {
     "neovim/nvim-lspconfig",
-    -- stylua: ignore
-    init = function()
+    dependencies = {
+      {
+        "lvimuser/lsp-inlayhints.nvim",
+        branch = "anticonceal",
+        opts = {
+          inlay_hints = {
+            highlight = "LspInfoTip",
+          },
+        },
+      },
+    },
+    opts = function(_, opts)
       require("lspconfig.ui.windows").default_options = {
         border = "rounded",
       }
-      local keys = require("lazyvim.plugins.lsp.keymaps").get()
-      keys[#keys + 1] = { "ga", vim.lsp.buf.code_action, desc = "Code Action", mode = { "n", "v" }, has = "codeAction" }
-      keys[#keys + 1] = { "go", vim.diagnostic.open_float, desc = "Line Diagnostics" }
-      keys[#keys + 1] = { "gi", "<cmd>Telescope lsp_implementations<cr>", desc = "Goto Implementation" }
-      keys[#keys + 1] = { "gt", "<cmd>Telescope lsp_type_definitions<cr>", desc = "Goto Type Definition" }
-      keys[#keys + 1] = { "gL", vim.lsp.codelens.refresh, desc = "LSP CodeLens refresh" }
-      keys[#keys + 1] = { "gl", vim.lsp.codelens.run, desc = "LSP CodeLens run" }
-      keys[#keys + 1] = { "[D", function() vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR }) end,
-        desc = "diagnostic goto prev ERROR" }
-      keys[#keys + 1] = { "]D", function() vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR }) end,
-        desc = "diagnostic goto prev ERROR" }
-      keys[#keys + 1] = { "cc", "<cmd>LspRestart<cr>", desc = "Lsp restart" }
-
       -- add codelens for on_attach function
-      require("lazyvim.util").on_attach(function(client, _)
+      require("lazyvim.util").on_attach(function(client, bufnr)
+        local keys = require("lazyvim.plugins.lsp.keymaps").get()
+        keys[#keys + 1] =
+          { "ga", vim.lsp.buf.code_action, desc = "Code Action", mode = { "n", "v" }, has = "codeAction" }
+        keys[#keys + 1] = { "go", vim.diagnostic.open_float, desc = "Line Diagnostics" }
+        keys[#keys + 1] = { "gi", "<cmd>Telescope lsp_implementations<cr>", desc = "Goto Implementation" }
+        keys[#keys + 1] = { "gt", "<cmd>Telescope lsp_type_definitions<cr>", desc = "Goto Type Definition" }
+        keys[#keys + 1] = { "gL", vim.lsp.codelens.refresh, desc = "LSP CodeLens refresh" }
+        keys[#keys + 1] = { "gl", vim.lsp.codelens.run, desc = "LSP CodeLens run" }
+        keys[#keys + 1] = {
+          "[D",
+          function()
+            vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR })
+          end,
+          desc = "diagnostic goto prev ERROR",
+        }
+        keys[#keys + 1] = {
+          "]D",
+          function()
+            vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR })
+          end,
+          desc = "diagnostic goto prev ERROR",
+        }
+        keys[#keys + 1] = { "cc", "<cmd>LspRestart<cr>", desc = "Lsp restart" }
+
         local capabilities = client.server_capabilities
         if capabilities.codeLensProvider then
           vim.api.nvim_create_autocmd({ "InsertLeave", "BufEnter" }, {
@@ -75,10 +96,12 @@ return {
           })
           -- NOTE: this is quite hacky, because we cann't call codelens in the begining
           vim.fn.timer_start(100, vim.lsp.codelens.refresh, { ["repeat"] = 5 })
+
+          -- add inlay_hints
+          require("lsp-inlayhints").on_attach(client, bufnr, true)
         end
       end)
-    end,
-    opts = function(_, opts)
+
       opts.diagnostics.virtual_text = { spacing = 4, prefix = "●", source = true }
       opts.diagnostics.float = { border = "rounded" }
       opts.autoformat = false
@@ -106,6 +129,15 @@ return {
       opts.servers["gopls"] = {
         settings = {
           gopls = {
+            hints = {
+              assignVariableTypes = true,
+              compositeLiteralFields = true,
+              compositeLiteralTypes = true,
+              constantValues = true,
+              functionTypeParameters = true,
+              parameterNames = true,
+              rangeVariableTypes = true,
+            },
             codelenses = {
               generate = true,
               gc_details = true,
@@ -153,11 +185,14 @@ return {
           ["rust-analyzer"] = {
             assist = { expressionFillDefault = "default" },
             cargo = {
-              allFeatures = true,
+              allFeatures = false,
               buildScripts = { enable = true },
             },
             -- hover = { actions = { references = { enable = true } } },
-            inlayHints = { locationLinks = true },
+            inlayHints = {
+              auto = false,
+              locationLinks = true,
+            },
             diagnostics = {
               enable = true,
               experimental = { enable = true },

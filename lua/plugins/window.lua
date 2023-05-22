@@ -7,10 +7,12 @@ return {
         height = 0.8,
         options = {
           fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]],
+          signcolumn = "number"
         },
       },
       on_open = function()
         vim.cmd("hi ZenBg guibg=None")
+        -- vim.o.signcolumn = "number"
       end,
     },
   },
@@ -27,23 +29,22 @@ return {
       "<C-k>",
       "<C-l>",
     },
+    opts = {},
   },
   {
     "s1n7ax/nvim-window-picker",
-    config = function()
-      require("window-picker").setup({
-        selection_chars = "QWEASDZXC",
-        fg_color = "#FFABCB",
-        include_current_win = true,
-        other_win_hl_color = "#41644A",
-        filter_rules = {
-          bo = {
-            filetype = {},
-            buftype = {},
-          },
+    opts = {
+      selection_chars = "QWEASDZXC",
+      fg_color = "#FFABCB",
+      include_current_win = true,
+      other_win_hl_color = "#41644A",
+      filter_rules = {
+        bo = {
+          filetype = {},
+          buftype = {},
         },
-      })
-    end,
+      },
+    },
   },
   {
     "nyngwang/NeoZoom.lua",

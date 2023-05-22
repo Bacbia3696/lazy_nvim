@@ -36,23 +36,11 @@ return {
   },
   {
     "dariuscorvus/surrealdb.nvim",
-    config = function()
-      local surrealdb = require("surrealdb-nvim")
-      surrealdb.setup({})
-    end,
+    opts = {},
   },
   {
     "dariuscorvus/tree-sitter-surrealdb.nvim",
     dependencies = { "nvim-treesitter" },
-    config = function()
-      require("tree-sitter-surrealdb").setup()
-    end,
+    opts = {},
   },
-  -- {
-  --   "dariuscorvus/tree-sitter-language-injection.nvim",
-  --   dependencies = { "nvim-treesitter" },
-  --   config = function()
-  --     require("tree-sitter-language-injection").setup()
-  --   end,
-  -- },
 }
