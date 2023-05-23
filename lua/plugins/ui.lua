@@ -26,6 +26,17 @@ return {
         progress = {
           enabled = false,
         },
+        documentation = {
+          view = "hover",
+          ---@type NoiceViewOptions
+          opts = {
+            lang = "markdown",
+            replace = true,
+            render = "plain",
+            format = { "{message}" },
+            win_options = { concealcursor = "n", conceallevel = 2 },
+          },
+        },
       },
       presets = {
         bottom_search = true,

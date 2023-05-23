@@ -64,6 +64,16 @@ return {
   },
   {
     "kevinhwang91/nvim-ufo",
+    lazy = false,
+    keys = {
+      {
+        "zp",
+        function()
+          require("ufo").peekFoldedLinesUnderCursor()
+        end,
+        desc = "UFO fold preview",
+      },
+    },
     dependencies = {
       { "kevinhwang91/promise-async" },
       {
@@ -106,7 +116,7 @@ return {
           end
           curWidth = curWidth + chunkWidth
         end
-        table.insert(newVirtText, { suffix, {"Title", "Italic"} })
+        table.insert(newVirtText, { suffix, { "Title", "Italic" } })
         return newVirtText
       end
       return {
@@ -114,6 +124,12 @@ return {
           return { "treesitter", "indent" }
         end,
         fold_virt_text_handler = handler,
+        close_fold_kinds = { "import" },
+        preview = {
+          win_config = {
+            winblend = 0,
+          },
+        },
       }
     end,
   },
