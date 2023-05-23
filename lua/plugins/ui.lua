@@ -81,6 +81,7 @@ return {
         hl.DiagnosticUnnecessary = { link = "NonText" }
         hl.LineNr = { fg = colors.dark3 }
         hl.CursorLineNr = { fg = colors.blue }
+        hl.Folded = { bg = colors.none }
       end,
       hide_inactive_statusline = true,
       dim_inactive = true,

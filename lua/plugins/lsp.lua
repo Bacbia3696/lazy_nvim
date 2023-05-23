@@ -125,7 +125,6 @@ return {
       --     },
       --   },
       -- }
-      opts.servers["tailwindcss"] = {}
       opts.servers["gopls"] = {
         settings = {
           gopls = {
