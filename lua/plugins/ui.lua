@@ -68,7 +68,12 @@ return {
   },
   {
     "folke/tokyonight.nvim",
+
     opts = {
+      on_colors = function(colors)
+        -- colors.git.change = colors.cyan
+        colors.gitSigns.change = colors.blue2
+      end,
       on_highlights = function(hl, colors)
         hl.FoldColumn = { bg = colors.none, fg = colors.comment }
         hl.SignColumn = { bg = colors.none }
@@ -78,12 +83,12 @@ return {
         hl.CursorLineNr = { fg = colors.blue }
       end,
       hide_inactive_statusline = true,
-      dim_inactive = false,
+      dim_inactive = true,
       lualine_bold = true,
       translarent = true,
       styles = {
-        sidebars = "transparent", -- style for sidebars, see below
-        floats = "transparent", -- style for floating windows
+        sidebars = "transparent",
+        floats = "transparent",
       },
     },
   },
