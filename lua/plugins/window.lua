@@ -1,13 +1,13 @@
 return {
   {
     "folke/zen-mode.nvim",
-    events = "ZenMode",
     opts = {
       window = {
         height = 0.8,
+        width = 100,
         options = {
           fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]],
-          signcolumn = "number"
+          signcolumn = "number",
         },
       },
       on_open = function()
@@ -33,54 +33,31 @@ return {
   },
   {
     "s1n7ax/nvim-window-picker",
+    name = "window-picker",
     opts = {
+      hint = "floating-big-letter",
       selection_chars = "QWEASDZXC",
-      fg_color = "#FFABCB",
-      include_current_win = true,
-      other_win_hl_color = "#41644A",
+      show_prompt = false,
       filter_rules = {
+        include_current_win = true,
         bo = {
           filetype = {},
           buftype = {},
         },
       },
     },
-  },
-  {
-    "nyngwang/NeoZoom.lua",
     keys = {
-      { "<S-F>", "<cmd>NeoZoomToggle<cr>", desc = "Toggle NeoZoom" },
-    },
-    opts = {
-      popup = {
-        enabled = true,
-        exclude_buftypes = { "terminal" },
-        exclude_filetypes = { "lspinfo", "mason", "lazy", "fzf", "qf" },
-      },
-      winopts = {
-        offset = {
-          width = 110,
-          height = 0.9,
-        },
-        border = "rounded",
-      },
-      presets = {
-        {
-          filetypes = { "dapui_.*", "dap-repl" },
-          winopts = {
-            offset = { top = 0, left = 0.6, width = 0.4, height = 0.7 },
-          },
-        },
-        {
-          filetypes = { "markdown" },
-          callbacks = {
-            function()
-              vim.wo.wrap = true
-            end,
-          },
-        },
+      {
+        "-",
+        function()
+          local tp = vim.o.wrap
+          vim.o.wrap = false
+          local picked_window_id = require("window-picker").pick_window() or vim.api.nvim_get_current_win()
+          vim.o.wrap = tp
+          vim.api.nvim_set_current_win(picked_window_id)
+        end,
       },
     },
   },
-  { "kevinhwang91/nvim-bqf", ft = "qf" },
+  { "kevinhwang91/nvim-bqf", ft = "qf", opts = { preview = { winblend = 0 } } },
 }

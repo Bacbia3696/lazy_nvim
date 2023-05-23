@@ -1,9 +1,17 @@
 return {
-  { "ggandor/flit.nvim", enabled = false },
-  { "ggandor/leap.nvim", enabled = false },
+  { "folke/flash.nvim", enabled = false },
+  {
+    "folke/todo-comments.nvim",
+    opts = {
+      keywords = {
+        HACK = { icon = " ", color = "warning", alt = { "SAFETY", "Safety" } },
+      },
+    },
+  },
   {
     "nvim-neo-tree/neo-tree.nvim",
     opts = {
+      open_files_do_not_replace_types = { "terminal", "trouble", "qf", "aerial" }, -- when opening files, do not use windows containing these filetypes or buftypes
       sources = {
         "filesystem",
         "buffers",
@@ -40,6 +48,9 @@ return {
         },
       },
       filesystem = {
+        filtered_items = {
+          visible = true, -- when true, they will just be displayed differently than normal items
+        },
         window = {
           mappings = {
             ["i"] = "run_command",
@@ -64,6 +75,16 @@ return {
   },
   {
     "kevinhwang91/nvim-ufo",
+    lazy = false,
+    keys = {
+      {
+        "zp",
+        function()
+          require("ufo").peekFoldedLinesUnderCursor()
+        end,
+        desc = "UFO fold preview",
+      },
+    },
     dependencies = {
       { "kevinhwang91/promise-async" },
       {
@@ -84,7 +105,7 @@ return {
     opts = function()
       local handler = function(virtText, lnum, endLnum, width, truncate)
         local newVirtText = {}
-        local suffix = ("  %d "):format(endLnum - lnum)
+        local suffix = (" 󱞡 %d.........."):format(endLnum - lnum)
         local sufWidth = vim.fn.strdisplaywidth(suffix)
         local targetWidth = width - sufWidth
         local curWidth = 0
@@ -106,43 +127,50 @@ return {
           end
           curWidth = curWidth + chunkWidth
         end
-        table.insert(newVirtText, { suffix, "MoreMsg" })
+        table.insert(newVirtText, { suffix, { "Title", "Italic" } })
         return newVirtText
       end
       return {
-        provider_selector = function()
-          return { "treesitter", "indent" }
+        provider_selector = function(_, ft)
+          if ft == "rust" then
+            return { "treesitter", "indent" }
+          end
+          return { "lsp", "indent" }
         end,
         fold_virt_text_handler = handler,
+        preview = {
+          win_config = {
+            winblend = 0,
+          },
+        },
       }
     end,
   },
-  -- {
-  --   "akinsho/toggleterm.nvim",
-  --   cmd = { "ToggleTerm", "TermExec" },
-  --   keys = {
-  --     { "<C-\\>" },
-  --   },
-  --   opts = {
-  --     size = 10,
-  --     open_mapping = [[<c-\>]],
-  --     shading_factor = 2,
-  --     autochdir = true,
-  --     highlights = {
-  --       FloatBorder = {
-  --         link = "FloatBorder",
-  --       },
-  --     },
-  --     direction = "float",
-  --     float_opts = {
-  --       border = "rounded",
-  --       highlights = { border = "Normal", background = "Normal" },
-  --     },
-  --   },
-  -- },
+  {
+    "akinsho/toggleterm.nvim",
+    cmd = { "ToggleTerm", "TermExec" },
+    keys = {
+      { "<C-\\>" },
+    },
+    opts = {
+      size = 10,
+      open_mapping = [[<c-\>]],
+      shading_factor = 2,
+      autochdir = true,
+      highlights = {
+        FloatBorder = {
+          link = "FloatBorder",
+        },
+      },
+      direction = "float",
+      float_opts = {
+        border = "rounded",
+        highlights = { border = "Normal", background = "Normal" },
+      },
+    },
+  },
   {
     "windwp/nvim-spectre",
-    -- stylua: ignore
     opts = {
       mapping = {
         ["run_current_replace"] = {
@@ -155,7 +183,7 @@ return {
   },
   {
     "rest-nvim/rest.nvim",
-    requires = { "nvim-lua/plenary.nvim" },
+    dependencies = { "nvim-lua/plenary.nvim" },
     ft = "http",
     lazy = true,
     opts = {
@@ -195,6 +223,21 @@ return {
         padding = { 1, 2, 1, 2 }, -- extra window padding [top, right, bottom, left]
         winblend = 0, -- value between 0-100 0 for fully opaque and 100 for fully transparent
         zindex = 1000, -- positive value to position WhichKey above other floating windows.
+      },
+    },
+  },
+  {
+    "lewis6991/gitsigns.nvim",
+    opts = function(_, opts)
+      opts.current_line_blame = true
+    end,
+  },
+  {
+    "uga-rosa/ccc.nvim",
+    opts = {
+      highlighter = {
+        auto_enable = true,
+        lsp = true,
       },
     },
   },

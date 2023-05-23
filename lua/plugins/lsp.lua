@@ -1,5 +1,13 @@
 return {
   {
+    "mrcjkb/haskell-tools.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-telescope/telescope.nvim", -- optional
+    },
+    version = "1.x.x", -- recommended
+  },
+  {
     "tamago324/nlsp-settings.nvim",
     opts = {
       config_home = vim.fn.stdpath("config") .. "/nlsp-settings",
@@ -11,22 +19,30 @@ return {
   },
   {
     "stevearc/aerial.nvim",
-    cmd = { "AerialToggle" },
+    keys = {
+      { "<leader>cs", "<cmd>AerialToggle<cr>", desc = "AerialToggle" },
+      { "<leader>cS", "<cmd>AerialNavToggle<cr>", desc = "AerialToggle" },
+    },
     init = function()
       require("telescope").load_extension("aerial")
     end,
     opts = {
       attach_mode = "global",
       backends = { "lsp", "treesitter", "markdown", "man" },
-      layout = { min_width = 28 },
+      layout = {
+        min_width = 20,
+        max_width = { 50, 0.3 },
+        placement = "edge",
+        preserve_equality = true,
+      },
+      nav = {
+        win_opts = { winblend = 0 },
+        keymaps = {
+          ["q"] = "actions.close",
+        },
+      },
       show_guides = true,
       filter_kind = false,
-      guides = {
-        mid_item = "├ ",
-        last_item = "└ ",
-        nested_top = "│ ",
-        whitespace = "  ",
-      },
       keymaps = {
         ["o"] = "actions.jump",
         ["{"] = "actions.prev",
@@ -43,64 +59,11 @@ return {
   },
   {
     "neovim/nvim-lspconfig",
-    dependencies = {
-      {
-        "lvimuser/lsp-inlayhints.nvim",
-        branch = "anticonceal",
-        opts = {
-          inlay_hints = {
-            highlight = "LspInfoTip",
-          },
-        },
-      },
-    },
     opts = function(_, opts)
       require("lspconfig.ui.windows").default_options = {
         border = "rounded",
       }
-      -- add codelens for on_attach function
-      require("lazyvim.util").on_attach(function(client, bufnr)
-        local keys = require("lazyvim.plugins.lsp.keymaps").get()
-        keys[#keys + 1] =
-          { "ga", vim.lsp.buf.code_action, desc = "Code Action", mode = { "n", "v" }, has = "codeAction" }
-        keys[#keys + 1] = { "go", vim.diagnostic.open_float, desc = "Line Diagnostics" }
-        keys[#keys + 1] = { "gi", "<cmd>Telescope lsp_implementations<cr>", desc = "Goto Implementation" }
-        keys[#keys + 1] = { "gt", "<cmd>Telescope lsp_type_definitions<cr>", desc = "Goto Type Definition" }
-        keys[#keys + 1] = { "gL", vim.lsp.codelens.refresh, desc = "LSP CodeLens refresh" }
-        keys[#keys + 1] = { "gl", vim.lsp.codelens.run, desc = "LSP CodeLens run" }
-        keys[#keys + 1] = {
-          "[D",
-          function()
-            vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR })
-          end,
-          desc = "diagnostic goto prev ERROR",
-        }
-        keys[#keys + 1] = {
-          "]D",
-          function()
-            vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR })
-          end,
-          desc = "diagnostic goto prev ERROR",
-        }
-        keys[#keys + 1] = { "cc", "<cmd>LspRestart<cr>", desc = "Lsp restart" }
-
-        local capabilities = client.server_capabilities
-        if capabilities.codeLensProvider then
-          vim.api.nvim_create_autocmd({ "InsertLeave", "BufEnter" }, {
-            group = Augroup("lsp_codelens_refresh"),
-            callback = function()
-              if vim.g.codelens_enabled then
-                vim.lsp.codelens.refresh()
-              end
-            end,
-          })
-          -- NOTE: this is quite hacky, because we cann't call codelens in the begining
-          vim.fn.timer_start(100, vim.lsp.codelens.refresh, { ["repeat"] = 5 })
-
-          -- add inlay_hints
-          require("lsp-inlayhints").on_attach(client, bufnr, true)
-        end
-      end)
+      require("lazyvim.util").on_attach(require("custom.lsp").on_attach)
 
       opts.diagnostics.virtual_text = { spacing = 4, prefix = "●", source = true }
       opts.diagnostics.float = { border = "rounded" }
@@ -109,53 +72,16 @@ return {
         formatting_options = nil,
         timeout_ms = 5000,
       }
-      -- opts.servers["sqlls"] = {
-      --   settings = {
-      --     sqlLanguageServer = {
-      --       connections = {
-      --         {
-      --           name = "postgres_project",
-      --           adapter = "postgres",
-      --           host = "127.0.0.1",
-      --           port = 5432,
-      --           user = "nguyenthanhdat",
-      --           database = "postgres",
-      --         },
-      --       },
-      --     },
-      --   },
-      -- }
-      opts.servers["tailwindcss"] = {}
-      opts.servers["gopls"] = {
+      opts.inlay_hints = {
+        enabled = true,
+      }
+      opts.servers.hls = {
+        cmd = { "haskell-language-server-wrapper", "--lsp" },
+        filetypes = { "haskell", "lhaskell", "cabal" },
         settings = {
-          gopls = {
-            hints = {
-              assignVariableTypes = true,
-              compositeLiteralFields = true,
-              compositeLiteralTypes = true,
-              constantValues = true,
-              functionTypeParameters = true,
-              parameterNames = true,
-              rangeVariableTypes = true,
-            },
-            codelenses = {
-              generate = true,
-              gc_details = true,
-              upgrade_dependency = true,
-              tidy = true,
-              vendor = false,
-            },
-            analyses = {
-              unusedparams = true,
-              -- composites = false,
-              nilness = true,
-              unusedwrite = true,
-              useany = true,
-              unusedvariable = true,
-              fieldalignment = false,
-              shadow = true,
-            },
-            -- usePlaceholders = true,
+          haskell = {
+            cabalFormattingProvider = "cabalfmt",
+            formattingProvider = "ormolu",
           },
         },
       }
@@ -175,46 +101,9 @@ return {
     },
   },
   {
-    "simrat39/rust-tools.nvim",
-    ft = "rust",
-    event = { "BufRead Cargo.toml" },
-    opts = {
-      server = {
-        cmd = { "rustup", "run", "nightly", "rust-analyzer" },
-        settings = {
-          ["rust-analyzer"] = {
-            assist = { expressionFillDefault = "default" },
-            cargo = {
-              allFeatures = false,
-              buildScripts = { enable = true },
-            },
-            -- hover = { actions = { references = { enable = true } } },
-            inlayHints = {
-              auto = false,
-              locationLinks = true,
-            },
-            diagnostics = {
-              enable = true,
-              experimental = { enable = true },
-              disabled = { "unresolved-proc-macro" },
-            },
-            -- use check by clippy is too slow
-            -- check = {
-            --   command = "clippy",
-            --   extraArgs = {
-            --     "--",
-            --     "-A",
-            --     "clippy::uninlined_format_args",
-            --   },
-            -- },
-          },
-        },
-      },
-      -- tools = { hover_actions = { auto_focus = true } },
-    },
-  },
-  {
     "williamboman/mason.nvim",
-    opts = { ui = { border = "rounded", width = 0.8, height = 0.8 } },
+    opts = {
+      ui = { border = "rounded", width = 0.8, height = 0.8 },
+    },
   },
 }

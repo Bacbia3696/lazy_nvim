@@ -1,51 +1,22 @@
 return {
   {
     "simrat39/rust-tools.nvim",
-    ft = "rust",
-    event = { "BufRead Cargo.toml" },
     opts = {
-      tools = { inlay_hints = { auto = false } },
-      server = {
-        cmd = { "rustup", "run", "nightly", "rust-analyzer" },
-        settings = {
-          ["rust-analyzer"] = {
-            assist = { expressionFillDefault = "default" },
-            cargo = {
-              allFeatures = false,
-              buildScripts = { enable = true },
-            },
-            -- hover = { actions = { references = { enable = true } } },
-            inlayHints = { locationLinks = true },
-            diagnostics = {
-              enable = true,
-              experimental = { enable = true },
-              disabled = { "unresolved-proc-macro" },
-            },
-            -- use check by clippy is too slow
-            -- check = {
-            --   command = "clippy",
-            --   extraArgs = {
-            --     "--",
-            --     "-A",
-            --     "clippy::uninlined_format_args",
-            --   },
-            -- },
-          },
+      tools = {
+        inlay_hints = {
+          auto = false,
         },
       },
     },
   },
   {
-    "saecki/crates.nvim",
-    event = { "BufRead Cargo.toml" },
-    dependencies = { "nvim-lua/plenary.nvim" },
+    "Saecki/crates.nvim",
     init = function()
       vim.api.nvim_create_autocmd("BufRead", {
         group = vim.api.nvim_create_augroup("CargoCrates", { clear = true }),
         pattern = "Cargo.toml",
         callback = function()
           local crates = require("crates")
-          crates.show()
           local map = function(mode, key, func, desc)
             vim.keymap.set(mode, key, func, {
               silent = true,
@@ -53,24 +24,32 @@ return {
               desc = desc,
             })
           end
-          map("n", "ct", crates.toggle, "crates toggle")
-          map("n", "cr", crates.reload, "crates reload")
-          map("n", "cv", crates.show_versions_popup, "crates show version popup")
-          map("n", "cf", crates.show_features_popup, "crates show features popup")
-          map("n", "cd", crates.show_dependencies_popup, "crates show dependencies popup")
-          map("n", "cu", crates.update_crate, "crates update")
-          map("v", "cu", crates.update_crates, "crates update")
-          map("n", "ca", crates.update_all_crates, "crates update all")
-          map("n", "cU", crates.upgrade_crate, "crates upgrade")
-          map("v", "cU", crates.upgrade_crates, "crates upgrade")
-          map("n", "cA", crates.upgrade_all_crates, "crates upgrade all")
-          map("n", "cH", crates.open_homepage, "crates open homepage")
-          map("n", "cR", crates.open_repository, "crates open repository")
-          map("n", "cD", crates.open_documentation, "crates open documentation")
-          map("n", "cC", crates.open_crates_io, "crates open crates.io")
+          require("which-key").register({ ["<C-c>"] = { name = "crates " } }, {})
+
+          map("n", "<C-c>t", crates.toggle, "toggle")
+          map("n", "<C-c>r", crates.reload, "reload")
+          map("n", "<C-c>v", crates.show_versions_popup, "show version popup")
+          map("n", "<C-c>k", crates.show_popup, "show crate popup")
+          map("n", "<C-c>f", crates.show_features_popup, "show features popup")
+          map("n", "<C-c>d", crates.show_dependencies_popup, "show dependencies popup")
+          map("n", "<C-c>u", crates.update_crate, "update")
+          map("v", "<C-c>u", crates.update_crates, "update")
+          map("n", "<C-c>a", crates.update_all_crates, "update all")
+          map("n", "<C-c>U", crates.upgrade_crate, "upgrade")
+          map("v", "<C-c>U", crates.upgrade_crates, "upgrade")
+          map("n", "<C-c>A", crates.upgrade_all_crates, "upgrade all")
+          map("n", "<C-c>H", crates.open_homepage, "open homepage")
+          map("n", "<C-c>R", crates.open_repository, "open repository")
+          map("n", "<C-c>D", crates.open_documentation, "open documentation")
+          map("n", "<C-c>C", crates.open_crates_io, "open crates.io")
         end,
       })
     end,
-    opts = {},
+    opts = {
+      popup = {
+        autofocus = true,
+        border = "rounded",
+      },
+    },
   },
 }

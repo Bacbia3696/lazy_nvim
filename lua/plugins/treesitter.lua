@@ -7,9 +7,7 @@ return {
       { "<bs>", desc = "Decrement selection", mode = "x" },
     },
     dependencies = {
-      { "HiPhish/nvim-ts-rainbow2" },
       { "windwp/nvim-ts-autotag" },
-      { "nvim-treesitter/playground" },
     },
     opts = {
       highlight = { enable = true },
@@ -37,13 +35,7 @@ return {
       },
 
       -- extension config
-      rainbow = {
-        enable = true,
-      },
       autotag = {
-        enable = true,
-      },
-      playground = {
         enable = true,
       },
     },
