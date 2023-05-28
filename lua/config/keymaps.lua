@@ -5,7 +5,7 @@
 local Util = require("lazyvim.util")
 
 Map("n", "<M-a>", "ggVG")
-Map("n", ";", ":", { nowait = true, silent = false })
+Map({ "n", "v" }, ";", ":", { nowait = true, silent = false })
 Map("n", "0", "^", { nowait = true, silent = false })
 Map("n", "<C-q>", "<Cmd>quit<cr>")
 Map("n", "<leader>W", "<Cmd>noa wa<cr>", { desc = "Save without format all buffers" })
@@ -45,20 +45,6 @@ if Util.has("gitsigns.nvim") then
   Map("n", "<leader>gT", require("gitsigns").toggle_current_line_blame, { desc = "Toggle current line blame" })
   Map("n", "]g", require("gitsigns").next_hunk, { desc = "Next git hunk" })
   Map("n", "[g", require("gitsigns").prev_hunk, { desc = "Prev git hunk" })
-end
-
--- neotest
-if Util.has("neotest") then
-  local nt = require("neotest")
-  Map("n", "<leader>tr", nt.run.run, { desc = "Run unit test" })
-  Map("n", "<leader>ts", nt.summary.toggle, { desc = "Toggle neotest summary" })
-  Map("n", "<leader>tR", function()
-    require("neotest").run.run(vim.fn.expand("%"))
-  end, { desc = "Run all unit test in file" })
-  Map("n", "<leader>to", nt.output.open, { desc = "Open unit test output" })
-  Map("n", "<leader>t]", nt.jump.next, { desc = "Jump to next test" })
-  Map("n", "<leader>t[", nt.jump.next, { desc = "Jump to prev test" })
-  Map("n", "<leader>th", "<cmd>Coverage<cr>", { desc = "Toggle show converage" })
 end
 
 if Util.has("aerial.nvim") then

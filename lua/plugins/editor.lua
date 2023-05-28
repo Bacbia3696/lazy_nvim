@@ -4,6 +4,7 @@ return {
   {
     "nvim-neo-tree/neo-tree.nvim",
     opts = {
+      open_files_do_not_replace_types = { "terminal", "trouble", "qf", "aerial" }, -- when opening files, do not use windows containing these filetypes or buftypes
       sources = {
         "filesystem",
         "buffers",
@@ -124,7 +125,6 @@ return {
           return { "treesitter", "indent" }
         end,
         fold_virt_text_handler = handler,
-        close_fold_kinds = { "import" },
         preview = {
           win_config = {
             winblend = 0,
@@ -171,7 +171,7 @@ return {
   },
   {
     "rest-nvim/rest.nvim",
-    requires = { "nvim-lua/plenary.nvim" },
+    dependencies = { "nvim-lua/plenary.nvim" },
     ft = "http",
     lazy = true,
     opts = {
@@ -213,5 +213,11 @@ return {
         zindex = 1000, -- positive value to position WhichKey above other floating windows.
       },
     },
+  },
+  {
+    "lewis6991/gitsigns.nvim",
+    opts = function(_, opts)
+      opts.current_line_blame = true
+    end,
   },
 }

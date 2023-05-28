@@ -58,7 +58,6 @@ return {
       require("lspconfig.ui.windows").default_options = {
         border = "rounded",
       }
-      -- add codelens for on_attach function
       require("lazyvim.util").on_attach(function(client, bufnr)
         local keys = require("lazyvim.plugins.lsp.keymaps").get()
         keys[#keys + 1] =
@@ -84,6 +83,7 @@ return {
         }
         keys[#keys + 1] = { "cc", "<cmd>LspRestart<cr>", desc = "Lsp restart" }
 
+        -- add codelens for on_attach function
         local capabilities = client.server_capabilities
         if capabilities.codeLensProvider then
           vim.api.nvim_create_autocmd({ "InsertLeave", "BufEnter" }, {
@@ -96,10 +96,9 @@ return {
           })
           -- NOTE: this is quite hacky, because we cann't call codelens in the begining
           vim.fn.timer_start(100, vim.lsp.codelens.refresh, { ["repeat"] = 5 })
-
           -- add inlay_hints
-          require("lsp-inlayhints").on_attach(client, bufnr, true)
         end
+        require("lsp-inlayhints").on_attach(client, bufnr, true)
       end)
 
       opts.diagnostics.virtual_text = { spacing = 4, prefix = "●", source = true }

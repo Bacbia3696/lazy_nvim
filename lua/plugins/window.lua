@@ -1,13 +1,13 @@
 return {
   {
     "folke/zen-mode.nvim",
-    events = "ZenMode",
     opts = {
       window = {
         height = 0.8,
+        width = 100,
         options = {
           fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]],
-          signcolumn = "number"
+          signcolumn = "number",
         },
       },
       on_open = function()

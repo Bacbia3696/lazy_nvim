@@ -1,6 +1,6 @@
 ;; extends
 ;; Keywords
-(("use"   @keyword) (#set! conceal  ""))
+(("use"   @keyword) (#set! conceal  "󰶮"))
 (("mod"  @keyword) (#set! conceal  ""))
 ; (("trait"       @keyword) (#set! conceal "🦆"))
 (("fn"     @keyword) (#set! conceal ""))

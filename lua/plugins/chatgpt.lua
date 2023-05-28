@@ -13,4 +13,22 @@ return {
       "nvim-telescope/telescope.nvim",
     },
   },
+  {
+    "dpayne/CodeGPT.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "MunifTanjim/nui.nvim",
+    },
+    config = function()
+      require("codegpt.config")
+    end,
+  },
+  {
+    "mthbernardes/codeexplain.nvim",
+    lazy = true,
+    cmd = "CodeExplain",
+    build = function()
+      vim.cmd([[silent UpdateRemotePlugins]])
+    end,
+  },
 }

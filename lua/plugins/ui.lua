@@ -21,7 +21,7 @@ return {
         mode = { "i", "n", "s" },
       }
     end,
-    config = {
+    opts = {
       lsp = {
         progress = {
           enabled = false,
