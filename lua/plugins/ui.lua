@@ -110,16 +110,31 @@ return {
       "arkav/lualine-lsp-progress",
     },
     opts = function(_, opts)
+      local auto_theme_custom = require("lualine.themes.auto")
+      vim.print(auto_theme_custom)
+      auto_theme_custom.normal.c.bg = "none"
       opts.options = {
         section_separators = { left = "", right = "" },
+        theme = auto_theme_custom,
       }
       -- show lsp client instead of key
       opts.sections.lualine_x[1] = {
         "lsp_progress",
-        timer = { progress_enddelay = 500, spinner = 1000, lsp_client_name_enddelay = 10000 },
+        timer = { progress_enddelay = 500, spinner = 1000, lsp_client_name_enddelay = 30000 },
         spinner_symbols = { "🌑 ", "🌒 ", "🌓 ", "🌔 ", "🌕 ", "🌖 ", "🌗 ", "🌘 " },
       }
     end,
+  },
+  {
+    "SmiteshP/nvim-navic",
+    lazy = true,
+    opts = {
+      safe_output = true,
+      separator = " ",
+      highlight = false,
+      depth_limit = 5,
+      icons = require("lazyvim.config").icons.kinds,
+    },
   },
   {
     "stevearc/dressing.nvim",

@@ -11,22 +11,38 @@ return {
   },
   {
     "stevearc/aerial.nvim",
-    cmd = { "AerialToggle" },
+    keys = {
+      {
+        "<leader>cs",
+        "<cmd>AerialToggle<cr>",
+        desc = "AerialToggle",
+      },
+      {
+        "<leader>cS",
+        "<cmd>AerialNavToggle<cr>",
+        desc = "AerialToggle",
+      },
+    },
     init = function()
       require("telescope").load_extension("aerial")
     end,
     opts = {
       attach_mode = "global",
       backends = { "lsp", "treesitter", "markdown", "man" },
-      layout = { min_width = 28 },
+      layout = {
+        min_width = 20,
+        max_width = { 50, 0.3 },
+        placement = "edge",
+        preserve_equality = true,
+      },
+      nav = {
+        win_opts = { winblend = 0 },
+        keymaps = {
+          ["q"] = "actions.close",
+        },
+      },
       show_guides = true,
       filter_kind = false,
-      guides = {
-        mid_item = "├ ",
-        last_item = "└ ",
-        nested_top = "│ ",
-        whitespace = "  ",
-      },
       keymaps = {
         ["o"] = "actions.jump",
         ["{"] = "actions.prev",

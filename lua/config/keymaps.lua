@@ -10,8 +10,6 @@ Map("n", "0", "^", { nowait = true, silent = false })
 Map("n", "<C-q>", "<Cmd>quit<cr>")
 Map("n", "<leader>W", "<Cmd>noa wa<cr>", { desc = "Save without format all buffers" })
 Map("n", "<C-g>", "2<C-g>")
-Map("n", "<M-q>", "<Cmd>tabp<cr>")
-Map("n", "<M-e>", "<Cmd>tabn<cr>")
 Map("t", "<C-q>", "<C-\\><C-n>")
 
 -- reset key
@@ -47,10 +45,6 @@ if Util.has("gitsigns.nvim") then
   Map("n", "[g", require("gitsigns").prev_hunk, { desc = "Prev git hunk" })
 end
 
-if Util.has("aerial.nvim") then
-  Map("n", "<leader>cs", "<cmd>AerialToggle<cr>", { desc = "Toggle LSP Symbol" })
-end
-
 if Util.has("nvim-window-picker") then
   local picker = require("window-picker")
   Map("n", "-", function()
@@ -77,3 +71,7 @@ Map({ "i", "v", "n", "s" }, "<M-o>", function()
   vim.cmd("up")
   vim.cmd("stopi")
 end, { desc = "Format and save" })
+
+-- tabs
+Map("n", "<leader><tab>k", "<cmd>tabnext<cr>", { desc = "Next Tab" })
+Map("n", "<leader><tab>k", "<cmd>tabprevious<cr>", { desc = "Previous Tab" })
