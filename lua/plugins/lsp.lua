@@ -63,11 +63,7 @@ return {
       {
         "lvimuser/lsp-inlayhints.nvim",
         branch = "anticonceal",
-        opts = {
-          inlay_hints = {
-            highlight = "LspInfoTip",
-          },
-        },
+        opts = {},
       },
     },
     opts = function(_, opts)
@@ -83,20 +79,8 @@ return {
         keys[#keys + 1] = { "gt", "<cmd>Telescope lsp_type_definitions<cr>", desc = "Goto Type Definition" }
         keys[#keys + 1] = { "gL", vim.lsp.codelens.refresh, desc = "LSP CodeLens refresh" }
         keys[#keys + 1] = { "gl", vim.lsp.codelens.run, desc = "LSP CodeLens run" }
-        keys[#keys + 1] = {
-          "[D",
-          function()
-            vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR })
-          end,
-          desc = "diagnostic goto prev ERROR",
-        }
-        keys[#keys + 1] = {
-          "]D",
-          function()
-            vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR })
-          end,
-          desc = "diagnostic goto prev ERROR",
-        }
+        keys[#keys + 1] = { "[D", function() vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR }) end, desc = "diagnostic goto prev ERROR", }
+        keys[#keys + 1] = { "]D", function() vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR }) end, desc = "diagnostic goto prev ERROR", }
         keys[#keys + 1] = { "cc", "<cmd>LspRestart<cr>", desc = "Lsp restart" }
 
         -- add codelens for on_attach function
@@ -104,17 +88,14 @@ return {
         if capabilities.codeLensProvider then
           vim.api.nvim_create_autocmd({ "InsertLeave", "BufEnter" }, {
             group = Augroup("lsp_codelens_refresh"),
-            callback = function()
-              if vim.g.codelens_enabled then
-                vim.lsp.codelens.refresh()
-              end
-            end,
+            callback = vim.lsp.codelens.refresh,
           })
-          -- NOTE: this is quite hacky, because we cann't call codelens in the begining
-          vim.fn.timer_start(100, vim.lsp.codelens.refresh, { ["repeat"] = 5 })
-          -- add inlay_hints
+
+          vim.fn.timer_start(100, function ()
+            vim.lsp.codelens.refresh()
+            require("lsp-inlayhints").on_attach(client, bufnr, true)
+          end, { ["repeat"] = 5 })
         end
-        require("lsp-inlayhints").on_attach(client, bufnr, true)
       end)
 
       opts.diagnostics.virtual_text = { spacing = 4, prefix = "●", source = true }

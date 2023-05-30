@@ -79,7 +79,6 @@ return {
   },
   {
     "folke/tokyonight.nvim",
-
     opts = {
       on_colors = function(colors)
         -- colors.git.change = colors.cyan
@@ -93,6 +92,7 @@ return {
         hl.LineNr = { fg = colors.dark3 }
         hl.CursorLineNr = { fg = colors.blue }
         hl.Folded = { bg = colors.none }
+        hl.LspInlayHint = { link = "Comment" }
       end,
       hide_inactive_statusline = true,
       dim_inactive = true,
@@ -111,7 +111,6 @@ return {
     },
     opts = function(_, opts)
       local auto_theme_custom = require("lualine.themes.auto")
-      vim.print(auto_theme_custom)
       auto_theme_custom.normal.c.bg = "none"
       opts.options = {
         section_separators = { left = "", right = "" },

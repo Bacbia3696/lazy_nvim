@@ -73,5 +73,8 @@ Map({ "i", "v", "n", "s" }, "<M-o>", function()
 end, { desc = "Format and save" })
 
 -- tabs
-Map("n", "<leader><tab>k", "<cmd>tabnext<cr>", { desc = "Next Tab" })
-Map("n", "<leader><tab>k", "<cmd>tabprevious<cr>", { desc = "Previous Tab" })
+Map("n", "<leader>j", "<cmd>tabprevious<cr>", { desc = "Prev Tab" })
+Map("n", "<leader>k", "<cmd>tabnext<cr>", { desc = "Next Tab" })
+for i = 1, 9 do
+  Map("n", "<leader>" .. i, "<cmd>tabn " .. i .. "<cr>", { desc = "Move to tab " .. i })
+end

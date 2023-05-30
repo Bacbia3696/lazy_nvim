@@ -220,4 +220,5 @@ return {
       opts.current_line_blame = true
     end,
   },
+  { "NvChad/nvim-colorizer.lua", opts = {} },
 }
