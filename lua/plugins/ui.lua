@@ -92,7 +92,7 @@ return {
         hl.LineNr = { fg = colors.dark3 }
         hl.CursorLineNr = { fg = colors.blue }
         hl.Folded = { bg = colors.none }
-        hl.LspInlayHint = { link = "Comment" }
+        hl.LspInlayHint = { fg = "#0db9d7", bg = "#203346", italic = true }
       end,
       hide_inactive_statusline = true,
       dim_inactive = true,
@@ -119,7 +119,7 @@ return {
       -- show lsp client instead of key
       opts.sections.lualine_x[1] = {
         "lsp_progress",
-        timer = { progress_enddelay = 500, spinner = 1000, lsp_client_name_enddelay = 30000 },
+        timer = { progress_enddelay = 500, spinner = 1000, lsp_client_name_enddelay = 60000 },
         spinner_symbols = { "🌑 ", "🌒 ", "🌓 ", "🌔 ", "🌕 ", "🌖 ", "🌗 ", "🌘 " },
       }
     end,

@@ -11,7 +11,6 @@ vim.o.swapfile = false
 vim.o.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
 -- vim.o.listchars = [[eol:¬,tab:▸·,trail:●,nbsp:⎵]]
 vim.o.listchars = [[eol:¬,tab:▸·,trail:●]]
-vim.o.wrap = true
 vim.o.linebreak = true
 vim.o.relativenumber = false
 vim.o.laststatus = 3
@@ -22,3 +21,6 @@ vim.o.conceallevel = 2
 -- vim.o.concealcursor = "nc"
 
 vim.g.python3_host_prog = "~/.pyenv/versions/nvim/bin/python"
+
+-- add Cfilter plugin
+vim.cmd("packadd cfilter")

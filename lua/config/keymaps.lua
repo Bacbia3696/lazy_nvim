@@ -45,14 +45,6 @@ if Util.has("gitsigns.nvim") then
   Map("n", "[g", require("gitsigns").prev_hunk, { desc = "Prev git hunk" })
 end
 
-if Util.has("nvim-window-picker") then
-  local picker = require("window-picker")
-  Map("n", "-", function()
-    local picked_window_id = picker.pick_window() or vim.api.nvim_get_current_win()
-    vim.api.nvim_set_current_win(picked_window_id)
-  end, { desc = "Pick a window" })
-end
-
 -- Move Lines
 Map("n", "<M-s>", "<cmd>m .+1<cr>==", { desc = "Move down" })
 Map("n", "<M-w>", "<cmd>m .-2<cr>==", { desc = "Move up" })

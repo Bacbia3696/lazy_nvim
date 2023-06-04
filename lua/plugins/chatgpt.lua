@@ -23,12 +23,4 @@ return {
       require("codegpt.config")
     end,
   },
-  {
-    "mthbernardes/codeexplain.nvim",
-    lazy = true,
-    cmd = "CodeExplain",
-    build = function()
-      vim.cmd([[silent UpdateRemotePlugins]])
-    end,
-  },
 }

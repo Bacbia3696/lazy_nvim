@@ -33,16 +33,25 @@ return {
   },
   {
     "s1n7ax/nvim-window-picker",
-    opts = {
-      selection_chars = "QWEASDZXC",
-      fg_color = "#FFABCB",
-      include_current_win = true,
-      other_win_hl_color = "#41644A",
-      filter_rules = {
-        bo = {
-          filetype = {},
-          buftype = {},
-        },
+    name = "window-picker",
+    keys = {
+      {
+        "-",
+        function()
+          local picked_window_id = require("window-picker").pick_window({
+            hint = "floating-big-letter",
+            selection_chars = "QWEASDZXC",
+            show_prompt = false,
+            filter_rules = {
+              include_current_win = true,
+              bo = {
+                filetype = {},
+                buftype = {},
+              },
+            },
+          }) or vim.api.nvim_get_current_win()
+          vim.api.nvim_set_current_win(picked_window_id)
+        end,
       },
     },
   },
