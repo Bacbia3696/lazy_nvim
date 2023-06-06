@@ -1,8 +1,7 @@
 return {
   {
     "simrat39/rust-tools.nvim",
-    ft = "rust",
-    event = { "BufRead Cargo.toml" },
+    -- ft = "rust",
     opts = {
       tools = { inlay_hints = { auto = false } },
       server = {
@@ -11,7 +10,7 @@ return {
           ["rust-analyzer"] = {
             assist = { expressionFillDefault = "default" },
             cargo = {
-              allFeatures = false,
+              allFeatures = true,
               buildScripts = { enable = true },
             },
             -- hover = { actions = { references = { enable = true } } },
@@ -19,7 +18,7 @@ return {
             diagnostics = {
               enable = true,
               experimental = { enable = true },
-              disabled = { "unresolved-proc-macro" },
+              -- disabled = { "unresolved-proc-macro" },
             },
             -- use check by clippy is too slow
             -- check = {
@@ -71,6 +70,11 @@ return {
         end,
       })
     end,
-    opts = {},
+    opts = {
+      popup = {
+        autofocus = true,
+        border = "rounded",
+      },
+    },
   },
 }

@@ -1,0 +1,29 @@
+{
+  "gopls": {
+    "hints": {
+      "assignVariableTypes": true,
+      "compositeLiteralFields": true,
+      "compositeLiteralTypes": true,
+      "constantValues": true,
+      "functionTypeParameters": true,
+      "parameterNames": true,
+      "rangeVariableTypes": true
+    },
+    "analyses": {
+      "unusedparams": true,
+      "nilness": true,
+      "unusedwrite": true,
+      "useany": true,
+      "unusedvariable": true,
+      "fieldalignment": false,
+      "shadow": true
+    },
+    "codelenses": {
+      "gc_details": true,
+      "generate": true,
+      "upgrade_dependency": true,
+      "tidy": true,
+      "vendor": false
+    }
+  }
+}
