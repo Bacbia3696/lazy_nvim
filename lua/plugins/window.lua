@@ -34,22 +34,26 @@ return {
   {
     "s1n7ax/nvim-window-picker",
     name = "window-picker",
+    opts = {
+      hint = "floating-big-letter",
+      selection_chars = "QWEASDZXC",
+      show_prompt = false,
+      filter_rules = {
+        include_current_win = true,
+        bo = {
+          filetype = {},
+          buftype = {},
+        },
+      },
+    },
     keys = {
       {
         "-",
         function()
-          local picked_window_id = require("window-picker").pick_window({
-            hint = "floating-big-letter",
-            selection_chars = "QWEASDZXC",
-            show_prompt = false,
-            filter_rules = {
-              include_current_win = true,
-              bo = {
-                filetype = {},
-                buftype = {},
-              },
-            },
-          }) or vim.api.nvim_get_current_win()
+          local tp = vim.o.wrap
+          vim.o.wrap = false
+          local picked_window_id = require("window-picker").pick_window() or vim.api.nvim_get_current_win()
+          vim.o.wrap = tp
           vim.api.nvim_set_current_win(picked_window_id)
         end,
       },

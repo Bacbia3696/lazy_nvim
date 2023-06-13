@@ -18,6 +18,7 @@ vim.o.sessionoptions = vim.o.sessionoptions .. ",folds"
 vim.o.pumblend = 0 -- transparent cmp
 vim.o.signcolumn = "number"
 vim.o.conceallevel = 2
+vim.o.wrap = true
 -- vim.o.concealcursor = "nc"
 
 vim.g.python3_host_prog = "~/.pyenv/versions/nvim/bin/python"
