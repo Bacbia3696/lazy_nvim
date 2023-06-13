@@ -38,8 +38,6 @@ function M.on_attach(client, bufnr)
       callback = vim.lsp.codelens.refresh,
       buffer = 0,
     })
-    vim.print(client.name)
-    vim.print(capabilities.codeLensProvider)
   end
   if client.name == "gopls" or client.name == "rust_analyzer" or client.name == "tsserver" then
     require("lsp-inlayhints").on_attach(client, bufnr, true)

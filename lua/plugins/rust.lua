@@ -8,9 +8,10 @@ return {
         cmd = { "rustup", "run", "nightly", "rust-analyzer" },
         settings = {
           ["rust-analyzer"] = {
+            imports = { prefix = "crate" },
             assist = { expressionFillDefault = "default" },
             cargo = {
-              allFeatures = true,
+              allFeatures = false,
               buildScripts = { enable = true },
             },
             -- hover = { actions = { references = { enable = true } } },
@@ -18,7 +19,7 @@ return {
             diagnostics = {
               enable = true,
               experimental = { enable = true },
-              -- disabled = { "unresolved-proc-macro" },
+              disabled = { "unresolved-proc-macro" },
             },
             -- use check by clippy is too slow
             -- check = {

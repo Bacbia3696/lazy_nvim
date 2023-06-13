@@ -26,6 +26,9 @@ return {
         progress = {
           enabled = false,
         },
+        hover = {
+          silent = true,
+        },
         documentation = {
           view = "hover",
           ---@type NoiceViewOptions
