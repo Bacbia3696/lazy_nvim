@@ -1,11 +1,10 @@
 return {
   {
     "simrat39/rust-tools.nvim",
-    -- ft = "rust",
     opts = {
       tools = { inlay_hints = { auto = false } },
       server = {
-        cmd = { "rustup", "run", "nightly", "rust-analyzer" },
+        cmd = { "rustup", "run", "stable", "rust-analyzer" },
         settings = {
           ["rust-analyzer"] = {
             imports = { prefix = "crate" },

@@ -12,8 +12,8 @@ return {
   {
     "stevearc/aerial.nvim",
     keys = {
-      { "<leader>cs", "<cmd>AerialToggle<cr>", desc = "AerialToggle", },
-      { "<leader>cS", "<cmd>AerialNavToggle<cr>", desc = "AerialToggle", },
+      { "<leader>cs", "<cmd>AerialToggle<cr>", desc = "AerialToggle" },
+      { "<leader>cS", "<cmd>AerialNavToggle<cr>", desc = "AerialToggle" },
     },
     init = function()
       require("telescope").load_extension("aerial")
@@ -51,18 +51,11 @@ return {
   },
   {
     "neovim/nvim-lspconfig",
-    dependencies = {
-      {
-        "lvimuser/lsp-inlayhints.nvim",
-        branch = "anticonceal",
-        opts = {},
-      },
-    },
     opts = function(_, opts)
       require("lspconfig.ui.windows").default_options = {
         border = "rounded",
       }
-      require("lazyvim.util").on_attach(require("config.utils").on_attach)
+      require("lazyvim.util").on_attach(require("custom.lsp").on_attach)
 
       opts.diagnostics.virtual_text = { spacing = 4, prefix = "●", source = true }
       opts.diagnostics.float = { border = "rounded" }
@@ -70,6 +63,9 @@ return {
       opts.format = {
         formatting_options = nil,
         timeout_ms = 5000,
+      }
+      opts.inlay_hints = {
+        enabled = true,
       }
     end,
   },

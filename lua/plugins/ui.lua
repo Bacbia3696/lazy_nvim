@@ -83,6 +83,7 @@ return {
   {
     "folke/tokyonight.nvim",
     opts = {
+      style = "moon",
       on_colors = function(colors)
         -- colors.git.change = colors.cyan
         colors.gitSigns.change = colors.blue2
@@ -96,6 +97,7 @@ return {
         hl.CursorLineNr = { fg = colors.blue }
         hl.Folded = { bg = colors.none }
         hl.LspInlayHint = { fg = "#0db9d7", bg = "#203346", italic = true }
+        hl.CmpGhostText = { fg = "#567189", italic = true }
       end,
       hide_inactive_statusline = true,
       dim_inactive = true,
@@ -189,17 +191,11 @@ return {
       },
     },
   },
-  { "lunarvim/synthwave84.nvim" },
   -- {
-  --   "mini.animate",
-  --   config = function(_, opts)
-  --     opts.open = {
-  --       enable = false,
-  --     }
-  --     opts.close = {
-  --       enable = false,
-  --     }
-  --     require("mini.animate").setup(opts)
-  --   end,
+  --   "echasnovski/mini.animate",
+  --   opts = {
+  --     open = { enabled = false },
+  --     close = { enabled = false },
+  --   },
   -- },
 }
