@@ -1,5 +1,15 @@
 return {
   {
+    "simrat39/rust-tools.nvim",
+    opts = {
+      tools = {
+        inlay_hints = {
+          auto = false,
+        },
+      },
+    },
+  },
+  {
     "Saecki/crates.nvim",
     init = function()
       vim.api.nvim_create_autocmd("BufRead", {
