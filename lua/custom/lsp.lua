@@ -1,5 +1,5 @@
 local M = {}
-function M.on_attach(client, bufnr)
+function M.on_attach(client, _)
   local keys = require("lazyvim.plugins.lsp.keymaps").get()
   keys[#keys + 1] = { "ga", vim.lsp.buf.code_action, desc = "Code Action", mode = { "n", "v" }, has = "codeAction" }
   keys[#keys + 1] = { "go", vim.diagnostic.open_float, desc = "Line Diagnostics" }
@@ -19,10 +19,6 @@ function M.on_attach(client, bufnr)
       callback = vim.lsp.codelens.refresh,
       buffer = 0,
     })
-  end
-  local enabled = { "gopls", "tsserver", "rust_analyzer" }
-  if require("custom.helpers").contain(enabled, client.name) then
-    vim.lsp.buf.inlay_hint(0, true)
   end
 end
 

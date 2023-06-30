@@ -1,5 +1,13 @@
 return {
   {
+    "mrcjkb/haskell-tools.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-telescope/telescope.nvim", -- optional
+    },
+    version = "1.x.x", -- recommended
+  },
+  {
     "tamago324/nlsp-settings.nvim",
     opts = {
       config_home = vim.fn.stdpath("config") .. "/nlsp-settings",
@@ -66,6 +74,16 @@ return {
       }
       opts.inlay_hints = {
         enabled = true,
+      }
+      opts.servers.hls = {
+        cmd = { "haskell-language-server-wrapper", "--lsp" },
+        filetypes = { "haskell", "lhaskell", "cabal" },
+        settings = {
+          haskell = {
+            cabalFormattingProvider = "cabalfmt",
+            formattingProvider = "ormolu",
+          },
+        },
       }
     end,
   },
