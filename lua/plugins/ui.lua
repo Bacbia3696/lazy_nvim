@@ -52,13 +52,6 @@ return {
         mini = { win_options = { winblend = 0 } },
         hover = { border = { padding = { 0, 0 } } },
       }, ---@see section on views
-      -- format = {
-      --   spinner = {
-      --     ---@type Spinner
-      --     name = "moon",
-      --     hl_group = nil,
-      --   },
-      -- }, --- @see section on formatting
     },
   },
   {

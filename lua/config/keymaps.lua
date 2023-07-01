@@ -12,6 +12,8 @@ map("n", "<C-q>", "<Cmd>quit<cr>")
 map("n", "<leader>W", "<Cmd>noa wa<cr>", { desc = "Save without format all buffers" })
 map("n", "<C-g>", "2<C-g>")
 map("t", "<C-q>", "<C-\\><C-n>")
+map("v", "<C-s>", "<ESC>")
+map("v", "<M-s>", "<ESC>")
 
 -- reset key
 map("v", "<", "<")

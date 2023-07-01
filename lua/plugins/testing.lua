@@ -1,9 +1,6 @@
 return {
   {
     "nvim-neotest/neotest",
-    dependencies = {
-      "nvim-neotest/neotest-plenary",
-    },
     opts = function(_, opts)
       opts.adapters = {
         require("neotest-plenary"),
