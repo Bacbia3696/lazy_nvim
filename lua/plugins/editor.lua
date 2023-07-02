@@ -222,4 +222,13 @@ return {
       opts.current_line_blame = true
     end,
   },
+  {
+    "uga-rosa/ccc.nvim",
+    opts = {
+      highlighter = {
+        auto_enable = true,
+        lsp = true,
+      },
+    },
+  },
 }

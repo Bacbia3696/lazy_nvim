@@ -30,14 +30,3 @@ autocmd("FileType", {
     set_quit_keymap(event.buf)
   end,
 })
-
-autocmd("BufEnter", {
-  group = Augroup("close_with_q2"),
-  desc = "Make q empty filetype window",
-  pattern = "*",
-  callback = function(event)
-    if vim.o.filetype == "" then
-      set_quit_keymap(event.buf)
-    end
-  end,
-})

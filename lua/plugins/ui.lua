@@ -91,6 +91,7 @@ return {
         hl.Folded = { bg = colors.none }
         hl.LspInlayHint = { fg = "#0db9d7", bg = "#203346", italic = true }
         hl.CmpGhostText = { fg = "#567189", italic = true }
+        hl.Todo = { fg = "#0db9d7" }
       end,
       hide_inactive_statusline = true,
       dim_inactive = true,
