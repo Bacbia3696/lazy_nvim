@@ -9,7 +9,6 @@ return {
     dependencies = {
       { "HiPhish/nvim-ts-rainbow2" },
       { "windwp/nvim-ts-autotag" },
-      { "nvim-treesitter/playground" },
     },
     opts = {
       highlight = { enable = true },
@@ -41,9 +40,6 @@ return {
         enable = true,
       },
       autotag = {
-        enable = true,
-      },
-      playground = {
         enable = true,
       },
     },

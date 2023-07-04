@@ -30,7 +30,7 @@ return {
   },
   {
     "hrsh7th/nvim-cmp",
-    dependencies = { { "hrsh7th/cmp-cmdline" } },
+    dependencies = { { "hrsh7th/cmp-cmdline" }, { "onsails/lspkind.nvim" } },
     opts = function(_, opts)
       local cmp = require("cmp")
       opts.cmdline = {
@@ -62,6 +62,13 @@ return {
       opts.window = {
         completion = cmp.config.window.bordered(border_opts),
         documentation = cmp.config.window.bordered(border_opts),
+      }
+      opts.formatting = {
+        format = function(_, item)
+          item.menu = nil
+          item.kind = (require("lazyvim.config").icons.kinds[item.kind] or "") .. item.kind
+          return item
+        end,
       }
       opts.preselect = cmp.PreselectMode.None
       opts.sources = cmp.config.sources({

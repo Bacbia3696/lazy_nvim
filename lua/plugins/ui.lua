@@ -1,12 +1,15 @@
 return {
   {
     "folke/noice.nvim",
-    -- stylua: ignore
     keys = function(_, keys)
       -- use <C-d>, <C-u> instead of <C-f>, <C-b>
       keys[6] = {
         "<c-d>",
-        function() if not require("noice.lsp").scroll(4) then return "<c-d>" end end,
+        function()
+          if not require("noice.lsp").scroll(4) then
+            return "<c-d>"
+          end
+        end,
         silent = true,
         expr = true,
         desc = "Scroll forward",
@@ -14,7 +17,11 @@ return {
       }
       keys[7] = {
         "<c-u>",
-        function() if not require("noice.lsp").scroll(-4) then return "<c-u>" end end,
+        function()
+          if not require("noice.lsp").scroll(-4) then
+            return "<c-u>"
+          end
+        end,
         silent = true,
         expr = true,
         desc = "Scroll backward",
