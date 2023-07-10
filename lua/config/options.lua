@@ -15,10 +15,10 @@ vim.o.linebreak = true
 vim.o.relativenumber = false
 vim.o.laststatus = 3
 vim.o.pumblend = 0 -- transparent cmp
-vim.o.signcolumn = "number"
+vim.o.signcolumn = "yes"
 vim.o.conceallevel = 2
 vim.o.wrap = true
--- vim.o.concealcursor = "nc"
+vim.o.concealcursor = "nc"
 
 vim.g.python3_host_prog = "~/.pyenv/versions/nvim/bin/python"
 

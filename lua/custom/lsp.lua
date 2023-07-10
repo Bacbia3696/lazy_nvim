@@ -1,5 +1,5 @@
 local M = {}
-function M.on_attach(client, _)
+function M.on_attach(client, opts)
   local keys = require("lazyvim.plugins.lsp.keymaps").get()
   keys[#keys + 1] = { "ga", vim.lsp.buf.code_action, desc = "Code Action", mode = { "n", "v" }, has = "codeAction" }
   keys[#keys + 1] = { "go", vim.diagnostic.open_float, desc = "Line Diagnostics" }
