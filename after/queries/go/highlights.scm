@@ -10,4 +10,5 @@
 (("return"   @keyword) (#set! conceal "⎋"))
 (("struct"   @keyword) (#set! conceal ""))
 (("interface"   @keyword) (#set! conceal ""))
+(("go"   @keyword) (#set! conceal "󰟓"))
 ; (("range"      @keyword) (#set! conceal  ""))

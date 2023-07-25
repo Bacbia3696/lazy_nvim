@@ -13,7 +13,7 @@
 (("return"     @keyword) (#set! conceal "⎋"))
 (("const"     @keyword) (#set! conceal ""))
 (("static"     @keyword) (#set! conceal ""))
-(("where"     @keyword) (#set! conceal ""))
+; (("where"     @keyword) (#set! conceal ""))
 ; (("let"   @keyword) (#set! conceal ""))
 ; (("for"      @keyword) (#set! conceal ""))
 ; (("while"      @keyword) (#set! conceal ""))

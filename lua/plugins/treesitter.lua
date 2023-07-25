@@ -36,7 +36,7 @@ return {
 
       -- extension config
       autotag = {
-        enable = true,
+        enable = false,
       },
     },
   },
