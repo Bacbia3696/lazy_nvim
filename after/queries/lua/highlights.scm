@@ -1,6 +1,6 @@
 ;; Keywords
 (("function" @keyword) (#set! conceal "󰊕"))
-(("for"      @keyword) (#set! conceal ""))
+(("for"      @keyword) (#set! conceal ""))
 (("end"      @keyword) (#set! conceal "⏹"))
 (("return"   @keyword) (#set! conceal "⎋"))
 

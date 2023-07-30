@@ -1,6 +1,7 @@
 return {
   {
     "HiPhish/rainbow-delimiters.nvim",
+    enabled = false,
     config = function()
       local rainbow = require("rainbow-delimiters")
       require("rainbow-delimiters.setup")({
@@ -56,9 +57,7 @@ return {
     end,
     opts = {
       lsp = {
-        progress = {
-          enabled = false,
-        },
+        progress = { enabled = false },
         hover = {
           silent = true,
         },
@@ -70,9 +69,18 @@ return {
             replace = true,
             render = "plain",
             format = { "{message}" },
-            win_options = { concealcursor = "n", conceallevel = 2 },
+            size = {
+              width = "auto",
+              height = "auto",
+              max_height = 20,
+              max_width = 80,
+            },
+            win_options = { concealcursor = "n", conceallevel = 0 },
           },
         },
+      },
+      messages = {
+        view_error = "mini", -- view for errors
       },
       presets = {
         bottom_search = true,
@@ -137,35 +145,95 @@ return {
     },
   },
   {
+    "linrongbin16/lsp-progress.nvim",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    opts = {},
+  },
+  {
     "nvim-lualine/lualine.nvim",
     dependencies = {
-      "arkav/lualine-lsp-progress",
+      "linrongbin16/lsp-progress.nvim",
     },
     opts = function(_, opts)
+      local Util = require("lazyvim.util")
+      local icons = require("lazyvim.config").icons
+
       local auto_theme_custom = require("lualine.themes.auto")
       auto_theme_custom.normal.c.bg = "none"
       opts.options = {
         section_separators = { left = "", right = "" },
+        -- component_separators = { left = "", right = "" },
+
         theme = auto_theme_custom,
       }
       -- show lsp client instead of key
-      opts.sections.lualine_x[1] = {
-        "lsp_progress",
-        timer = { progress_enddelay = 500, spinner = 1000, lsp_client_name_enddelay = 60000 },
-        spinner_symbols = { "🌑 ", "🌒 ", "🌓 ", "🌔 ", "🌕 ", "🌖 ", "🌗 ", "🌘 " },
+      opts.sections.lualine_b = {
+        Util.lualine.root_dir(),
+        { Util.lualine.pretty_path() },
+        { "filetype", icon_only = true, separator = "" },
+        {
+          "diagnostics",
+          symbols = {
+            error = icons.diagnostics.Error,
+            warn = icons.diagnostics.Warn,
+            info = icons.diagnostics.Info,
+            hint = icons.diagnostics.Hint,
+          },
+        },
       }
+      opts.sections.lualine_a = {
+        {
+          "mode",
+          fmt = function(str)
+            return str:sub(1, 1)
+          end,
+        },
+      }
+      opts.sections.lualine_c = {
+        {
+          function()
+            return require("nvim-navic").get_location()
+          end,
+          cond = function()
+            return package.loaded["nvim-navic"] and require("nvim-navic").is_available()
+          end,
+        },
+      }
+      opts.sections.lualine_x[1] = {
+        -- Setup lsp-progress component
+        function()
+          return require("lsp-progress").progress({
+            max_size = 80,
+            format = function(messages)
+              local active_clients = vim.lsp.get_clients()
+              if #messages > 0 then
+                return table.concat(messages, " ")
+              end
+              local client_names = {}
+              for _, client in ipairs(active_clients) do
+                if client and client.name ~= "" then
+                  table.insert(client_names, 1, client.name)
+                end
+              end
+              return table.concat(client_names, "  ")
+            end,
+          })
+        end,
+        icon = { "", align = "right" },
+      }
+      opts.sections.lualine_y = { "branch" }
+      opts.sections.lualine_z = {
+        { "progress", separator = " ", padding = { left = 1, right = 0 } },
+        { "location", padding = { left = 0, right = 1 } },
+      }
+      -- table.remove(opts.sections.lualine_x, 1)
     end,
   },
   {
     "SmiteshP/nvim-navic",
-    lazy = true,
-    opts = {
-      safe_output = true,
-      separator = " ",
-      highlight = false,
-      depth_limit = 5,
-      icons = require("lazyvim.config").icons.kinds,
-    },
+    opts = function(_, opts)
+      opts.highlight = false
+    end,
   },
   {
     "stevearc/dressing.nvim",
@@ -191,19 +259,11 @@ return {
     opts = {
       default = true,
       override = {
-        surql = { icon = "", name = "Datbase" },
         astro = { icon = "󰘯", name = "Astro", color = "#FF6969" },
         deb = { icon = "", name = "Deb" },
         http = { icon = "", name = "FireFox", color = "#98D8AA" },
-        lock = { icon = "", name = "Lock" },
-        mp3 = { icon = "", name = "Mp3" },
-        mp4 = { icon = "", name = "Mp4" },
-        out = { icon = "", name = "Out" },
-        ["robots.txt"] = { icon = "ﮧ", name = "Robots" },
-        ttf = { icon = "", name = "TrueTypeFont" },
-        rpm = { icon = "", name = "Rpm" },
-        woff = { icon = "", name = "WebOpenFontFormat" },
-        woff2 = { icon = "", name = "WebOpenFontFormat2" },
+        tsx = { icon = "", color = "#00A9FF", cterm_color = "26", name = "Tsx" },
+        ["robots.txt"] = { icon = "󰚩", name = "Robots" },
         xz = { icon = "", name = "Xz" },
         zip = { icon = "", name = "Zip" },
       },
@@ -211,18 +271,6 @@ return {
   },
   {
     "xiyaowong/transparent.nvim",
-    opts = {
-      {
-        extra_groups = {},
-        exclude_groups = {}, -- table: groups you don't want to clear
-      },
-    },
+    opts = {},
   },
-  -- {
-  --   "echasnovski/mini.animate",
-  --   opts = {
-  --     open = { enabled = false },
-  --     close = { enabled = false },
-  --   },
-  -- },
 }

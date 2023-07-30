@@ -6,9 +6,6 @@ return {
       { "<s-cr>", desc = "Increment selection" },
       { "<bs>", desc = "Decrement selection", mode = "x" },
     },
-    dependencies = {
-      { "windwp/nvim-ts-autotag" },
-    },
     opts = {
       highlight = { enable = true },
       indent = { enable = true },
@@ -33,11 +30,13 @@ return {
           },
         },
       },
-
-      -- extension config
-      autotag = {
-        enable = false,
-      },
     },
+  },
+  {
+    "nvim-treesitter/nvim-treesitter-context",
+    opts = function(_, opts)
+      opts.separator = '-'
+      return opts
+    end,
   },
 }

@@ -3,12 +3,12 @@ return {
     "mfussenegger/nvim-dap",
     -- stylua: ignore
     keys = {
-      { "<F5>",  require("dap").continue,          desc = "Debugger: Continue" },
-      { "<F9>",  require("dap").toggle_breakpoint, desc = "Debugger: Toggle Breakpoint" },
-      { "<F10>", require("dap").step_over,         desc = "Debugger: Step Over" },
+      { "<F5>",       require("dap").continue,          desc = "Debugger: Continue" },
+      { "<F9>",       require("dap").toggle_breakpoint, desc = "Debugger: Toggle Breakpoint" },
+      { "<F10>",      require("dap").step_over,         desc = "Debugger: Step Over" },
       { "<leader>dd", require("dap").step_over,         desc = "Debugger: Step Over" },
-      { "<F11>", require("dap").step_into,         desc = "Debugger: Step Into" },
-      { "<F33>", require("dap").clear_breakpoints, desc = "Debugger: Clear all breakpoints" }, -- C-F9
+      { "<F11>",      require("dap").step_into,         desc = "Debugger: Step Into" },
+      { "<F33>",      require("dap").clear_breakpoints, desc = "Debugger: Clear all breakpoints" }, -- C-F9
       {
         "<leader>df",
         function()
@@ -41,6 +41,6 @@ return {
   },
   {
     "theHamsta/nvim-dap-virtual-text",
-    opts = { virt_text_pos = "inline" },
+    opts = {},
   },
 }

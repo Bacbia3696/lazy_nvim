@@ -9,6 +9,15 @@ return {
     },
   },
   {
+    "johmsalas/text-case.nvim",
+    config = function()
+      require("textcase").setup({})
+      require("telescope").load_extension("textcase")
+      vim.api.nvim_set_keymap("n", "<leader>ga", "<cmd>TextCaseOpenTelescope<CR>", { desc = "Telescope" })
+      vim.api.nvim_set_keymap("v", "<leader>ga", "<cmd>TextCaseOpenTelescope<CR>", { desc = "Telescope" })
+    end,
+  },
+  {
     "nvim-neo-tree/neo-tree.nvim",
     opts = {
       open_files_do_not_replace_types = { "terminal", "trouble", "qf", "aerial" }, -- when opening files, do not use windows containing these filetypes or buftypes
@@ -67,7 +76,7 @@ return {
           end,
           copy_filename = function(state)
             local file_name = state.tree:get_node().name
-            vim.cmd("!echo " .. file_name .. " | pbcopy")
+            vim.cmd("!echo " .. file_name .. " | wl-copy")
           end,
         },
       },
@@ -170,7 +179,7 @@ return {
     },
   },
   {
-    "windwp/nvim-spectre",
+    "nvim-pack/nvim-spectre",
     opts = {
       mapping = {
         ["run_current_replace"] = {
@@ -232,6 +241,7 @@ return {
       opts.current_line_blame = true
     end,
   },
+  -- color picker
   {
     "uga-rosa/ccc.nvim",
     opts = {

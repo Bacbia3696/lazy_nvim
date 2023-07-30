@@ -29,12 +29,12 @@ map("!", "<M-f>", "<S-Right>", { desc = "move back 1 word", silent = false })
 
 -- path manipulation
 map("n", "so", [[:execute '!open %'<CR>]])
-map("n", "sp", [[:execute '!echo -n %:p:h | pbcopy'<CR>]])
-map("n", "sf", [[:execute '!echo -n %:p | pbcopy'<CR>]])
+map("n", "sp", [[:execute '!echo -n %:p:h | wl-copy'<CR>]])
+map("n", "sf", [[:execute '!echo -n %:p | wl-copy'<CR>]])
 map("n", "sc", [[:execute 'cd %:p:h'<CR>]])
 map("n", "sd", function()
   local line = vim.fn.expand("%:p") .. ":" .. vim.fn.line(".")
-  local command = "echo -n '" .. line .. "' | pbcopy"
+  local command = "echo -n '" .. line .. "' | wl-copy"
   command = "!" .. vim.fn.escape(command, "!")
   vim.fn.execute(command)
 end, { desc = "copy file and line number" })
@@ -47,22 +47,27 @@ if Util.has("gitsigns.nvim") then
 end
 
 -- Move Lines
-map("n", "<M-s>", "<cmd>m .+1<cr>==", { desc = "Move down" })
-map("n", "<M-w>", "<cmd>m .-2<cr>==", { desc = "Move up" })
-map("i", "<M-s>", "<esc><cmd>m .+1<cr>==gi", { desc = "Move down" })
-map("i", "<M-w>", "<esc><cmd>m .-2<cr>==gi", { desc = "Move up" })
-map("v", "<M-s>", ":m '>+1<cr>gv=gv", { desc = "Move down" })
-map("v", "<M-w>", ":m '<-2<cr>gv=gv", { desc = "Move up" })
+map("n", "<M-S-J>", "<cmd>m .+1<cr>==", { desc = "Move down" })
+map("n", "<M-S-K>", "<cmd>m .-2<cr>==", { desc = "Move up" })
+map("i", "<M-S-J>", "<esc><cmd>m .+1<cr>==gi", { desc = "Move down" })
+map("i", "<M-S-K>", "<esc><cmd>m .-2<cr>==gi", { desc = "Move up" })
+map("v", "<M-S-J>", ":m '>+1<cr>gv=gv", { desc = "Move down" })
+map("v", "<M-S-K>", ":m '<-2<cr>gv=gv", { desc = "Move up" })
+map("n", "<M-S-J>", "<cmd>m .+1<cr>==", { desc = "Move down" })
+map("n", "<M-S-K>", "<cmd>m .-2<cr>==", { desc = "Move up" })
 
--- this will be replace with Command-S in allacriy config
-map({ "i", "v", "n", "s" }, "<M-o>", function()
-  if next(vim.lsp.get_active_clients({ bufnr = 0 })) ~= nil then
-    vim.lsp.buf.format({
-      timeout_ms = 5000,
-    })
+map({ "i", "v", "n", "s" }, "<M-s>", function()
+  local clients = vim.lsp.get_clients({ bufnr = 0 })
+  for _, client in ipairs(clients) do
+    if client.name == "tsserver" then
+      require("custom.helpers").organize_imports()
+    end
   end
+
+  require("lazyvim.util").format({ force = true })
   vim.cmd("up")
   vim.cmd("stopi")
+  vim.api.nvim_feedkeys("zz", "n", true)
 end, { desc = "Format and save" })
 
 -- tabs
