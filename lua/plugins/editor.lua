@@ -1,5 +1,14 @@
 return {
-  { "folke/flash.nvim", enabled = false },
+  {
+    "folke/flash.nvim",
+    keys = function(_, keys)
+      for _, value in ipairs(keys) do
+        if value[1] == "S" then
+          value[1] = "<localleader>s"
+        end
+      end
+    end,
+  },
   {
     "folke/todo-comments.nvim",
     opts = {
@@ -10,11 +19,10 @@ return {
   },
   {
     "johmsalas/text-case.nvim",
-    config = function()
-      require("textcase").setup({})
+    config = function(_, opts)
+      require("textcase").setup(opts)
       require("telescope").load_extension("textcase")
-      vim.api.nvim_set_keymap("n", "<leader>ga", "<cmd>TextCaseOpenTelescope<CR>", { desc = "Telescope" })
-      vim.api.nvim_set_keymap("v", "<leader>ga", "<cmd>TextCaseOpenTelescope<CR>", { desc = "Telescope" })
+      vim.api.nvim_set_keymap("", "<leader>ga", "<cmd>TextCaseOpenTelescope<CR>", { desc = "Change text case" })
     end,
   },
   {
@@ -50,7 +58,7 @@ return {
         width = 30,
         mappings = {
           ["<space>"] = "none",
-          ["o"] = "open",
+          ["o"] = "open_check_images",
           ["/"] = false,
           ["?"] = false,
           ["g?"] = "show_help",
@@ -70,111 +78,20 @@ return {
         },
         commands = {
           run_command = function(state)
-            local node = state.tree:get_node()
-            local path = node:get_id()
-            vim.api.nvim_input(": " .. path .. "<Home>")
+            vim.api.nvim_input(": " .. state.tree:get_node().path .. "<Home>")
           end,
           copy_filename = function(state)
-            local file_name = state.tree:get_node().name
-            vim.cmd("!echo " .. file_name .. " | wl-copy")
+            require("helpers").copy(state.tree:get_node().path)
+          end,
+          open_check_images = function(state)
+            local node = state.tree:get_node()
+            if vim.list_contains({ "jpg", "png", "jpeg" }, node.ext) then
+              require("helpers").open(node.path)
+            else
+              vim.cmd("edit " .. node.path)
+            end
           end,
         },
-      },
-    },
-  },
-  {
-    "kevinhwang91/nvim-ufo",
-    lazy = false,
-    keys = {
-      {
-        "zp",
-        function()
-          require("ufo").peekFoldedLinesUnderCursor()
-        end,
-        desc = "UFO fold preview",
-      },
-    },
-    dependencies = {
-      { "kevinhwang91/promise-async" },
-      {
-        "luukvbaal/statuscol.nvim",
-        config = function()
-          local builtin = require("statuscol.builtin")
-          require("statuscol").setup({
-            relculright = true,
-            segments = {
-              { text = { builtin.foldfunc }, click = "v:lua.ScFa" },
-              { text = { "%s" }, click = "v:lua.ScSa" },
-              { text = { builtin.lnumfunc, " " }, click = "v:lua.ScLa" },
-            },
-          })
-        end,
-      },
-    },
-    opts = function()
-      local handler = function(virtText, lnum, endLnum, width, truncate)
-        local newVirtText = {}
-        local suffix = (" 󱞡 %d.........."):format(endLnum - lnum)
-        local sufWidth = vim.fn.strdisplaywidth(suffix)
-        local targetWidth = width - sufWidth
-        local curWidth = 0
-        for _, chunk in ipairs(virtText) do
-          local chunkText = chunk[1]
-          local chunkWidth = vim.fn.strdisplaywidth(chunkText)
-          if targetWidth > curWidth + chunkWidth then
-            table.insert(newVirtText, chunk)
-          else
-            chunkText = truncate(chunkText, targetWidth - curWidth)
-            local hlGroup = chunk[2]
-            table.insert(newVirtText, { chunkText, hlGroup })
-            chunkWidth = vim.fn.strdisplaywidth(chunkText)
-            -- str width returned from truncate() may less than 2nd argument, need padding
-            if curWidth + chunkWidth < targetWidth then
-              suffix = suffix .. (" "):rep(targetWidth - curWidth - chunkWidth)
-            end
-            break
-          end
-          curWidth = curWidth + chunkWidth
-        end
-        table.insert(newVirtText, { suffix, { "Title", "Italic" } })
-        return newVirtText
-      end
-      return {
-        provider_selector = function(_, ft)
-          if ft == "rust" then
-            return { "treesitter", "indent" }
-          end
-          return { "lsp", "indent" }
-        end,
-        fold_virt_text_handler = handler,
-        preview = {
-          win_config = {
-            winblend = 0,
-          },
-        },
-      }
-    end,
-  },
-  {
-    "akinsho/toggleterm.nvim",
-    cmd = { "ToggleTerm", "TermExec" },
-    keys = {
-      { "<C-\\>" },
-    },
-    opts = {
-      size = 10,
-      open_mapping = [[<c-\>]],
-      shading_factor = 2,
-      autochdir = true,
-      highlights = {
-        FloatBorder = {
-          link = "FloatBorder",
-        },
-      },
-      direction = "float",
-      float_opts = {
-        border = "rounded",
-        highlights = { border = "Normal", background = "Normal" },
       },
     },
   },
@@ -244,6 +161,7 @@ return {
   -- color picker
   {
     "uga-rosa/ccc.nvim",
+    enabled = false,
     opts = {
       highlighter = {
         auto_enable = true,

@@ -1,6 +1,7 @@
 return {
   {
     "folke/zen-mode.nvim",
+    keys = { { "<leader>z", "<cmd>ZenMode<cr>", desc = "ZenMode" } },
     opts = {
       window = {
         height = 0.8,
@@ -31,6 +32,7 @@ return {
     },
     opts = {},
   },
+  { "kevinhwang91/nvim-bqf", ft = "qf", opts = { preview = { winblend = 0 } } },
   {
     "s1n7ax/nvim-window-picker",
     name = "window-picker",
@@ -43,21 +45,20 @@ return {
         bo = {
           filetype = {},
           buftype = {},
+          -- exclude window create by treesitter-context
+          bufhidden = { "wipe" },
         },
+        -- filter using window options
+        wo = {},
       },
     },
     keys = {
       {
         "-",
         function()
-          local tp = vim.o.wrap
-          vim.o.wrap = false
-          local picked_window_id = require("window-picker").pick_window() or vim.api.nvim_get_current_win()
-          vim.o.wrap = tp
-          vim.api.nvim_set_current_win(picked_window_id)
+          vim.api.nvim_set_current_win(require("window-picker").pick_window() or vim.api.nvim_get_current_win())
         end,
       },
     },
   },
-  { "kevinhwang91/nvim-bqf", ft = "qf", opts = { preview = { winblend = 0 } } },
 }

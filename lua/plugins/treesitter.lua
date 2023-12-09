@@ -1,15 +1,9 @@
 return {
   {
     "nvim-treesitter/nvim-treesitter",
-    keys = {
-      { "<cr>", desc = "Increment selection" },
-      { "<s-cr>", desc = "Increment selection" },
-      { "<bs>", desc = "Decrement selection", mode = "x" },
-    },
     opts = {
-      highlight = { enable = true },
+      highlight = { enable = true, additional_vim_regex_highlighting = false },
       indent = { enable = true },
-      context_commentstring = { enable = true, enable_autocmd = true },
       incremental_selection = {
         enable = true,
         keymaps = {
@@ -34,9 +28,8 @@ return {
   },
   {
     "nvim-treesitter/nvim-treesitter-context",
-    opts = function(_, opts)
-      opts.separator = '-'
-      return opts
-    end,
+    opts = {
+      separator = "-",
+    },
   },
 }

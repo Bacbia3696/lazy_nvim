@@ -1,13 +1,5 @@
 return {
   {
-    "mrcjkb/haskell-tools.nvim",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvim-telescope/telescope.nvim", -- optional
-    },
-    version = "1.x.x", -- recommended
-  },
-  {
     "folke/neoconf.nvim",
     opts = {
       local_settings = ".neoconf.json",
@@ -36,36 +28,33 @@ return {
   },
   {
     "neovim/nvim-lspconfig",
-    opts = function(_, opts)
+    init = function()
       require("lspconfig.ui.windows").default_options = {
         border = "rounded",
       }
-      require("lazyvim.util").lsp.on_attach(require("custom.lsp").on_attach)
-
-      -- opts.diagnostics.virtual_text = { spacing = 4, prefix = "●", source = true }
-      opts.diagnostics.float = { border = "rounded" }
-      opts.format = {
-        formatting_options = nil,
-        timeout_ms = 5000,
-      }
-      opts.inlay_hints = {
-        enabled = true,
-      }
+      require("lazyvim.util").lsp.on_attach(require("helpers").on_attach)
     end,
+    opts = {
+      diagnostics = {
+        float = { border = "rounded" },
+        signs = {
+          text = {
+            [vim.diagnostic.severity.ERROR] = require("lazyvim.config").icons.diagnostics.Error,
+            [vim.diagnostic.severity.HINT] = require("lazyvim.config").icons.diagnostics.Hint,
+            [vim.diagnostic.severity.INFO] = require("lazyvim.config").icons.diagnostics.Info,
+            [vim.diagnostic.severity.WARN] = require("lazyvim.config").icons.diagnostics.Warn,
+          },
+        },
+      },
+      inlay_hints = {
+        enabled = true,
+      },
+      capabilities = {},
+      format = {
+        timeout_ms = 5000,
+      },
+    },
   },
-  -- {
-  --   "jay-babu/mason-null-ls.nvim",
-  --   event = { "BufReadPre", "BufNewFile" },
-  --   dependencies = {
-  --     "williamboman/mason.nvim",
-  --     "nvimtools/none-ls.nvim",
-  --   },
-  --   opts = {
-  --     ensure_installed = {},
-  --     automatic_installation = false,
-  --     handlers = {},
-  --   },
-  -- },
   {
     "williamboman/mason.nvim",
     opts = {

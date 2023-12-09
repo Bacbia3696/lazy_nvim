@@ -1,26 +1,8 @@
 return {
   {
-    "echasnovski/mini.surround",
-    enabled = false,
-  },
-  {
-    "kylechui/nvim-surround",
-    event = "VeryLazy",
-    opts = {},
-  },
-  {
     "echasnovski/mini.pairs",
     opts = {
       mappings = {
-        ["("] = { action = "open", pair = "()", neigh_pattern = "[^\\]." },
-        ["["] = { action = "open", pair = "[]", neigh_pattern = "[^\\]." },
-        ["{"] = { action = "open", pair = "{}", neigh_pattern = "[^\\]." },
-
-        [")"] = { action = "close", pair = "()", neigh_pattern = "[^\\]." },
-        ["]"] = { action = "close", pair = "[]", neigh_pattern = "[^\\]." },
-        ["}"] = { action = "close", pair = "{}", neigh_pattern = "[^\\]." },
-
-        ['"'] = { action = "closeopen", pair = '""', neigh_pattern = "[^\\].", register = { cr = false } },
         -- exclude b'', and <' for Rust
         ["'"] = { action = "closeopen", pair = "''", neigh_pattern = "[^ac-z\\&<].", register = { cr = false } },
         ["`"] = { action = "closeopen", pair = "``", neigh_pattern = "[^\\].", register = { cr = false } },
@@ -34,18 +16,8 @@ return {
       opts.formatting = {
         fields = { "abbr", "menu", "kind" },
         format = function(_, item)
-          -- Define menu shorthand for different completion sources.
-          ---@diagnostic disable-next-line: unused-local
-          local menu_icon = {
-            nvim_lsp = "",
-            nvim_lua = "",
-            luasnip = "",
-            buffer = "",
-            path = "",
-          }
+          -- remove this help working with Rust show more concise completion window
           item.menu = ""
-          -- item.menu = ""
-          -- local fixed_width = 20
           local fixed_width = false
           local content = item.abbr
           if fixed_width then
@@ -81,32 +53,27 @@ return {
         },
       }
 
-      local border_opts = {
-        border = "rounded",
-        winhighlight = "Normal:None,FloatBorder:FloatBorder,CursorLine:Visual,Search:None",
-      }
       opts.window = {
-        completion = cmp.config.window.bordered(border_opts),
-        documentation = cmp.config.window.bordered(border_opts),
+        completion = cmp.config.window.bordered(),
+        documentation = cmp.config.window.bordered(),
       }
       opts.preselect = cmp.PreselectMode.None
-      -- local sources = cmp.config.sources({
-      --   { name = "nvim_lsp", priority = 1000 },
-      --   { name = "luasnip",  priority = 750 },
-      --   { name = "buffer",   priority = 500 },
-      --   { name = "path",     priority = 250 },
-      -- })
       opts.mapping = {
-        ["<C-p>"] = cmp.mapping(cmp.mapping.select_prev_item(), { "i", "c", "s" }),
-        ["<C-n>"] = cmp.mapping(cmp.mapping.select_next_item(), { "i", "c", "s" }),
-        ["<C-g>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
+        ["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
+        ["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
         ["<C-u>"] = cmp.mapping.scroll_docs(-4),
         ["<C-d>"] = cmp.mapping.scroll_docs(4),
+        ["<C-g>"] = cmp.mapping.complete(),
         ["<C-y>"] = cmp.mapping.abort(),
         ["<CR>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
         ["<S-CR>"] = cmp.mapping.confirm({
-          select = false,
+          behavior = cmp.ConfirmBehavior.Replace,
+          select = true,
         }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+        ["<C-CR>"] = function(fallback)
+          cmp.abort()
+          fallback()
+        end,
       }
     end,
   },

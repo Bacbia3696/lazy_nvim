@@ -1,17 +1,22 @@
 return {
   {
     "HiPhish/rainbow-delimiters.nvim",
-    enabled = false,
     config = function()
       local rainbow = require("rainbow-delimiters")
-      require("rainbow-delimiters.setup")({
+      vim.g.rainbow_delimiters = {
         strategy = {
           [""] = rainbow.strategy["global"],
+          vim = rainbow.strategy["local"],
           commonlisp = rainbow.strategy["local"],
         },
         query = {
           [""] = "rainbow-delimiters",
+          -- lua = "rainbow-blocks",
           latex = "rainbow-blocks",
+        },
+        priority = {
+          [""] = 110,
+          lua = 210,
         },
         highlight = {
           "RainbowDelimiterRed",
@@ -22,38 +27,21 @@ return {
           "RainbowDelimiterViolet",
           "RainbowDelimiterCyan",
         },
-        blacklist = { "c", "cpp" },
-      })
+      }
     end,
   },
   {
     "folke/noice.nvim",
     keys = function(_, keys)
       -- use <C-d>, <C-u> instead of <C-f>, <C-b>
-      keys[6] = {
-        "<c-d>",
-        function()
-          if not require("noice.lsp").scroll(4) then
-            return "<c-d>"
-          end
-        end,
-        silent = true,
-        expr = true,
-        desc = "Scroll forward",
-        mode = { "i", "n", "s" },
-      }
-      keys[7] = {
-        "<c-u>",
-        function()
-          if not require("noice.lsp").scroll(-4) then
-            return "<c-u>"
-          end
-        end,
-        silent = true,
-        expr = true,
-        desc = "Scroll backward",
-        mode = { "i", "n", "s" },
-      }
+      for _, value in ipairs(keys) do
+        if value[1] == "<c-f>" then
+          value[1] = "<c-d>"
+        end
+        if value[1] == "<c-b>" then
+          value[1] = "<c-u>"
+        end
+      end
     end,
     opts = {
       lsp = {
@@ -65,17 +53,7 @@ return {
           view = "hover",
           ---@type NoiceViewOptions
           opts = {
-            lang = "markdown",
-            replace = true,
-            render = "plain",
-            format = { "{message}" },
-            size = {
-              width = "auto",
-              height = "auto",
-              max_height = 20,
-              max_width = 80,
-            },
-            win_options = { concealcursor = "n", conceallevel = 0 },
+            win_options = { concealcursor = "n", conceallevel = 2 },
           },
         },
       },
@@ -105,14 +83,6 @@ return {
       minimum_width = 50,
       render = "default",
     },
-    config = function(_, opts)
-      for _, level in ipairs({ "ERROR", "WARN", "INFO", "DEBUG", "TRACE" }) do
-        vim.cmd("hi Notify" .. level .. "Body guibg=none")
-        vim.cmd("hi Notify" .. level .. "Title guibg=none")
-        vim.cmd("hi Notify" .. level .. "Border guibg=none")
-      end
-      require("notify").setup(opts)
-    end,
   },
   {
     "folke/tokyonight.nvim",
@@ -124,21 +94,18 @@ return {
       end,
       on_highlights = function(hl, colors)
         hl.FoldColumn = { bg = colors.none, fg = colors.comment }
-        hl.SignColumn = { bg = colors.none }
         hl.WinSeparator = { link = "FloatBorder" }
         hl.DiagnosticUnnecessary = { link = "NonText" }
         hl.LineNr = { fg = colors.dark3 }
         hl.CursorLineNr = { fg = colors.blue }
-        hl.Folded = { bg = colors.none }
         hl.LspInlayHint = { fg = "#0db9d7", bg = "#203346", italic = true }
         hl.CmpGhostText = { fg = "#567189", italic = true }
         hl.Todo = { fg = "#0db9d7" }
+        hl.MatchParen = { underline = true, bold = true }
         -- fix bg of DiagnosticFloating (default is black)
-        hl.DiagnosticFloatingError = hl.DiagnosticError
-        hl.DiagnosticFloatingWarn = hl.DiagnosticWarn
-        hl.DiagnosticFloatingInfo = hl.DiagnosticInfo
-        hl.DiagnosticFloatingHint = hl.DiagnosticHint
-        hl.DiagnosticFloatingOk = hl.DiagnosticOk
+        for _, diagType in ipairs({ "Error", "Warn", "Info", "Hint", "Ok" }) do
+          hl["DiagnosticFloating" .. diagType] = hl["Diagnostic" .. diagType]
+        end
       end,
       hide_inactive_statusline = true,
       dim_inactive = true,
@@ -151,14 +118,12 @@ return {
     },
   },
   {
-    "linrongbin16/lsp-progress.nvim",
-    dependencies = { "nvim-tree/nvim-web-devicons" },
-    opts = {},
-  },
-  {
     "nvim-lualine/lualine.nvim",
     dependencies = {
-      "linrongbin16/lsp-progress.nvim",
+      {
+        "linrongbin16/lsp-progress.nvim",
+        opts = {},
+      },
     },
     opts = function(_, opts)
       local Util = require("lazyvim.util")
@@ -209,19 +174,23 @@ return {
         -- Setup lsp-progress component
         function()
           return require("lsp-progress").progress({
-            max_size = 80,
             format = function(messages)
-              local active_clients = vim.lsp.get_clients()
               if #messages > 0 then
                 return table.concat(messages, " ")
               end
               local client_names = {}
-              for _, client in ipairs(active_clients) do
+              for _, client in ipairs(vim.lsp.get_clients({ bufnr = 0 })) do
                 if client and client.name ~= "" then
                   table.insert(client_names, 1, client.name)
                 end
               end
-              return table.concat(client_names, "  ")
+              local result = table.concat(client_names, "  ")
+              -- Truncate the result to the specified max_length
+              local max_length = 40
+              if #result > max_length then
+                result = string.sub(result, 1, max_length) .. "..."
+              end
+              return result
             end,
           })
         end,
@@ -232,13 +201,6 @@ return {
         { "progress", separator = " ", padding = { left = 1, right = 0 } },
         { "location", padding = { left = 0, right = 1 } },
       }
-      -- table.remove(opts.sections.lualine_x, 1)
-    end,
-  },
-  {
-    "SmiteshP/nvim-navic",
-    opts = function(_, opts)
-      opts.highlight = false
     end,
   },
   {
@@ -277,6 +239,27 @@ return {
   },
   {
     "xiyaowong/transparent.nvim",
-    opts = {},
+    opts = {
+      extra_groups = {
+        "CodeBlock",
+        "Folded",
+        "SignColumn",
+        "NotifyINFOBody",
+        "NotifyINFOTitle",
+        "NotifyINFOBorder",
+        "NotifyWARNBody",
+        "NotifyWARNTitle",
+        "NotifyWARNBorder",
+        "NotifyERRORBody",
+        "NotifyERRORTitle",
+        "NotifyERRORBorder",
+        "NotifyDEBUGBody",
+        "NotifyDEBUGTitle",
+        "NotifyDEBUGBorder",
+        "NotifyTRACEBody",
+        "NotifyTRACETitle",
+        "NotifyTRACEBorder",
+      },
+    },
   },
 }

@@ -1,14 +1,11 @@
-local autocmd = vim.api.nvim_create_autocmd
-local augroup = vim.api.nvim_create_augroup
-
 local function set_quit_keymap(buf)
   vim.bo[buf].buflisted = false
   vim.keymap.set("n", "q", "<cmd>close<cr>", { buffer = buf, silent = true, nowait = true })
 end
 
 -- close some filetypes with <q>
-autocmd("FileType", {
-  group = Augroup("close_with_q"),
+vim.api.nvim_create_autocmd("FileType", {
+  group = require("helpers").augroup("close_with_q"),
   pattern = {
     "PlenaryTestPopup",
     "help",
@@ -31,8 +28,8 @@ autocmd("FileType", {
   end,
 })
 
-autocmd("BufEnter", {
-  group = Augroup("close_with_q2"),
+vim.api.nvim_create_autocmd("BufEnter", {
+  group = require("helpers").augroup("close_with_q2"),
   desc = "Make q empty filetype window",
   pattern = "*",
   callback = function(event)

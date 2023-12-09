@@ -1,14 +1,13 @@
 return {
   {
     "mfussenegger/nvim-dap",
-    -- stylua: ignore
     keys = {
-      { "<F5>",       require("dap").continue,          desc = "Debugger: Continue" },
-      { "<F9>",       require("dap").toggle_breakpoint, desc = "Debugger: Toggle Breakpoint" },
-      { "<F10>",      require("dap").step_over,         desc = "Debugger: Step Over" },
-      { "<leader>dd", require("dap").step_over,         desc = "Debugger: Step Over" },
-      { "<F11>",      require("dap").step_into,         desc = "Debugger: Step Into" },
-      { "<F33>",      require("dap").clear_breakpoints, desc = "Debugger: Clear all breakpoints" }, -- C-F9
+      { "<F5>", require("dap").continue, desc = "Debugger: Continue" },
+      { "<F9>", require("dap").toggle_breakpoint, desc = "Debugger: Toggle Breakpoint" },
+      { "<F10>", require("dap").step_over, desc = "Debugger: Step Over" },
+      { "<leader>dd", require("dap").step_over, desc = "Debugger: Step Over" },
+      { "<F11>", require("dap").step_into, desc = "Debugger: Step Into" },
+      { "<F33>", require("dap").clear_breakpoints, desc = "Debugger: Clear all breakpoints" }, -- C-F9
       {
         "<leader>df",
         function()
@@ -22,7 +21,7 @@ return {
             dapui.float_element(elem)
           end)
         end,
-        desc = "DapUI: Open floating window"
+        desc = "DapUI: Open floating window",
       },
     },
   },
@@ -38,9 +37,5 @@ return {
         end,
       },
     },
-  },
-  {
-    "theHamsta/nvim-dap-virtual-text",
-    opts = {},
   },
 }
