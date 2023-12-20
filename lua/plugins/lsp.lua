@@ -49,7 +49,6 @@ return {
       inlay_hints = {
         enabled = true,
       },
-      capabilities = {},
       format = {
         timeout_ms = 5000,
       },

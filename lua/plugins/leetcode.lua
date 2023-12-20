@@ -11,7 +11,8 @@ end
 
 return {
   "bacbia3696/leetcode.nvim",
-  lazy = leet_arg ~= vim.fn.argv()[1],
+  cond = leet_arg == vim.fn.argv()[1],
+  lazy = false,
   keys = {
     { "<localleader>t", "<Cmd>Leet tabs<CR>" },
     { "<localleader>d", "<Cmd>Leet desc<CR>" },
@@ -53,6 +54,10 @@ return {
           if arg.lang == "rust" then
             appendText("struct Solution {}")
           end
+          vim.cmd([[
+          silent! TimerStop
+          silent! TimerStart 25m Leetcode
+          ]])
         end,
       },
     },

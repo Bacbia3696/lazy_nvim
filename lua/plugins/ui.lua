@@ -27,6 +27,7 @@ return {
           "RainbowDelimiterViolet",
           "RainbowDelimiterCyan",
         },
+        blacklist = {"go"}
       }
     end,
   },
@@ -87,21 +88,23 @@ return {
   {
     "folke/tokyonight.nvim",
     opts = {
-      style = "moon",
       on_colors = function(colors)
         -- colors.git.change = colors.cyan
         colors.gitSigns.change = colors.blue2
       end,
       on_highlights = function(hl, colors)
         hl.FoldColumn = { bg = colors.none, fg = colors.comment }
-        hl.WinSeparator = { link = "FloatBorder" }
-        hl.DiagnosticUnnecessary = { link = "NonText" }
+        hl.SignColumn = { bg = colors.none }
+
         hl.LineNr = { fg = colors.dark3 }
         hl.CursorLineNr = { fg = colors.blue }
-        hl.LspInlayHint = { fg = "#0db9d7", bg = "#203346", italic = true }
-        hl.CmpGhostText = { fg = "#567189", italic = true }
-        hl.Todo = { fg = "#0db9d7" }
+
         hl.MatchParen = { underline = true, bold = true }
+        hl.WinSeparator = { fg = colors.dark3 }
+        hl.LspInlayHint = { fg = "#0db9d7", bg = "#203346", italic = true }
+        hl.DiagnosticUnnecessary = { link = "NonText" }
+        hl.CmpGhostText = { fg = "#567189", italic = true }
+
         -- fix bg of DiagnosticFloating (default is black)
         for _, diagType in ipairs({ "Error", "Warn", "Info", "Hint", "Ok" }) do
           hl["DiagnosticFloating" .. diagType] = hl["Diagnostic" .. diagType]
@@ -110,7 +113,6 @@ return {
       hide_inactive_statusline = true,
       dim_inactive = true,
       lualine_bold = true,
-      translarent = true,
       styles = {
         sidebars = "transparent",
         floats = "transparent",
@@ -163,6 +165,7 @@ return {
       opts.sections.lualine_c = {
         {
           function()
+            vim.cmd([[hi clear StatusLine]]) -- clear weird color at the end of
             return require("nvim-navic").get_location()
           end,
           cond = function()
@@ -184,9 +187,9 @@ return {
                   table.insert(client_names, 1, client.name)
                 end
               end
-              local result = table.concat(client_names, "  ")
+              local result = table.concat(client_names, "")
               -- Truncate the result to the specified max_length
-              local max_length = 40
+              local max_length = 50
               if #result > max_length then
                 result = string.sub(result, 1, max_length) .. "..."
               end
@@ -239,27 +242,22 @@ return {
   },
   {
     "xiyaowong/transparent.nvim",
-    opts = {
-      extra_groups = {
+    opts = function()
+      local extras = {
         "CodeBlock",
         "Folded",
         "SignColumn",
-        "NotifyINFOBody",
-        "NotifyINFOTitle",
-        "NotifyINFOBorder",
-        "NotifyWARNBody",
-        "NotifyWARNTitle",
-        "NotifyWARNBorder",
-        "NotifyERRORBody",
-        "NotifyERRORTitle",
-        "NotifyERRORBorder",
-        "NotifyDEBUGBody",
-        "NotifyDEBUGTitle",
-        "NotifyDEBUGBorder",
-        "NotifyTRACEBody",
-        "NotifyTRACETitle",
-        "NotifyTRACEBorder",
-      },
-    },
+        "FoldColumn",
+      }
+      for _, level in ipairs({ "INFO", "WARN", "ERROR", "DEBUG", "TRACE" }) do
+        for _, name in ipairs({ "Body", "Title", "Border" }) do
+          -- make these highlight NotifyINFOTitle,... transparent
+          table.insert(extras, "Notify" .. level .. name)
+        end
+      end
+      return {
+        extra_groups = extras,
+      }
+    end,
   },
 }

@@ -13,29 +13,21 @@ return {
       },
       on_open = function()
         vim.cmd("hi ZenBg guibg=None")
-        -- vim.o.signcolumn = "number"
       end,
     },
   },
   {
     "aserowy/tmux.nvim",
-    lazy = true,
-    keys = {
-      "<M-h>",
-      "<M-j>",
-      "<M-k>",
-      "<M-l>",
-      "<C-h>",
-      "<C-j>",
-      "<C-k>",
-      "<C-l>",
+    keys = { "<M-h>", "<M-j>", "<M-k>", "<M-l>", "<C-h>", "<C-j>", "<C-k>", "<C-l>" },
+    opts = {
+      copy_sync = {
+        sync_registers = false,
+      },
     },
-    opts = {},
   },
   { "kevinhwang91/nvim-bqf", ft = "qf", opts = { preview = { winblend = 0 } } },
   {
     "s1n7ax/nvim-window-picker",
-    name = "window-picker",
     opts = {
       hint = "floating-big-letter",
       selection_chars = "QWEASDZXC",

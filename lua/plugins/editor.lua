@@ -1,12 +1,11 @@
 return {
   {
     "folke/flash.nvim",
-    keys = function(_, keys)
-      for _, value in ipairs(keys) do
-        if value[1] == "S" then
-          value[1] = "<localleader>s"
-        end
-      end
+    opts = {
+      modes = { search = { enabled = false } },
+    },
+    keys = function()
+      return {}
     end,
   },
   {
@@ -29,39 +28,21 @@ return {
     "nvim-neo-tree/neo-tree.nvim",
     opts = {
       open_files_do_not_replace_types = { "terminal", "trouble", "qf", "aerial" }, -- when opening files, do not use windows containing these filetypes or buftypes
-      sources = {
-        "filesystem",
-        "buffers",
-        "git_status",
-        "document_symbols",
-      },
-      event_handlers = {
-        {
-          event = "neo_tree_window_after_open",
-          handler = function(args)
-            if args.position == "left" or args.position == "right" then
-              vim.cmd("wincmd =")
-            end
-          end,
-        },
-        {
-          event = "neo_tree_window_after_close",
-          handler = function(args)
-            if args.position == "left" or args.position == "right" then
-              vim.cmd("wincmd =")
-            end
-          end,
-        },
-      },
-      use_libuv_file_watcher = true,
       window = {
         width = 30,
         mappings = {
-          ["<space>"] = "none",
-          ["o"] = "open_check_images",
-          ["/"] = false,
-          ["?"] = false,
-          ["g?"] = "show_help",
+          ["O"] = { "show_help", nowait = false, config = { title = "Order by", prefix_key = "o" } },
+          ["o"] = {
+            function(state)
+              local node = state.tree:get_node()
+              if vim.list_contains({ "jpg", "png", "jpeg" }, node.ext) then
+                vim.ui.open(node.path)
+              else
+                vim.cmd.edit(node.path)
+              end
+            end,
+            nowait = true,
+          },
         },
       },
       filesystem = {
@@ -70,27 +51,19 @@ return {
         },
         window = {
           mappings = {
-            ["i"] = "run_command",
-            ["<space>"] = "none",
-            ["Y"] = "copy_filename",
-            ["F"] = "fuzzy_finder",
+            ["i"] = {
+              function(state)
+                vim.api.nvim_input(": " .. state.tree:get_node().path .. "<Home>")
+              end,
+              nowait = true,
+            },
+            ["Y"] = {
+              function(state)
+                require("helpers").copy(state.tree:get_node().path)
+              end,
+              nowait = true,
+            },
           },
-        },
-        commands = {
-          run_command = function(state)
-            vim.api.nvim_input(": " .. state.tree:get_node().path .. "<Home>")
-          end,
-          copy_filename = function(state)
-            require("helpers").copy(state.tree:get_node().path)
-          end,
-          open_check_images = function(state)
-            local node = state.tree:get_node()
-            if vim.list_contains({ "jpg", "png", "jpeg" }, node.ext) then
-              require("helpers").open(node.path)
-            else
-              vim.cmd("edit " .. node.path)
-            end
-          end,
         },
       },
     },
@@ -98,12 +71,10 @@ return {
   {
     "nvim-pack/nvim-spectre",
     opts = {
-      mapping = {
-        ["run_current_replace"] = {
-          map = "r",
-          cmd = "<cmd>lua require('spectre.actions').run_current_replace()<CR>",
-          desc = "replace current line",
-        },
+      highlight = {
+        ui = "@keyword",
+        search = "NeogitDiffDeleteHighlight",
+        replace = "NeogitDiffAddHighlight",
       },
     },
   },
@@ -161,11 +132,10 @@ return {
   -- color picker
   {
     "uga-rosa/ccc.nvim",
-    enabled = false,
     opts = {
       highlighter = {
-        auto_enable = true,
-        lsp = true,
+        auto_enable = false,
+        lsp = false,
       },
     },
   },

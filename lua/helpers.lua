@@ -13,7 +13,6 @@ end
 
 --- Util to create augroup
 ---@param name string:
----@return number
 function M.augroup(name)
   return vim.api.nvim_create_augroup("custom_" .. name, { clear = true })
 end
@@ -22,37 +21,31 @@ end
 ---@param text string
 function M.copy(text)
   vim.fn.setreg("+", text)
-  vim.notify("Copied " .. text .. " to Clipboard")
-end
-
---- Open `file` with OS default application
----@param file string
-function M.open(file)
-  local command = vim.fn.has("mac") == 1 and "open" or "xdg-open"
-  vim.fn.jobstart(command .. " " .. file)
+  require("lazyvim.util").info(text, { title = "Copied to clipboard" })
 end
 
 --- Custom on attach function when load lsp
 function M.on_attach(client, _)
   local keys = require("lazyvim.plugins.lsp.keymaps").get()
 
-  keys[#keys + 1] = { "<leader>cS", "<cmd>LspStop<cr>", desc = "Lsp Stop" }
-  keys[#keys + 1] = { "<leader>cR", "<cmd>LspRestart<cr>", desc = "Lsp Stop" }
-  keys[#keys + 1] = { "go", vim.diagnostic.open_float, desc = "Open diagnostics on float window" }
-  keys[#keys + 1] = { "gt", "<cmd>Telescope lsp_type_definitions<cr>", desc = "Goto Type Definition" }
-  keys[#keys + 1] = { "gL", vim.lsp.codelens.refresh, desc = "LSP CodeLens refresh" }
-  keys[#keys + 1] = { "gl", vim.lsp.codelens.run, desc = "LSP CodeLens run" }
+  table.insert(keys, { "<leader>cS", "<cmd>LspStop<cr>", desc = "Lsp Stop" })
+  table.insert(keys, { "<leader>cR", "<cmd>LspRestart<cr>", desc = "Lsp Stop" })
+  table.insert(keys, { "go", vim.diagnostic.open_float, desc = "Open diagnostics on float window" })
+  table.insert(keys, { "gt", "<cmd>Telescope lsp_type_definitions<cr>", desc = "Goto Type Definition" })
+  table.insert(keys, { "gL", vim.lsp.codelens.refresh, desc = "LSP CodeLens refresh" })
+  table.insert(keys, { "gl", vim.lsp.codelens.run, desc = "LSP CodeLens run" })
+  table.insert(keys, { "ga", vim.lsp.buf.code_action, desc = "Code Action", mode = { "n", "v" }, has = "codeAction" })
+
   -- stylua: ignore
-  keys[#keys + 1] = { "[D", function()
+  table.insert(keys, { "[D", function()
       vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR })
     end, desc = "diagnostic goto prev ERROR",
-  }
+  })
   -- stylua: ignore
-  keys[#keys + 1] = { "]D", function()
+  table.insert(keys, { "]D", function()
       vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR })
     end, desc = "diagnostic goto next ERROR",
-  }
-  keys[#keys + 1] = { "<leader>cR", "<cmd>LspRestart<cr>", desc = "Lsp restart" }
+  })
 
   -- add codelens for on_attach function
   local capabilities = client.server_capabilities
