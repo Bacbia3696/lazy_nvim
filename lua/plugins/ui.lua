@@ -1,5 +1,46 @@
 return {
   {
+    "Bekaboo/dropbar.nvim",
+    -- optional, but required for fuzzy finder support
+    dependencies = {
+      "nvim-telescope/telescope-fzf-native.nvim",
+    },
+    opts = function()
+      local utils = require("dropbar.utils")
+      local sources = require("dropbar.sources")
+      local filename = {
+        get_symbols = function(buff, win, cursor)
+          local symbols = sources.path.get_symbols(buff, win, cursor)
+          return { symbols[#symbols] }
+        end,
+      }
+      return {
+        bar = {
+          sources = function(buf, _)
+            if vim.bo[buf].ft == "markdown" then
+              return {
+                sources.path,
+                sources.markdown,
+              }
+            end
+            if vim.bo[buf].buftype == "terminal" then
+              return {
+                sources.terminal,
+              }
+            end
+            return {
+              filename,
+              utils.source.fallback({
+                sources.lsp,
+                sources.treesitter,
+              }),
+            }
+          end,
+        },
+      }
+    end,
+  },
+  {
     "HiPhish/rainbow-delimiters.nvim",
     enabled = false,
     config = function()
@@ -89,6 +130,7 @@ return {
 
         hl.LineNr = { fg = colors.dark3 }
         hl.CursorLineNr = { fg = colors.blue }
+        hl.StatusLineNC = { fg = colors.dark3 } -- more clear color for winbar when clicked
 
         hl.MatchParen = { underline = true, bold = true }
         hl.WinSeparator = { fg = colors.dark3 }
@@ -101,7 +143,6 @@ return {
           hl["DiagnosticFloating" .. diagType] = hl["Diagnostic" .. diagType]
         end
       end,
-      hide_inactive_statusline = true,
       dim_inactive = true,
       lualine_bold = true,
       styles = {
@@ -134,7 +175,7 @@ return {
       opts.sections.lualine_b = {
         Util.lualine.root_dir(),
         { Util.lualine.pretty_path() },
-        { "filetype", icon_only = true, separator = "" },
+        -- { "filetype", icon_only = true, separator = "" },
         {
           "diagnostics",
           symbols = {
@@ -154,15 +195,15 @@ return {
         },
       }
       opts.sections.lualine_c = {
-        {
-          function()
-            vim.cmd([[hi clear StatusLine]]) -- clear weird color at the end of
-            return require("nvim-navic").get_location()
-          end,
-          cond = function()
-            return package.loaded["nvim-navic"] and require("nvim-navic").is_available()
-          end,
-        },
+        -- {
+        --   function()
+        --     vim.cmd([[hi clear StatusLine]]) -- clear weird color at the end of
+        --     return require("nvim-navic").get_location()
+        --   end,
+        --   cond = function()
+        --     return package.loaded["nvim-navic"] and require("nvim-navic").is_available()
+        --   end,
+        -- },
       }
       opts.sections.lualine_x[1] = {
         -- Setup lsp-progress component
@@ -178,13 +219,7 @@ return {
                   table.insert(client_names, 1, client.name)
                 end
               end
-              local result = table.concat(client_names, "")
-              -- Truncate the result to the specified max_length
-              local max_length = 50
-              if #result > max_length then
-                result = string.sub(result, 1, max_length) .. "..."
-              end
-              return result
+              return table.concat(client_names, "")
             end,
           })
         end,

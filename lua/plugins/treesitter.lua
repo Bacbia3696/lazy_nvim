@@ -28,8 +28,6 @@ return {
   },
   {
     "nvim-treesitter/nvim-treesitter-context",
-    opts = {
-      separator = "",
-    },
+    enabled = false,
   },
 }
