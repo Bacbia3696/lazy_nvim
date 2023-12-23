@@ -21,13 +21,22 @@ return {
     keys = { "<M-h>", "<M-j>", "<M-k>", "<M-l>", "<C-h>", "<C-j>", "<C-k>", "<C-l>" },
     opts = {
       copy_sync = {
-        sync_registers = false,
+        sync_registers = false, -- avoid lagging when sync register
       },
     },
   },
   { "kevinhwang91/nvim-bqf", ft = "qf", opts = { preview = { winblend = 0 } } },
   {
     "s1n7ax/nvim-window-picker",
+    keys = {
+      {
+        "-",
+        function()
+          local window_id = require("window-picker").pick_window() or vim.api.nvim_get_current_win()
+          vim.api.nvim_set_current_win(window_id)
+        end,
+      },
+    },
     opts = {
       hint = "floating-big-letter",
       selection_chars = "QWEASDZXC",
@@ -42,14 +51,6 @@ return {
         },
         -- filter using window options
         wo = {},
-      },
-    },
-    keys = {
-      {
-        "-",
-        function()
-          vim.api.nvim_set_current_win(require("window-picker").pick_window() or vim.api.nvim_get_current_win())
-        end,
       },
     },
   },

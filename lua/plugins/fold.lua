@@ -48,32 +48,22 @@ return {
   },
   init = function()
     vim.o.foldcolumn = "1" -- '0' will hide fold column
-    vim.o.foldlevelstart = 10
+    vim.o.foldlevelstart = 99
   end,
   keys = {
     -- stylua: ignore
     {"zK", function() require("ufo").peekFoldedLinesUnderCursor() end, desc = "UFO fold preview"},
   },
-  opts = function()
-    return {
-      provider_selector = function(_, ft)
-        if vim.list_contains({}, ft) then
-          return "treesitter"
-        elseif vim.list_contains({ "leetcode.nvim" }, ft) then
-          return "indent"
-        end
-        return { "lsp", "indent" }
-      end,
-      fold_virt_text_handler = handler,
-      preview = { -- full transparent preview window
-        win_config = {
-          winblend = 0,
-        },
-        mappings = {
-          scrollU = "<C-u>",
-          scrollD = "<C-d>",
-        },
+  opts = {
+    fold_virt_text_handler = handler,
+    preview = { -- full transparent preview window
+      win_config = {
+        winblend = 0,
       },
-    }
-  end,
+      mappings = {
+        scrollU = "<C-u>",
+        scrollD = "<C-d>",
+      },
+    },
+  },
 }

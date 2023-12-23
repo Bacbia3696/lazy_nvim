@@ -29,61 +29,17 @@ return {
           local current_setting = cmp.get_config().completion.autocomplete
           if current_setting and #current_setting > 0 then
             cmp.setup({ completion = { autocomplete = false } })
-            vim.notify("Disabled autocomplete")
+            require("lazyvim.util").info("Disable", { title = "Toggle auto completion" })
           else
             cmp.setup({ completion = { autocomplete = { cmp.TriggerEvent.TextChanged } } })
-            vim.notify("Enabled autocomplete")
+            require("lazyvim.util").info("Enable", { title = "Toggle auto completion" })
           end
         end,
-        desc = "Toggle cmpletion",
+        desc = "Toggle auto completion",
       },
     },
     opts = function(_, opts)
-      opts.formatting = {
-        fields = { "abbr", "menu", "kind" },
-        format = function(_, item)
-          -- set this help working with Rust show more concise completion window
-          item.menu = ""
-          local fixed_width = false
-          local content = item.abbr
-          if fixed_width then
-            vim.o.pumwidth = fixed_width
-          end
-          local win_width = vim.api.nvim_win_get_width(0)
-          local max_content_width = fixed_width and fixed_width - 10 or math.floor(win_width * 0.3)
-          if #content > max_content_width then
-            item.abbr = vim.fn.strcharpart(content, 0, max_content_width - 3) .. "..."
-          end
-
-          local icons = require("lazyvim.config").icons.kinds
-          if icons[item.kind] then
-            item.kind = icons[item.kind]
-          end
-          return item
-        end,
-      }
-
       local cmp = require("cmp")
-      opts.cmdline = {
-        [":"] = {
-          mapping = cmp.mapping.preset.cmdline(),
-          sources = cmp.config.sources({ { name = "path" } }, {
-            { name = "cmdline", option = { ignore_cmds = { "Man", "!" } } },
-          }),
-        },
-        ["/"] = {
-          mapping = cmp.mapping.preset.cmdline(),
-          sources = {
-            { name = "buffer" },
-          },
-        },
-      }
-
-      opts.window = {
-        completion = cmp.config.window.bordered(),
-        documentation = cmp.config.window.bordered(),
-      }
-      opts.preselect = cmp.PreselectMode.None
       opts.mapping = {
         ["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
         ["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
@@ -101,6 +57,49 @@ return {
           fallback()
         end,
       }
+      return vim.tbl_deep_extend("force", opts, {
+        formatting = {
+          format = function(_, item)
+            -- set this help working with Rust show more concise completion window
+            item.menu = ""
+            local fixed_width = false
+            local content = item.abbr
+            if fixed_width then
+              vim.o.pumwidth = fixed_width
+            end
+            local win_width = vim.api.nvim_win_get_width(0)
+            local max_content_width = fixed_width and fixed_width - 10 or math.floor(win_width * 0.3)
+            if #content > max_content_width then
+              item.abbr = vim.fn.strcharpart(content, 0, max_content_width - 3) .. "..."
+            end
+
+            local icons = require("lazyvim.config").icons.kinds
+            if icons[item.kind] then
+              item.kind = icons[item.kind]
+            end
+            return item
+          end,
+        },
+        preselect = cmp.PreselectMode.None,
+        cmdline = {
+          [":"] = {
+            mapping = cmp.mapping.preset.cmdline(),
+            sources = cmp.config.sources({ { name = "path" } }, {
+              { name = "cmdline", option = { ignore_cmds = { "Man", "!" } } },
+            }),
+          },
+          ["/"] = {
+            mapping = cmp.mapping.preset.cmdline(),
+            sources = {
+              { name = "buffer" },
+            },
+          },
+        },
+        window = {
+          completion = cmp.config.window.bordered(),
+          documentation = cmp.config.window.bordered(),
+        },
+      })
     end,
   },
 }

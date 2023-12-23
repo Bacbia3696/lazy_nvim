@@ -1,6 +1,7 @@
 return {
   {
     "HiPhish/rainbow-delimiters.nvim",
+    enabled = false,
     config = function()
       local rainbow = require("rainbow-delimiters")
       vim.g.rainbow_delimiters = {
@@ -18,16 +19,6 @@ return {
           [""] = 110,
           lua = 210,
         },
-        highlight = {
-          "RainbowDelimiterRed",
-          "RainbowDelimiterYellow",
-          "RainbowDelimiterBlue",
-          "RainbowDelimiterOrange",
-          "RainbowDelimiterGreen",
-          "RainbowDelimiterViolet",
-          "RainbowDelimiterCyan",
-        },
-        blacklist = {"go"}
       }
     end,
   },

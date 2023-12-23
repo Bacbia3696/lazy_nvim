@@ -87,7 +87,8 @@ map("n", "<leader>gw", function()
   )
 end, { desc = "Git whatchanged current file" })
 
-map("n", "<leader>uh", function()
+map("n", "<leader>uH", function()
   vim.g.inlay_hints_enabled = not vim.g.inlay_hints_enabled
   vim.cmd.edit()
-end, { desc = "Toggle Inlay Hints" })
+  Util.info(vim.g.inlay_hints_enabled and "Enable" or "Disable", { title = "Toggle auto inlay hints" })
+end, { desc = "Toggle auto inlay hints" })

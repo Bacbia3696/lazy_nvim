@@ -20,7 +20,7 @@ end
 --- Copy `text` to system clipboard
 ---@param text string
 function M.copy(text)
-  vim.fn.setreg("+", text)
+  vim.fn.setreg("*", text)
   require("lazyvim.util").info(text, { title = "Copied to clipboard" })
 end
 
