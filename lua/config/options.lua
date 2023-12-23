@@ -24,6 +24,7 @@ vim.o.conceallevel = 2
 
 vim.g.autoformat = false
 vim.g.loaded_python3_provider = 0 -- Disable the built-in Python 3 provider
+vim.g.inlay_hints_enabled = true
 
 -- add Cfilter plugin so that we can filter in quickfix window
 vim.cmd("packadd cfilter")

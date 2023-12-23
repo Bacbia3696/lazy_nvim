@@ -86,3 +86,8 @@ map("n", "<leader>gw", function()
     { size = { height = 0.8, width = 0.8 }, env = { LESS = "-SRX" } }
   )
 end, { desc = "Git whatchanged current file" })
+
+map("n", "<leader>uh", function()
+  vim.g.inlay_hints_enabled = not vim.g.inlay_hints_enabled
+  vim.cmd.edit()
+end, { desc = "Toggle Inlay Hints" })

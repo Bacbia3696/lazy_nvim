@@ -25,7 +25,7 @@ function M.copy(text)
 end
 
 --- Custom on attach function when load lsp
-function M.on_attach(client, _)
+function M.on_attach(client, buffer)
   local keys = require("lazyvim.plugins.lsp.keymaps").get()
 
   table.insert(keys, { "<leader>cS", "<cmd>LspStop<cr>", desc = "Lsp Stop" })
@@ -46,6 +46,11 @@ function M.on_attach(client, _)
       vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR })
     end, desc = "diagnostic goto next ERROR",
   })
+
+  -- set inlay hints
+  if client.supports_method("textDocument/inlayHint") then
+    vim.lsp.inlay_hint.enable(buffer, vim.g.inlay_hints_enabled)
+  end
 
   -- add codelens for on_attach function
   local capabilities = client.server_capabilities
