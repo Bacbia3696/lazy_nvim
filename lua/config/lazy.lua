@@ -10,12 +10,17 @@ vim.opt.rtp:prepend(vim.env.LAZY or lazypath)
 require("lazy").setup({
   spec = {
     -- add LazyVim and import its plugins
-    { "LazyVim/LazyVim", import = "lazyvim.plugins" },
-    -- import any extras modules here
-    -- { import = "lazyvim.plugins.extras.coding.codeium" },
-    -- { import = "lazyvim.plugins.extras.ui.mini-animate" },
-    -- { import = "lazyvim.plugins.extras.ui.edgy" },
-    -- import/override with your plugins
+    {
+      "LazyVim/LazyVim",
+      import = "lazyvim.plugins",
+      opts = {
+        icons = {
+          kinds = {
+            Supermaven = " ",
+          },
+        },
+      },
+    },
     { import = "plugins" },
   },
   defaults = {
@@ -28,8 +33,8 @@ require("lazy").setup({
     -- version = "*", -- try installing the latest stable version for plugins that support semver
   },
   ui = { border = "rounded" },
-  install = { colorscheme = { "tokyonight", "habamax",  } },
-  checker = { enabled = false }, -- automatically check for plugin updates
+  install = { colorscheme = { "tokyonight", "habamax" } },
+  checker = { notify = false }, -- automatically check for plugin updates
   performance = {
     rtp = {
       -- disable some rtp phelplugins

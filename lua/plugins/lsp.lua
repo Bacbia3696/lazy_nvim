@@ -35,16 +35,14 @@ return {
       require("lazyvim.util").lsp.on_attach(require("helpers").on_attach)
     end,
     opts = {
+      inlay_hints = { enabled = true },
+      servers = {
+        clangd = {
+          filetypes = { "c", "cpp", "objc", "objcpp", "cuda" },
+        },
+      },
       diagnostics = {
         float = { border = "rounded" },
-        signs = {
-          text = {
-            [vim.diagnostic.severity.ERROR] = require("lazyvim.config").icons.diagnostics.Error,
-            [vim.diagnostic.severity.HINT] = require("lazyvim.config").icons.diagnostics.Hint,
-            [vim.diagnostic.severity.INFO] = require("lazyvim.config").icons.diagnostics.Info,
-            [vim.diagnostic.severity.WARN] = require("lazyvim.config").icons.diagnostics.Warn,
-          },
-        },
       },
       format = {
         timeout_ms = 5000,

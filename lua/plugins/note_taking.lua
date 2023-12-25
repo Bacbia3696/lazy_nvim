@@ -1,0 +1,29 @@
+return {}
+-- return {
+--   {
+--     "nvim-neorg/neorg",
+--     dependencies = { "luarocks.nvim" },
+--     lazy = false, -- Disable lazy loading as some `lazy.nvim` distributions set `lazy = true` by default
+--     opts = {
+--       load = {
+--         ["core.defaults"] = {}, -- Loads default behavior
+--         ["core.concealer"] = {}, -- Adds pretty icons to your documents
+--         ["core.completion"] = {
+--           config = {
+--             engine = "nvim-cmp",
+--           },
+--         }, -- Enables support for completion plugins
+--         ["core.summary"] = {}, -- Enables support for the summary module
+--         ["core.dirman"] = { -- Manages Neorg workspaces
+--           config = {
+--             default_workspace = "default",
+--             workspaces = {
+--               default = "~/neorg",
+--             },
+--           },
+--         },
+--         ["core.ui.calendar"] = {},
+--       },
+--     },
+--   },
+-- }

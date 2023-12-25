@@ -1,5 +1,6 @@
 {
   "gopls": {
+    "usePlaceholders": false,
     "analyses": {
       "fieldalignment": false
     }
