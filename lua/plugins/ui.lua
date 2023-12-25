@@ -68,11 +68,23 @@ return {
     keys = function(_, keys)
       -- use <C-d>, <C-u> instead of <C-f>, <C-b>
       for _, value in ipairs(keys) do
+        -- stylua: ignore
         if value[1] == "<c-f>" then
-          value[1] = "<c-d>"
+          value = {
+            "<c-d>", function()
+              if not require("noice.lsp").scroll(4) then return "<c-d>" end
+            end,
+            silent = true, expr = true, desc = "Scroll forward", mode = { "i", "n", "s" },
+          }
         end
+        -- stylua: ignore
         if value[1] == "<c-b>" then
-          value[1] = "<c-u>"
+          value = {
+            "<c-u>", function()
+              if not require("noice.lsp").scroll(-4) then return "<c-u>" end
+            end,
+            silent = true, expr = true, desc = "Scroll backward", mode = { "i", "n", "s" },
+          }
         end
       end
     end,

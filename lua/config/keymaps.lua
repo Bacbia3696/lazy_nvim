@@ -1,6 +1,5 @@
--- Keymaps are automatically loaded on the VeryLazy event
--- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
--- Add any additional keymaps here
+-- emacs emulator
+require("config.emacs")
 
 local Util = require("lazyvim.util")
 local map = require("helpers").map
@@ -16,16 +15,6 @@ map("t", "<C-q>", "<C-\\><C-n>")
 -- reset key
 map("v", "<", "<")
 map("v", ">", ">")
-
--- emacs like in insert and command mode
-map("!", "<C-a>", "<Home>", { desc = "move begin line", silent = false })
-map("!", "<C-e>", "<End>", { desc = "move eol", silent = false })
-map("!", "<C-p>", "<Up>", { desc = "move up", silent = false })
-map("!", "<C-n>", "<Down>", { desc = "move down", silent = false })
-map("!", "<C-b>", "<Left>", { desc = "move left", silent = false })
-map("!", "<C-f>", "<Right>", { desc = "move right", silent = false })
-map("!", "<M-b>", "<S-Left>", { desc = "move 1 word", silent = false })
-map("!", "<M-f>", "<S-Right>", { desc = "move back 1 word", silent = false })
 
 -- Move Lines
 map("n", "<M-S-J>", "<cmd>m .+1<cr>==", { desc = "Move down" })
@@ -43,11 +32,10 @@ for i = 1, 9 do
 end
 map("n", "<leader><tab>o", "<cmd>tabo<cr>", { desc = "Close other tabs" })
 
-map({ "i", "v", "n", "s" }, "<M-s>", function()
+map({ "i", "v", "n", "s" }, "<C-S-s>", function()
   require("lazyvim.util").format({ force = true })
   vim.cmd.up()
   vim.cmd.stopi()
-  -- vim.api.nvim_feedkeys("zz", "n", true) -- center screen
 end, { desc = "Format and save" })
 
 -- path manipulation
@@ -67,13 +55,6 @@ end, { desc = "Copy filepath" })
 map("n", "<leader>yy", "<cmd>%y<cr>", { desc = "Copy all file" })
 
 -- git
-if Util.has("gitsigns.nvim") then
-  local gitsigns = require("gitsigns")
-  map("n", "<leader>ght", gitsigns.toggle_current_line_blame, { desc = "Toggle current line blame" })
-  map("n", "<leader>ghT", gitsigns.toggle_deleted, { desc = "Toggle deleted lines" })
-  map("n", "]g", gitsigns.next_hunk, { desc = "Next git hunk" })
-  map("n", "[g", gitsigns.prev_hunk, { desc = "Prev git hunk" })
-end
 map("n", "<leader>gb", function()
   Util.terminal(
     { "git", "blame", vim.fn.expand("%") },

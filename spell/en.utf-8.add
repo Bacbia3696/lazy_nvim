@@ -36,3 +36,5 @@ filetype
 lsp
 cond
 cmd
+param
+stylua

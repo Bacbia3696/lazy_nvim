@@ -14,12 +14,12 @@ return {
   },
   {
     "folke/flash.nvim",
-    opts = {
-      modes = { search = { enabled = false } },
-    },
     keys = function()
       return {}
     end,
+    opts = {
+      modes = { search = { enabled = false } },
+    },
   },
   {
     "folke/todo-comments.nvim",
@@ -162,6 +162,12 @@ return {
   },
   {
     "lewis6991/gitsigns.nvim",
+    keys = {
+      { "<leader>ght", require("gitsigns").toggle_current_line_blame, { desc = "Toggle current line blame" } },
+      { "<leader>ghT", require("gitsigns").toggle_deleted, { desc = "Toggle deleted lines" } },
+      { "]g", require("gitsigns").next_hunk, { desc = "Next git hunk" } },
+      { "[g", require("gitsigns").prev_hunk, { desc = "Prev git hunk" } },
+    },
     opts = function(_, opts)
       opts.current_line_blame = true
     end,
