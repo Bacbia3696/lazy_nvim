@@ -68,7 +68,11 @@ return {
           visible = true, -- when true, they will just be displayed differently than normal items
         },
         window = {
+          position = "float",
           mappings = {
+            ["/"] = "noop",
+            ["?"] = "noop",
+            ["g?"] = "show_help",
             ["O"] = { "show_help", nowait = false, config = { title = "Order by", prefix_key = "O" } },
             ["Oc"] = { "order_by_created", nowait = false },
             ["Od"] = { "order_by_diagnostics", nowait = false },

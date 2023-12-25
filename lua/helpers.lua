@@ -29,7 +29,7 @@ function M.on_attach(client, buffer)
   local keys = require("lazyvim.plugins.lsp.keymaps").get()
 
   table.insert(keys, { "<leader>cS", "<cmd>LspStop<cr>", desc = "Lsp Stop" })
-  table.insert(keys, { "<leader>cR", "<cmd>LspRestart<cr>", desc = "Lsp Stop" })
+  table.insert(keys, { "<leader>cR", "<cmd>LspRestart<cr>", desc = "Lsp Restart" })
   table.insert(keys, { "go", vim.diagnostic.open_float, desc = "Open diagnostics on float window" })
   table.insert(keys, { "gt", "<cmd>Telescope lsp_type_definitions<cr>", desc = "Goto Type Definition" })
   table.insert(keys, { "gL", vim.lsp.codelens.refresh, desc = "LSP CodeLens refresh" })

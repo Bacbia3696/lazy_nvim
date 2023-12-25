@@ -9,6 +9,7 @@ vim.o.wrap = true
 vim.o.relativenumber = false
 
 -- ui options
+vim.o.showtabline = 0
 vim.o.pumblend = 0 -- transparent cmp
 -- vim.o.signcolumn = "number"
 -- vim.o.listchars = [[eol:¬,tab:▸·,trail:●,nbsp:⎵]]

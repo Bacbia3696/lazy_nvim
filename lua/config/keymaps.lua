@@ -17,12 +17,12 @@ map("v", "<", "<")
 map("v", ">", ">")
 
 -- Move Lines
-map("n", "<M-S-J>", "<cmd>m .+1<cr>==", { desc = "Move down" })
-map("n", "<M-S-K>", "<cmd>m .-2<cr>==", { desc = "Move up" })
-map("i", "<M-S-J>", "<esc><cmd>m .+1<cr>==gi", { desc = "Move down" })
-map("i", "<M-S-K>", "<esc><cmd>m .-2<cr>==gi", { desc = "Move up" })
-map("v", "<M-S-J>", ":m '>+1<cr>gv=gv", { desc = "Move down" })
-map("v", "<M-S-K>", ":m '<-2<cr>gv=gv", { desc = "Move up" })
+map("n", "<M-Down>", "<cmd>m .+1<cr>==", { desc = "Move down" })
+map("n", "<M-Up>", "<cmd>m .-2<cr>==", { desc = "Move up" })
+map("i", "<M-Down>", "<esc><cmd>m .+1<cr>==gi", { desc = "Move down" })
+map("i", "<M-Up>", "<esc><cmd>m .-2<cr>==gi", { desc = "Move up" })
+map("v", "<M-Down>", ":m '>+1<cr>gv=gv", { desc = "Move down" })
+map("v", "<M-Up>", ":m '<-2<cr>gv=gv", { desc = "Move up" })
 
 -- tabs
 map("n", "<leader>j", "<cmd>tabprevious<cr>", { desc = "Prev Tab" })

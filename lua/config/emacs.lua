@@ -44,7 +44,7 @@ map("i", "<C-v>", "<PageDown>", { silent = true })
 --- Copy & Paste
 
 -- delete-char
-map("!", "<C-d>", "<Del>", { silent = true })
+-- map("!", "<C-d>", "<Del>", { silent = false })
 
 --
 --- Editing

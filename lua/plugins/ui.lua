@@ -1,5 +1,14 @@
 return {
   {
+    "akinsho/bufferline.nvim",
+    enabled = false,
+  },
+  {
+    "catppuccin/nvim",
+    name = "catppuccin",
+    lazy = false,
+  },
+  {
     "Bekaboo/dropbar.nvim",
     -- optional, but required for fuzzy finder support
     dependencies = {
@@ -179,13 +188,11 @@ return {
       auto_theme_custom.normal.c.bg = "none"
       opts.options = {
         section_separators = { left = "", right = "" },
-        -- component_separators = { left = "", right = "" },
-
         theme = auto_theme_custom,
       }
       -- show lsp client instead of key
       opts.sections.lualine_b = {
-        Util.lualine.root_dir(),
+        -- Util.lualine.root_dir(),
         { Util.lualine.pretty_path() },
         -- { "filetype", icon_only = true, separator = "" },
         {
@@ -242,6 +249,7 @@ return {
         { "progress", separator = " ", padding = { left = 1, right = 0 } },
         { "location", padding = { left = 0, right = 1 } },
       }
+      return opts
     end,
   },
   {
@@ -259,7 +267,7 @@ return {
             height = 9,
           },
         }),
-        -- builtin = { win_options = { winhighlight = "Normal:Normal,NormalNC:Normal" } },
+        builtin = { win_options = { winhighlight = "Normal:Normal,NormalNC:Normal" } },
       },
     },
   },
