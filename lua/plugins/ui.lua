@@ -1,5 +1,37 @@
 return {
   {
+    "akinsho/bufferline.nvim",
+    enabled = false,
+  },
+  {
+    "catppuccin/nvim",
+    name = "catppuccin",
+    lazy = false,
+    opts = {
+      dim_inactive = {
+        enabled = true, -- dims the background color of inactive window
+        shade = "dark",
+        percentage = 0.15, -- percentage of the shade to apply to the inactive window
+      },
+    },
+  },
+  {
+    "HiPhish/rainbow-delimiters.nvim",
+    enabled = false,
+    config = function()
+      local rainbow = require("rainbow-delimiters")
+      vim.g.rainbow_delimiters = {
+        strategy = {
+          [""] = rainbow.strategy["local"],
+        },
+        query = {
+          [""] = "rainbow-delimiters",
+          tsx = "rainbow-parens",
+        },
+      }
+    end,
+  },
+  {
     "Bekaboo/dropbar.nvim",
     -- optional, but required for fuzzy finder support
     dependencies = {
@@ -41,40 +73,12 @@ return {
     end,
   },
   {
-    "HiPhish/rainbow-delimiters.nvim",
-    enabled = false,
-    config = function()
-      local rainbow = require("rainbow-delimiters")
-      vim.g.rainbow_delimiters = {
-        strategy = {
-          [""] = rainbow.strategy["global"],
-          vim = rainbow.strategy["local"],
-          commonlisp = rainbow.strategy["local"],
-        },
-        query = {
-          [""] = "rainbow-delimiters",
-          -- lua = "rainbow-blocks",
-          latex = "rainbow-blocks",
-        },
-        priority = {
-          [""] = 110,
-          lua = 210,
-        },
-      }
-    end,
-  },
-  {
     "folke/noice.nvim",
+    -- stylua: ignore
     keys = function(_, keys)
-      -- use <C-d>, <C-u> instead of <C-f>, <C-b>
-      for _, value in ipairs(keys) do
-        if value[1] == "<c-f>" then
-          value[1] = "<c-d>"
-        end
-        if value[1] == "<c-b>" then
-          value[1] = "<c-u>"
-        end
-      end
+      -- use <c-d> and <c-u> for scrolling
+      keys[6] = { "<c-d>", function() if not require("noice.lsp").scroll(4) then return "<c-d>" end end, silent = true, expr = true, desc = "Scroll forward", mode = {"i", "n", "s"} }
+      keys[7] = { "<c-u>", function() if not require("noice.lsp").scroll(-4) then return "<c-u>" end end, silent = true, expr = true, desc = "Scroll backward", mode = {"i", "n", "s"}}
     end,
     opts = {
       lsp = {
@@ -94,9 +98,6 @@ return {
         view_error = "mini", -- view for errors
       },
       presets = {
-        bottom_search = true,
-        command_palette = true,
-        long_message_to_split = true,
         lsp_doc_border = true, -- add a border to hover docs and signature help
       },
       ---@type NoiceConfigViews
@@ -109,21 +110,14 @@ return {
   {
     "rcarriga/nvim-notify",
     opts = {
-      top_down = false,
-      background_colour = "#000000",
-      fps = 60,
-      level = 2,
-      minimum_width = 50,
-      render = "default",
+      top_down = true,
+      stages = "slide",
+      render = "compact",
     },
   },
   {
     "folke/tokyonight.nvim",
     opts = {
-      on_colors = function(colors)
-        -- colors.git.change = colors.cyan
-        colors.gitSigns.change = colors.blue2
-      end,
       on_highlights = function(hl, colors)
         hl.FoldColumn = { bg = colors.none, fg = colors.comment }
         hl.SignColumn = { bg = colors.none }
@@ -137,6 +131,9 @@ return {
         hl.LspInlayHint = { fg = "#0db9d7", bg = "#203346", italic = true }
         hl.DiagnosticUnnecessary = { link = "NonText" }
         hl.CmpGhostText = { fg = "#567189", italic = true }
+        hl.Todo = { bold = true }
+        hl.WinBar = { bg = colors.none, bold = true, fg = colors.fg_dark }
+        hl.WinBarNC = { bg = colors.none, italic = true, fg = colors.dark3 }
 
         -- fix bg of DiagnosticFloating (default is black)
         for _, diagType in ipairs({ "Error", "Warn", "Info", "Hint", "Ok" }) do
@@ -165,12 +162,7 @@ return {
 
       local auto_theme_custom = require("lualine.themes.auto")
       auto_theme_custom.normal.c.bg = "none"
-      opts.options = {
-        section_separators = { left = "", right = "" },
-        -- component_separators = { left = "", right = "" },
-
-        theme = auto_theme_custom,
-      }
+      -- auto_theme_custom.normal.b.bg = "none"
       -- show lsp client instead of key
       opts.sections.lualine_b = {
         Util.lualine.root_dir(),
@@ -194,19 +186,9 @@ return {
           end,
         },
       }
-      opts.sections.lualine_c = {
-        -- {
-        --   function()
-        --     vim.cmd([[hi clear StatusLine]]) -- clear weird color at the end of
-        --     return require("nvim-navic").get_location()
-        --   end,
-        --   cond = function()
-        --     return package.loaded["nvim-navic"] and require("nvim-navic").is_available()
-        --   end,
-        -- },
-      }
+      opts.sections.lualine_c = {}
       opts.sections.lualine_x[1] = {
-        -- Setup lsp-progress component
+        -- Show lsp info
         function()
           return require("lsp-progress").progress({
             format = function(messages)
@@ -230,41 +212,13 @@ return {
         { "progress", separator = " ", padding = { left = 1, right = 0 } },
         { "location", padding = { left = 0, right = 1 } },
       }
+      return vim.tbl_deep_extend("force", opts, {
+        options = {
+          section_separators = { left = "", right = "" },
+          theme = auto_theme_custom,
+        },
+      })
     end,
-  },
-  {
-    "stevearc/dressing.nvim",
-    opts = {
-      input = {
-        default_prompt = "➤ ",
-        win_options = { winhighlight = "Normal:Normal,NormalNC:Normal", winblend = 0 },
-      },
-      select = {
-        backend = { "telescope", "builtin" },
-        telescope = require("telescope.themes").get_cursor({
-          layout_config = {
-            width = 50,
-            height = 9,
-          },
-        }),
-        -- builtin = { win_options = { winhighlight = "Normal:Normal,NormalNC:Normal" } },
-      },
-    },
-  },
-  {
-    "nvim-tree/nvim-web-devicons",
-    opts = {
-      default = true,
-      override = {
-        astro = { icon = "󰘯", name = "Astro", color = "#FF6969" },
-        deb = { icon = "", name = "Deb" },
-        http = { icon = "", name = "FireFox", color = "#98D8AA" },
-        tsx = { icon = "", color = "#00A9FF", cterm_color = "26", name = "Tsx" },
-        ["robots.txt"] = { icon = "󰚩", name = "Robots" },
-        xz = { icon = "", name = "Xz" },
-        zip = { icon = "", name = "Zip" },
-      },
-    },
   },
   {
     "xiyaowong/transparent.nvim",
@@ -274,6 +228,10 @@ return {
         "Folded",
         "SignColumn",
         "FoldColumn",
+        "WinBar",
+        "WinBarNC",
+        "NeoTreeNormal",
+        "NeoTreeNormalNC",
       }
       for _, level in ipairs({ "INFO", "WARN", "ERROR", "DEBUG", "TRACE" }) do
         for _, name in ipairs({ "Body", "Title", "Border" }) do

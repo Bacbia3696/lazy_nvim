@@ -1,41 +1,34 @@
-return {
-  {
-    "mfussenegger/nvim-dap",
-    keys = {
-      { "<F5>", require("dap").continue, desc = "Debugger: Continue" },
-      { "<F9>", require("dap").toggle_breakpoint, desc = "Debugger: Toggle Breakpoint" },
-      { "<F10>", require("dap").step_over, desc = "Debugger: Step Over" },
-      { "<leader>dd", require("dap").step_over, desc = "Debugger: Step Over" },
-      { "<F11>", require("dap").step_into, desc = "Debugger: Step Into" },
-      { "<F33>", require("dap").clear_breakpoints, desc = "Debugger: Clear all breakpoints" }, -- C-F9
-      {
-        "<leader>df",
-        function()
-          local dapui = require("dapui")
-          vim.ui.select({ "scopes", "stacks", "watches", "breakpoints", "repl", "console" }, {
-            prompt = "DAP UI Element",
-            format_item = function(item)
-              return "Show: " .. item
-            end,
-          }, function(elem)
-            dapui.float_element(elem)
-          end)
-        end,
-        desc = "DapUI: Open floating window",
-      },
-    },
-  },
-  {
-    "jay-babu/mason-nvim-dap.nvim",
-    opts = {
-      handlers = {
-        function(config)
-          -- all sources with no handler get passed here
+local function get_args(config)
+  local args = type(config.args) == "function" and (config.args() or {}) or config.args or {}
+  config = vim.deepcopy(config)
+  ---@cast args string[]
+  config.args = function()
+    local new_args = vim.fn.input("Run with args: ", table.concat(args, " ")) --[[@as string]]
+    return vim.split(vim.fn.expand(new_args) --[[@as string]], " ")
+  end
+  return config
+end
 
-          -- Keep original functionality
-          require("mason-nvim-dap").default_setup(config)
-        end,
-      },
-    },
+return {
+  "mfussenegger/nvim-dap",
+  -- stylua: ignore
+  keys = {
+    { "<F21>", function() require("dap").set_breakpoint(vim.fn.input('Breakpoint condition: ')) end, desc = "Breakpoint Condition" },
+    { "<F9>", function() require("dap").toggle_breakpoint() end, desc = "Toggle Breakpoint" },
+    { "<F5>", function() require("dap").continue() end, desc = "Continue" },
+    { "<F17>", function() require("dap").continue({ before = get_args }) end, desc = "Run with Args" },
+    { "<leader>dC", function() require("dap").run_to_cursor() end, desc = "Run to Cursor" },
+    { "<leader>dg", function() require("dap").goto_() end, desc = "Go to Line (No Execute)" },
+    { "<F11>", function() require("dap").step_into() end, desc = "Step Into" },
+    { "<leader>dj", function() require("dap").down() end, desc = "Down" },
+    { "<leader>dk", function() require("dap").up() end, desc = "Up" },
+    { "<leader>dl", function() require("dap").run_last() end, desc = "Run Last" },
+    { "<F23>", function() require("dap").step_out() end, desc = "Step Out" },
+    { "<F10>", function() require("dap").step_over() end, desc = "Step Over" },
+    { "<leader>dp", function() require("dap").pause() end, desc = "Pause" },
+    { "<leader>dr", function() require("dap").repl.toggle() end, desc = "Toggle REPL" },
+    { "<leader>ds", function() require("dap").session() end, desc = "Session" },
+    { "<leader>dt", function() require("dap").terminate() end, desc = "Terminate" },
+    { "<leader>dw", function() require("dap.ui.widgets").hover() end, desc = "Widgets" },
   },
 }

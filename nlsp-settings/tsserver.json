@@ -1,18 +1,11 @@
 {
   "javascript.preferences.importModuleSpecifier": "non-relative",
-  "javascript.inlayHints.includeInlayEnumMemberValueHints": true,
-  "javascript.inlayHints.includeInlayFunctionLikeReturnTypeHints": true,
-  "javascript.inlayHints.includeInlayFunctionParameterTypeHints": true,
-  "javascript.inlayHints.includeInlayParameterNameHints": "all",
-  "javascript.inlayHints.includeInlayParameterNameHintsWhenArgumentMatchesName": true,
-  "javascript.inlayHints.includeInlayPropertyDeclarationTypeHints": true,
-  "javascript.inlayHints.includeInlayVariableTypeHints": true,
+  "javascript.referencesCodeLens.showOnAllFunctions": true,
+  "javascript.referencesCodeLens.enabled": true,
+  "javascript.implementationsCodeLens.enabled": true,
+
   "typescript.preferences.importModuleSpecifier": "non-relative",
-  "typescript.inlayHints.includeInlayEnumMemberValueHints": true,
-  "typescript.inlayHints.includeInlayFunctionLikeReturnTypeHints": true,
-  "typescript.inlayHints.includeInlayFunctionParameterTypeHints": true,
-  "typescript.inlayHints.includeInlayParameterNameHints": "all",
-  "typescript.inlayHints.includeInlayParameterNameHintsWhenArgumentMatchesName": true,
-  "typescript.inlayHints.includeInlayPropertyDeclarationTypeHints": true,
-  "typescript.inlayHints.includeInlayVariableTypeHints": true
+  "typescript.referencesCodeLens.showOnAllFunctions": true,
+  "typescript.referencesCodeLens.enabled": true,
+  "typescript.implementationsCodeLens.enabled": true
 }
