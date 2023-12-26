@@ -1,3 +1,5 @@
+local icons = require("lazyvim.config").icons.diagnostics
+
 return {
   {
     "folke/neoconf.nvim",
@@ -39,12 +41,15 @@ return {
         float = { border = "rounded" },
         signs = {
           text = {
-            [vim.diagnostic.severity.ERROR] = require("lazyvim.config").icons.diagnostics.Error,
-            [vim.diagnostic.severity.HINT] = require("lazyvim.config").icons.diagnostics.Hint,
-            [vim.diagnostic.severity.INFO] = require("lazyvim.config").icons.diagnostics.Info,
-            [vim.diagnostic.severity.WARN] = require("lazyvim.config").icons.diagnostics.Warn,
+            [vim.diagnostic.severity.ERROR] = icons.Error,
+            [vim.diagnostic.severity.HINT] = icons.Hint,
+            [vim.diagnostic.severity.INFO] = icons.Info,
+            [vim.diagnostic.severity.WARN] = icons.Warn,
           },
         },
+      },
+      inlay_hints = {
+        enabled = true,
       },
       format = {
         timeout_ms = 5000,

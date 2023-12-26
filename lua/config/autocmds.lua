@@ -29,12 +29,20 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 vim.api.nvim_create_autocmd("BufEnter", {
+  pattern = "*",
   group = require("helpers").augroup("close_with_q2"),
   desc = "Make q empty filetype window",
-  pattern = "*",
   callback = function(event)
     if vim.o.filetype == "" then
       set_quit_keymap(event.buf)
     end
+  end,
+})
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "*",
+  group = require("helpers").augroup("disable_auto_comment"),
+  desc = "Disable auto comment next line",
+  callback = function()
+    vim.opt.formatoptions:remove({ "r", "o" })
   end,
 })

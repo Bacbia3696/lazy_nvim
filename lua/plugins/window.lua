@@ -3,17 +3,20 @@ return {
     "folke/zen-mode.nvim",
     keys = { { "<leader>z", "<cmd>ZenMode<cr>", desc = "ZenMode" } },
     opts = {
+      plugins = {
+        options = {
+          laststatus = 0,
+        },
+        tmux = { enabled = true },
+      },
       window = {
         height = 0.8,
         width = 100,
         options = {
-          fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]],
           signcolumn = "number",
+          foldcolumn = "0",
         },
       },
-      on_open = function()
-        vim.cmd("hi ZenBg guibg=None")
-      end,
     },
   },
   {
@@ -28,6 +31,7 @@ return {
   { "kevinhwang91/nvim-bqf", ft = "qf", opts = { preview = { winblend = 0 } } },
   {
     "s1n7ax/nvim-window-picker",
+    event = "VeryLazy",
     keys = {
       {
         "-",

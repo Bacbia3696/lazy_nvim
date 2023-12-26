@@ -1,18 +1,19 @@
 return {
   {
     "nvim-telescope/telescope.nvim",
-    opts = function(_, opts)
-      opts.defaults.path_display = { shorten = 7, exclude = { 1, -1 } }
-      opts.defaults.prompt_prefix = "🔭 "
-      opts.defaults.selection_caret = " "
-      opts.defaults.vimgrep_arguments = { "rg", "--vimgrep", "--smart-case", "-M", "200" }
-
-      opts.pickers = {
+    opts = {
+      defaults = {
+        path_display = { shorten = 7, exclude = { 1, -1 } },
+        prompt_prefix = "🔭 ",
+        selection_caret = " ",
+        vimgrep_arguments = { "rg", "--vimgrep", "--smart-case", "-M", "200" },
+      },
+      pickers = {
         lsp_references = { include_declaration = false, show_line = false },
         lsp_implementations = { show_line = false },
         -- live_grep = { glob_pattern = { "!api/*", "!go.sum" } },
-      }
-      opts.extensions = {
+      },
+      extensions = {
         emoji = {
           action = function(emoji)
             -- argument emoji is a table.
@@ -25,8 +26,8 @@ return {
             vim.api.nvim_put({ emoji.value }, "b", false, true)
           end,
         },
-      }
-    end,
+      },
+    },
   },
   {
     "xiyaowong/telescope-emoji.nvim",

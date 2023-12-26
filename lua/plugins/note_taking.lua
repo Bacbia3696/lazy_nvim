@@ -1,10 +1,11 @@
 return {
   {
     "nvim-neorg/neorg",
+    event = "VeryLazy",
     build = ":Neorg sync-parsers",
     opts = {
       load = {
-        ["core.defaults"] = {}, -- Loads default behaviour
+        ["core.defaults"] = {}, -- Loads default behavior
         ["core.concealer"] = {}, -- Adds pretty icons to your documents
         ["core.completion"] = {
           config = {

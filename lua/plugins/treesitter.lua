@@ -14,7 +14,7 @@ return {
           end
         end,
       },
-      indent = { enable = true },
+      indent = { enable = false },
       incremental_selection = {
         enable = true,
         keymaps = {
@@ -25,8 +25,33 @@ return {
         },
       },
       textobjects = {
+        lsp_interop = {
+          enable = false,
+          border = "rounded",
+          floating_preview_opts = {},
+          peek_definition_code = {
+            ["<leader>ck"] = "@function.outer",
+            ["<leader>cK"] = "@class.outer",
+          },
+        },
+        select = {
+          enable = false,
+          lookahead = true,
+          keymaps = {
+            ["af"] = "@function.outer",
+            ["if"] = "@function.inner",
+            ["ac"] = "@class.outer",
+            ["ic"] = { query = "@class.inner", desc = "Select inner part of a class region" },
+            ["as"] = { query = "@scope", query_group = "locals", desc = "Select language scope" },
+          },
+          selection_modes = {
+            ["@parameter.outer"] = "v", -- charwise
+            ["@function.outer"] = "V", -- linewise
+            ["@class.outer"] = "<c-v>", -- blockwise
+          },
+        },
         swap = {
-          enable = true,
+          enable = false,
           swap_next = {
             ["<leader>a"] = "@parameter.inner",
           },

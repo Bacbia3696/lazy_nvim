@@ -8,7 +8,7 @@ map("n", "<M-a>", "ggVG")
 map({ "n", "v" }, ";", ":", { nowait = true, silent = false })
 map("n", "0", "^", { nowait = true })
 map("n", "<C-q>", "<Cmd>quit<cr>")
-map("n", "<leader>W", "<Cmd>noa wa<cr>", { desc = "Save without format all buffers" })
+map("n", "<leader>W", "<Cmd>noa wa<cr>", { desc = "Save without format" })
 map("n", "<C-g>", "2<C-g>")
 map("t", "<C-q>", "<C-\\><C-n>")
 
@@ -24,19 +24,13 @@ map("i", "<M-Up>", "<esc><cmd>m .-2<cr>==gi", { desc = "Move up" })
 map("v", "<M-Down>", ":m '>+1<cr>gv=gv", { desc = "Move down" })
 map("v", "<M-Up>", ":m '<-2<cr>gv=gv", { desc = "Move up" })
 
--- tabs
-map("n", "<leader>j", "<cmd>tabprevious<cr>", { desc = "Prev Tab" })
-map("n", "<leader>k", "<cmd>tabnext<cr>", { desc = "Next Tab" })
-for i = 1, 9 do
-  map("n", "<leader>" .. i, "<cmd>tabn " .. i .. "<cr>", { desc = "Move to tab " .. i })
-end
-map("n", "<leader><tab>o", "<cmd>tabo<cr>", { desc = "Close other tabs" })
-
-map({ "i", "v", "n", "s" }, "<C-S-s>", function()
-  require("lazyvim.util").format({ force = true })
-  vim.cmd.up()
+-- save file
+map({ "i", "x", "n", "s" }, "<C-S-s>", "<cmd>up<cr>", { desc = "Save file" })
+map({ "i", "x", "n", "s" }, "<C-s>", function()
+  Util.format({ force = true })
   vim.cmd.stopi()
-end, { desc = "Format and save" })
+  vim.cmd.up()
+end, { desc = "Save file and format" })
 
 -- path manipulation
 require("which-key").register({ ["<leader>y"] = { name = "clipboard " } }, {})
@@ -67,9 +61,9 @@ map("n", "<leader>gw", function()
     { size = { height = 0.8, width = 0.8 }, env = { LESS = "-SRX" } }
   )
 end, { desc = "Git whatchanged current file" })
-
-map("n", "<leader>uH", function()
-  vim.g.inlay_hints_enabled = not vim.g.inlay_hints_enabled
-  vim.lsp.inlay_hint.enable(0, vim.g.inlay_hints_enabled)
-  Util.info(vim.g.inlay_hints_enabled and "Enable" or "Disable", { title = "Toggle auto inlay hints" })
-end, { desc = "Toggle auto inlay hints" })
+map("n", "<leader>gd", function()
+  Util.terminal(
+    { "git", "diff", "-p", vim.fn.expand("%") },
+    { size = { height = 0.8, width = 0.8 }, env = { LESS = "-SRX" } }
+  )
+end, { desc = "Git diff current file" })

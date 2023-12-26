@@ -1,6 +1,8 @@
 return {
   {
     "kndndrj/nvim-dbee",
+    enabled = false,
+    event = "VeryLazy",
     dependencies = {
       "MunifTanjim/nui.nvim",
     },
@@ -23,12 +25,16 @@ return {
       })
     end,
   },
+
+  -- surrealdb
   {
     "dariuscorvus/surrealdb.nvim",
+    event = "VeryLazy",
     opts = {},
   },
   {
     "dariuscorvus/tree-sitter-surrealdb.nvim",
+    event = "VeryLazy",
     dependencies = { "nvim-treesitter" },
     opts = {},
   },

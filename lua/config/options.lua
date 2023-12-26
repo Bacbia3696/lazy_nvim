@@ -21,11 +21,9 @@ vim.o.spelllang = "en_us"
 
 -- conceal options
 vim.o.concealcursor = "nc"
-vim.o.conceallevel = 2
 
 vim.g.loaded_python3_provider = 0 -- Disable the built-in Python 3 provider
 vim.g.autoformat = false
-vim.g.inlay_hints_enabled = false
 
 -- add Cfilter plugin so that we can filter in quickfix window
 vim.cmd("packadd cfilter")

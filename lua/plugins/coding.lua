@@ -1,5 +1,21 @@
 return {
   {
+    "gbprod/yanky.nvim",
+    opts = {
+      preserve_cursor_position = {
+        enabled = false,
+      },
+    },
+  },
+  {
+    "echasnovski/mini.ai",
+    enabled = false,
+  },
+  {
+    "echasnovski/mini.surround",
+    enabled = false,
+  },
+  {
     "echasnovski/mini.pairs",
     opts = {
       mappings = {
@@ -10,21 +26,17 @@ return {
     },
   },
   {
+    "kylechui/nvim-surround",
+    event = "VeryLazy",
+    opts = {},
+  },
+  {
     "hrsh7th/nvim-cmp",
-    dependencies = { "hrsh7th/cmp-cmdline" },
+    dependencies = { "hrsh7th/cmp-cmdline", { "jackieaskins/cmp-emmet", build = "npm run release" } },
     keys = {
       {
         "<leader>tc",
         function()
-          -- if vim.fn.exists("b:cmp") == 0 or vim.api.nvim_buf_get_var(0, "cmp") then
-          --   vim.api.nvim_buf_set_var(0, "cmp", false)
-          --   require("cmp").setup.buffer({ enabled = false })
-          --   require("lazyvim.util").info("Disable", { title = "Toggle auto completion" })
-          -- else
-          --   vim.api.nvim_buf_set_var(0, "cmp", true)
-          --   require("cmp").setup.buffer({ enabled = true })
-          --   require("lazyvim.util").info("Enable", { title = "Toggle auto completion" })
-          -- end
           local cmp = require("cmp")
           local current_setting = cmp.get_config().completion.autocomplete
           if current_setting and #current_setting > 0 then
@@ -40,6 +52,9 @@ return {
     },
     opts = function(_, opts)
       local cmp = require("cmp")
+      opts.sources = cmp.config.sources(vim.list_extend(opts.sources, {
+        { name = "emmet" },
+      }))
       opts.mapping = {
         ["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
         ["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
@@ -98,6 +113,9 @@ return {
         window = {
           completion = cmp.config.window.bordered(),
           documentation = cmp.config.window.bordered(),
+        },
+        experimental = {
+          ghost_text = true,
         },
       })
     end,

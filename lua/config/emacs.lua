@@ -9,10 +9,10 @@ map("!", "<C-b>", "<Left>", { silent = false })
 map("!", "<C-f>", "<Right>", { silent = false })
 
 -- previous-line
-map("i", "<C-p>", "<Up>", { silent = true })
+map("!", "<C-p>", "<Up>", { silent = false })
 
 -- next-line
-map("i", "<C-n>", "<Down>", { silent = true })
+map("!", "<C-n>", "<Down>", { silent = false })
 
 -- move-beginning-of-line
 map("!", "<C-a>", "<Home>", { silent = false })
@@ -28,11 +28,11 @@ map("i", "<M-e>", "<C-o>)", { silent = true })
 
 -- backward-word
 map("i", "<M-b>", "<C-Left>", { silent = true })
-map("c", "<M-b>", "<S-Left>", { silent = true })
+map("c", "<M-b>", "<S-Left>", { silent = false })
 
 -- forward-word
 map("i", "<M-f>", "<C-o>e<Right>", { silent = true })
-map("c", "<M-f>", "<S-Right>", { silent = true })
+map("c", "<M-f>", "<S-Right>", { silent = false })
 
 -- scroll-down-command
 map("i", "<M-v>", "<PageUp>", { silent = true })
@@ -50,7 +50,7 @@ map("i", "<C-v>", "<PageDown>", { silent = true })
 --- Editing
 
 -- kill-region
-map("!", "<M-BS>", "<C-w>", { silent = true })
+map("!", "<M-BS>", "<C-w>", { silent = false })
 map("i", "<C-BS>", "<C-w>", { silent = true })
 
 -- kill-line
