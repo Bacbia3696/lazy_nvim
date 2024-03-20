@@ -13,6 +13,6 @@
 (("go"   @keyword) (#set! conceal "󰟓"))
 (("if"      @keyword) (#set! conceal ""))
 (("else"      @keyword) (#set! conceal "󰅱"))
-(("switch"      @keyword) (#set! conceal ""))
-(("case"      @keyword) (#set! conceal ""))
+; (("switch"      @keyword) (#set! conceal ""))
+; (("case"      @keyword) (#set! conceal ""))
 ; (("range"      @keyword) (#set! conceal  ""))

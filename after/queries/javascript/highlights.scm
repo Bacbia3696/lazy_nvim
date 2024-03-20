@@ -10,6 +10,7 @@
 (("let"   @keyword) (#set! conceal ""))
 (("for"      @keyword) (#set! conceal ""))
 (("while"      @keyword) (#set! conceal "󰑖"))
+(("class"  @keyword) (#set! conceal  ""))
 ; (("if"      @keyword) (#set! conceal ""))
 ; (("else"      @keyword) (#set! conceal "󰅱"))
 ; (("switch"      @keyword) (#set! conceal ""))

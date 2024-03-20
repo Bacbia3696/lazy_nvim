@@ -18,4 +18,4 @@
 (("for"      @keyword) (#set! conceal ""))
 (("loop"      @keyword) (#set! conceal ""))
 (("while"      @keyword) (#set! conceal "󰑖"))
-(("match"      @keyword) (#set! conceal ""))
+; (("match"      @keyword) (#set! conceal ""))
