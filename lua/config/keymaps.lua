@@ -33,7 +33,8 @@ map({ "i", "x", "n", "s" }, "<C-s>", function()
 end, { desc = "Save file and format" })
 
 -- path manipulation
-require("which-key").register({ ["<leader>y"] = { name = "clipboard " } }, {})
+require("which-key").add({ { "<leader>y", group = "clipboard", icon = "" } })
+
 map("n", "<leader>yo", function()
   require("helpers").open(vim.fn.expand("%"))
 end, { desc = "Open file" })
@@ -49,19 +50,19 @@ end, { desc = "Copy filepath" })
 map("n", "<leader>yy", "<cmd>%y<cr>", { desc = "Copy all file" })
 
 -- git
-map("n", "<leader>gb", function()
-  Util.terminal(
-    { "git", "blame", vim.fn.expand("%") },
-    { size = { height = 0.8, width = 0.8 }, env = { LESS = "-SRX" } }
-  )
-end, { desc = "Git blame current file" })
+-- map("n", "<leader>gb", function()
+--   Util.terminal(
+--     { "git", "blame", vim.fn.expand("%") },
+--     { size = { height = 0.8, width = 0.8 }, env = { LESS = "-SRX" } }
+--   )
+-- end, { desc = "Git blame current file" })
 map("n", "<leader>gw", function()
   Util.terminal(
     { "git", "whatchanged", "-p", vim.fn.expand("%") },
     { size = { height = 0.8, width = 0.8 }, env = { LESS = "-SRX" } }
   )
 end, { desc = "Git whatchanged current file" })
-map("n", "<leader>gd", function()
+map("n", "<leader>gD", function()
   Util.terminal(
     { "git", "diff", "-p", vim.fn.expand("%") },
     { size = { height = 0.8, width = 0.8 }, env = { LESS = "-SRX" } }

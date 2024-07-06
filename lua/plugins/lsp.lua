@@ -4,11 +4,6 @@ return {
     opts = {
       local_settings = ".neoconf.json",
       global_settings = "neoconf.json",
-      import = {
-        vscode = true, -- local .vscode/settings.json
-        coc = true, -- global/local coc-settings.json
-        nlsp = true, -- global/local nlsp-settings.nvim json settings
-      },
       live_reload = true,
       filetype_jsonc = true,
       plugins = {
@@ -32,6 +27,8 @@ return {
       require("lspconfig.ui.windows").default_options = {
         border = "rounded",
       }
+      local keys = require("lazyvim.plugins.lsp.keymaps").get()
+      table.insert(keys, { "gt", vim.lsp.buf.type_definition, desc = "Goto Type Definition" })
     end,
     opts = {
       inlay_hints = { enabled = true },

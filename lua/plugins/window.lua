@@ -10,10 +10,10 @@ return {
         tmux = { enabled = true },
       },
       window = {
-        height = 0.8,
+        height = 0.9,
         width = 100,
         options = {
-          signcolumn = "number",
+          signcolumn = "no",
           foldcolumn = "0",
         },
       },

@@ -38,6 +38,7 @@ vim.api.nvim_create_autocmd("BufEnter", {
     end
   end,
 })
+
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "*",
   group = require("helpers").augroup("disable_auto_comment"),

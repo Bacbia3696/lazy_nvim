@@ -4,9 +4,12 @@ return {
     init = function()
       vim.g.rustaceanvim = {
         tools = {
-          float_win_config = {
-            border = "rounded",
+          hover_actions = {
+            replace_builtin_hover = false,
           },
+          -- float_win_config = {
+          --   border = "rounded",
+          -- },
         },
       }
     end,
@@ -20,7 +23,7 @@ return {
         callback = function()
           local crates = require("crates")
           local map = require("helpers").map
-          require("which-key").register({ ["<localleader>"] = { name = "crates " } }, {})
+          require("which-key").add({ { "<localleader>", group = "crates " } })
 
           map("n", "<localleader>t", crates.toggle, { desc = "toggle" })
           map("n", "<localleader>r", crates.reload, { desc = "reload" })
