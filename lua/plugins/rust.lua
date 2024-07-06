@@ -20,7 +20,7 @@ return {
         callback = function()
           local crates = require("crates")
           local map = require("helpers").map
-          require("which-key").register({ ["<localleader>"] = { name = "crates " } }, {})
+          require("which-key").add({ { "<localleader>", group = "crates " } })
 
           map("n", "<localleader>t", crates.toggle, { desc = "toggle" })
           map("n", "<localleader>r", crates.reload, { desc = "reload" })

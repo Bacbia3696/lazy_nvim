@@ -6,17 +6,6 @@ return {
     opts = {},
   },
   {
-    "rolv-apneseth/tfm.nvim",
-    event = "VeryLazy",
-    config = function()
-      -- Set keymap so you can open the default terminal file manager (yazi)
-      vim.api.nvim_set_keymap("n", "<leader>~", "", {
-        noremap = true,
-        callback = require("tfm").open,
-      })
-    end,
-  },
-  {
     "folke/persistence.nvim",
     -- add folds options when persist session
     opts = { options = { "buffers", "curdir", "tabpages", "winsize", "help", "globals", "skiprtp", "folds" } },
@@ -36,17 +25,6 @@ return {
             text_icon = "⏱️",
           },
         },
-      },
-    },
-  },
-  -- color picker
-  {
-    "uga-rosa/ccc.nvim",
-    event = "VeryLazy",
-    opts = {
-      highlighter = {
-        auto_enable = false,
-        lsp = false,
       },
     },
   },
