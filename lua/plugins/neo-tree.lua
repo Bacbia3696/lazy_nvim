@@ -40,7 +40,11 @@ return {
           ["on"] = "noop",
           ["os"] = "noop",
           ["ot"] = "noop",
+          ["<C-b>"] = "noop",
+          ["<C-f>"] = "noop",
 
+          ["<C-u>"] = { "scroll_preview", config = {direction = 10} },
+          ["<C-d>"] = { "scroll_preview", config = {direction = -10} },
           ["g?"] = "show_help",
           ["O"] = { "show_help", nowait = false, config = { title = "Order by", prefix_key = "O" } },
           ["Oc"] = { "order_by_created", nowait = false },

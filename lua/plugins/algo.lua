@@ -33,10 +33,6 @@ return {
     opts = {
       arg = leet_arg,
       lang = "golang",
-      storage = {
-        home = vim.fn.stdpath("data") .. "/leetcode",
-        cache = vim.fn.stdpath("cache") .. "/leetcode",
-      },
       console = {
         result = {
           size = "62%", -- avoid space at the end
