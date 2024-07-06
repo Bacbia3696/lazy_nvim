@@ -1,19 +1,14 @@
 return {
   {
-    "akinsho/bufferline.nvim",
-    enabled = false,
+    "OXY2DEV/helpview.nvim",
+    lazy = false,
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+    },
   },
   {
-    "catppuccin/nvim",
-    name = "catppuccin",
-    lazy = false,
-    opts = {
-      dim_inactive = {
-        enabled = true, -- dims the background color of inactive window
-        shade = "dark",
-        percentage = 0.15, -- percentage of the shade to apply to the inactive window
-      },
-    },
+    "akinsho/bufferline.nvim",
+    enabled = false,
   },
   {
     "HiPhish/rainbow-delimiters.nvim",
@@ -33,10 +28,6 @@ return {
   },
   {
     "Bekaboo/dropbar.nvim",
-    -- optional, but required for fuzzy finder support
-    dependencies = {
-      "nvim-telescope/telescope-fzf-native.nvim",
-    },
     opts = function()
       local utils = require("dropbar.utils")
       local sources = require("dropbar.sources")
@@ -108,16 +99,9 @@ return {
     },
   },
   {
-    "rcarriga/nvim-notify",
-    opts = {
-      top_down = true,
-      stages = "slide",
-      render = "compact",
-    },
-  },
-  {
     "folke/tokyonight.nvim",
     opts = {
+      transparent = true,
       on_highlights = function(hl, colors)
         hl.FoldColumn = { bg = colors.none, fg = colors.comment }
         hl.SignColumn = { bg = colors.none }
@@ -125,19 +109,25 @@ return {
         hl.LineNr = { fg = colors.dark3 }
         hl.CursorLineNr = { fg = colors.blue }
         hl.StatusLineNC = { fg = colors.dark3 } -- more clear color for winbar when clicked
+        hl.Pmenu = { link = "FloatBorder" } -- for blink.cmp
+        hl.BlinkCmpGhostText = { fg = colors.fg_dark, italic = true }
+        hl.CmpGhostText = { fg = "#444a73", italic = true }
 
         hl.MatchParen = { underline = true, bold = true }
         hl.WinSeparator = { fg = colors.dark3 }
-        hl.LspInlayHint = { fg = "#0db9d7", bg = "#203346", italic = true }
+        -- hl.LspInlayHint = { fg = "#4e8ca3", bg = colors.none, italic = true }
+        hl.LspInlayHint = { fg = "#0a8fb2", bg = "#1a2a34", italic = true }
         hl.DiagnosticUnnecessary = { link = "NonText" }
-        hl.CmpGhostText = { fg = "#567189", italic = true }
         hl.Todo = { bold = true }
         hl.WinBar = { bg = colors.none, bold = true, fg = colors.fg_dark }
         hl.WinBarNC = { bg = colors.none, italic = true, fg = colors.dark3 }
+        hl.HelpviewInlineCodes = { link = "TablineSel" }
 
-        -- fix bg of DiagnosticFloating (default is black)
-        for _, diagType in ipairs({ "Error", "Warn", "Info", "Hint", "Ok" }) do
-          hl["DiagnosticFloating" .. diagType] = hl["Diagnostic" .. diagType]
+        hl.NvimDapVirtualText = { link = "DiagnosticVirtualTextHint" }
+        hl.FzfLuaCursorLine = { link = "FzfLuaFzfCursorLine" }
+
+        for _, v in ipairs({ "Rare", "Cap", "Local", "Bad" }) do
+          hl["Spell" .. v] = { undercurl = true }
         end
       end,
       dim_inactive = true,
@@ -166,7 +156,7 @@ return {
       -- show lsp client instead of key
       opts.sections.lualine_b = {
         Util.lualine.root_dir(),
-        { Util.lualine.pretty_path() },
+        { Util.lualine.pretty_path({ modified_sign = " " }) },
         -- { "filetype", icon_only = true, separator = "" },
         {
           "diagnostics",
@@ -215,6 +205,7 @@ return {
       return vim.tbl_deep_extend("force", opts, {
         options = {
           section_separators = { left = "", right = "" },
+          -- component_separators = { left = "", right = "" },
           theme = auto_theme_custom,
         },
       })
@@ -222,6 +213,10 @@ return {
   },
   {
     "xiyaowong/transparent.nvim",
+    lazy = false,
+    keys = {
+      { "<leader>ut", "<Cmd>TransparentToggle<CR>", desc = "Toggle transparent" },
+    },
     opts = function()
       local extras = {
         "CodeBlock",
@@ -232,13 +227,14 @@ return {
         "WinBarNC",
         "NeoTreeNormal",
         "NeoTreeNormalNC",
+        -- "RenderMarkdownH1Bg",
+        -- "RenderMarkdownH2Bg",
+        -- "RenderMarkdownH3Bg",
+        -- "RenderMarkdownH4Bg",
+        -- "RenderMarkdownH5Bg",
+        -- "RenderMarkdownH6Bg",
+        -- "RenderMarkdownCodeInline",
       }
-      for _, level in ipairs({ "INFO", "WARN", "ERROR", "DEBUG", "TRACE" }) do
-        for _, name in ipairs({ "Body", "Title", "Border" }) do
-          -- make these highlight NotifyINFOTitle,... transparent
-          table.insert(extras, "Notify" .. level .. name)
-        end
-      end
       return {
         extra_groups = extras,
       }

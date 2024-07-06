@@ -1,16 +1,15 @@
 -- emacs emulator
 require("config.emacs")
 
-local Util = require("lazyvim.util")
 local map = require("helpers").map
 
 map("n", "<M-a>", "ggVG")
 map({ "n", "v" }, ";", ":", { nowait = true, silent = false })
 map("n", "0", "^", { nowait = true })
 map("n", "<C-q>", "<Cmd>quit<cr>")
+-- map("t", "<C-q>", "<C-\\><C-n>")
 map("n", "<leader>W", "<Cmd>noa wa<cr>", { desc = "Save without format" })
 map("n", "<C-g>", "2<C-g>")
-map("t", "<C-q>", "<C-\\><C-n>")
 
 -- reset key
 map("v", "<", "<")
@@ -27,13 +26,15 @@ map("v", "<M-Up>", ":m '<-2<cr>gv=gv", { desc = "Move up" })
 -- save file
 map({ "i", "x", "n", "s" }, "<C-S-s>", "<cmd>up<cr>", { desc = "Save file" })
 map({ "i", "x", "n", "s" }, "<C-s>", function()
-  Util.format({ force = true })
+  LazyVim.format({ force = true })
   vim.cmd.stopi()
   vim.cmd.up()
+  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "n", true)
 end, { desc = "Save file and format" })
 
 -- path manipulation
-require("which-key").register({ ["<leader>y"] = { name = "clipboard " } }, {})
+require("which-key").add({ { "<leader>y", group = "clipboard", icon = "" } })
+
 map("n", "<leader>yo", function()
   require("helpers").open(vim.fn.expand("%"))
 end, { desc = "Open file" })
@@ -49,20 +50,20 @@ end, { desc = "Copy filepath" })
 map("n", "<leader>yy", "<cmd>%y<cr>", { desc = "Copy all file" })
 
 -- git
-map("n", "<leader>gb", function()
-  Util.terminal(
-    { "git", "blame", vim.fn.expand("%") },
-    { size = { height = 0.8, width = 0.8 }, env = { LESS = "-SRX" } }
-  )
-end, { desc = "Git blame current file" })
+-- map("n", "<leader>gb", function()
+--   Util.terminal(
+--     { "git", "blame", vim.fn.expand("%") },
+--     { size = { height = 0.8, width = 0.8 }, env = { LESS = "-SRX" } }
+--   )
+-- end, { desc = "Git blame current file" })
 map("n", "<leader>gw", function()
-  Util.terminal(
+  Snacks.terminal(
     { "git", "whatchanged", "-p", vim.fn.expand("%") },
     { size = { height = 0.8, width = 0.8 }, env = { LESS = "-SRX" } }
   )
 end, { desc = "Git whatchanged current file" })
-map("n", "<leader>gd", function()
-  Util.terminal(
+map("n", "<leader>gD", function()
+  Snacks.terminal(
     { "git", "diff", "-p", vim.fn.expand("%") },
     { size = { height = 0.8, width = 0.8 }, env = { LESS = "-SRX" } }
   )

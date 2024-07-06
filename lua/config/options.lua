@@ -21,10 +21,11 @@ vim.o.spell = true
 vim.o.spelllang = "en_us"
 
 -- conceal options
-vim.o.concealcursor = "nc"
+-- vim.o.concealcursor = "nc"
 
 vim.g.loaded_python3_provider = 0 -- Disable the built-in Python 3 provider
 vim.g.autoformat = false
+vim.opt.spelloptions:append("camel")
 
 -- add Cfilter plugin so that we can filter in quickfix window
 vim.cmd("packadd cfilter")

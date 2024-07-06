@@ -1,21 +1,53 @@
-return {}
--- return {
---   {
---     "supermaven-inc/supermaven-nvim",
---     opts = {
---       disable_inline_completion = true, -- disables inline completion for use with cmp
---       disable_keymaps = true, -- disables built in keymaps for more manual control
---     },
---   },
---   {
---     "hrsh7th/nvim-cmp",
---     dependencies = { "supermaven-inc/supermaven-nvim" },
---     opts = function(_, opts)
---       table.insert(opts.sources, 1, {
---         name = "supermaven",
---         group_index = 1,
---         priority = 100,
---       })
---     end,
---   },
--- }
+return {
+  {
+    "yetone/avante.nvim",
+    event = "VeryLazy",
+    lazy = false,
+    version = false, -- set this if you want to always pull the latest change
+    opts = {
+      provider = "perplexity",
+      vendors = {
+        perplexity = {
+          __inherited_from = "openai",
+          api_key_name = "cmd:bw get notes pplx-api",
+          endpoint = "https://api.perplexity.ai",
+          model = "llama-3.1-sonar-large-128k-online",
+        },
+      },
+    },
+    -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
+    build = "make",
+    -- build = "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false" -- for windows
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+      "stevearc/dressing.nvim",
+      "nvim-lua/plenary.nvim",
+      "MunifTanjim/nui.nvim",
+      {
+        -- support for image pasting
+        "HakonHarnes/img-clip.nvim",
+        event = "VeryLazy",
+        opts = {
+          -- recommended settings
+          default = {
+            embed_image_as_base64 = false,
+            prompt_for_file_name = false,
+            drag_and_drop = {
+              insert_mode = true,
+            },
+            -- required for Windows users
+            use_absolute_path = true,
+          },
+        },
+      },
+      {
+        -- Make sure to set this up properly if you have lazy=true
+        "MeanderingProgrammer/render-markdown.nvim",
+        opts = {
+          file_types = { "markdown", "Avante" },
+        },
+        ft = { "markdown", "Avante" },
+      },
+    },
+  },
+}

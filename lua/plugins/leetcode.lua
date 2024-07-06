@@ -2,13 +2,12 @@ local leet_arg = "leetcode.nvim"
 
 return {
   {
-    "xeluxee/competitest.nvim",
-    dependencies = "MunifTanjim/nui.nvim",
-    opts = {},
-  },
-  {
     "kawre/leetcode.nvim",
     cond = vim.fn.argv()[1] == leet_arg,
+    dependencies = {
+      "nvim-telescope/telescope.nvim",
+      "linux-cultist/venv-selector.nvim",
+    },
     lazy = false,
     keys = {
       { "<localleader>t", "<Cmd>Leet tabs<CR>" },
@@ -33,10 +32,6 @@ return {
     opts = {
       arg = leet_arg,
       lang = "golang",
-      storage = {
-        home = vim.fn.stdpath("data") .. "/leetcode",
-        cache = vim.fn.stdpath("cache") .. "/leetcode",
-      },
       console = {
         result = {
           size = "62%", -- avoid space at the end
@@ -52,15 +47,8 @@ return {
         ["golang"] = {
           before = { "package main" },
         },
-        ["cpp"] = {
-          before = { "#include <bits/stdc++.h>", "using namespace std;" },
-          after = "int main() {}",
-        },
-        ["java"] = {
-          before = "import java.util.*;",
-        },
       },
-      image_support = false,
+      image_support = true,
     },
   },
 }

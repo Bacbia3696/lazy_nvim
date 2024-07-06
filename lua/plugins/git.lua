@@ -2,24 +2,22 @@ return {
   {
     "lewis6991/gitsigns.nvim",
     keys = {
-      { "<leader>ght", require("gitsigns").toggle_current_line_blame, { desc = "Toggle git current line blame" } },
-      { "<leader>ghT", require("gitsigns").toggle_deleted, { desc = "Toggle git deleted lines" } },
-      { "]g", require("gitsigns").next_hunk, { desc = "Next git hunk" } },
-      { "[g", require("gitsigns").prev_hunk, { desc = "Prev git hunk" } },
+      { "<leader>ghtb", require("gitsigns").toggle_current_line_blame, desc = "Toggle git current line blame" },
+      { "<leader>ghtd", require("gitsigns").toggle_deleted, desc = "Toggle git deleted lines" },
+      { "<leader>ghth", require("gitsigns").toggle_linehl, desc = "Toggle git line highlight" },
     },
     opts = function(_, opts)
       opts.current_line_blame = true
     end,
   },
   {
-    "NeogitOrg/neogit",
-    event = "VeryLazy",
-    dependencies = {
-      "nvim-lua/plenary.nvim", -- required
-      "sindrets/diffview.nvim", -- optional - Diff integration
-
-      -- Only one of these is needed, not both.
-      "nvim-telescope/telescope.nvim", -- optional
+    "sindrets/diffview.nvim",
+    keys = {
+      { "<leader>gd", "", desc = "+diffview" },
+      { "<leader>gdo", "<Cmd>DiffviewOpen<CR>", desc = "Open Diffview" },
+      { "<leader>gdc", "<Cmd>DiffviewClose<CR>", desc = "Close Diffview" },
+      { "<leader>gdh", "<Cmd>DiffviewFileHistory %<CR>", desc = "Diffview current file history" },
     },
+    lazy = false,
   },
 }

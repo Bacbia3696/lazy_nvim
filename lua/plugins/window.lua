@@ -7,24 +7,14 @@ return {
         options = {
           laststatus = 0,
         },
-        tmux = { enabled = true },
       },
       window = {
-        height = 0.8,
+        height = 0.9,
         width = 100,
         options = {
-          signcolumn = "number",
+          signcolumn = "no",
           foldcolumn = "0",
         },
-      },
-    },
-  },
-  {
-    "aserowy/tmux.nvim",
-    keys = { "<M-h>", "<M-j>", "<M-k>", "<M-l>", "<C-h>", "<C-j>", "<C-k>", "<C-l>" },
-    opts = {
-      copy_sync = {
-        sync_registers = false, -- avoid lagging when sync register
       },
     },
   },
@@ -45,17 +35,6 @@ return {
       hint = "floating-big-letter",
       selection_chars = "QWEASDZXC",
       show_prompt = false,
-      filter_rules = {
-        include_current_win = true,
-        bo = {
-          filetype = {},
-          buftype = {},
-          -- exclude window create by treesitter-context
-          bufhidden = { "wipe" },
-        },
-        -- filter using window options
-        wo = {},
-      },
     },
   },
 }

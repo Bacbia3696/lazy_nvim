@@ -1,23 +1,43 @@
 return {
   {
-    "gbprod/yanky.nvim",
+    "folke/snacks.nvim",
+    ---@type snacks.Config
     opts = {
-      preserve_cursor_position = {
-        enabled = false,
+      styles = {
+        terminal = {
+          border = "rounded",
+        },
       },
     },
   },
-  {
-    "echasnovski/mini.ai",
-    enabled = false,
-  },
-  {
-    "echasnovski/mini.surround",
-    enabled = false,
-  },
+  -- {
+  --   "gbprod/yanky.nvim",
+  --   opts = {
+  --     preserve_cursor_position = {
+  --       enabled = false,
+  --     },
+  --   },
+  -- },
+  -- {
+  --   "echasnovski/mini.ai",
+  --   enabled = false,
+  -- },
+  -- {
+  --   "echasnovski/mini.surround",
+  --   enabled = false,
+  -- },
+  -- {
+  --   "kylechui/nvim-surround",
+  --   event = "VeryLazy",
+  --   opts = {},
+  -- },
   {
     "echasnovski/mini.pairs",
     opts = {
+      -- skip autopair when next character is one of these
+      skip_next = [=[[%w%%%[%.%$]]=],
+      -- skip autopair when the cursor is inside these treesitter nodes
+      skip_ts = {},
       mappings = {
         -- exclude b'', and <' for Rust
         ["'"] = { action = "closeopen", pair = "''", neigh_pattern = "[^ac-z\\&<].", register = { cr = false } },
@@ -26,30 +46,8 @@ return {
     },
   },
   {
-    "kylechui/nvim-surround",
-    event = "VeryLazy",
-    opts = {},
-  },
-  {
     "hrsh7th/nvim-cmp",
     dependencies = { "hrsh7th/cmp-cmdline", { "jackieaskins/cmp-emmet", build = "npm run release" } },
-    keys = {
-      {
-        "<leader>tc",
-        function()
-          local cmp = require("cmp")
-          local current_setting = cmp.get_config().completion.autocomplete
-          if current_setting and #current_setting > 0 then
-            cmp.setup({ completion = { autocomplete = false } })
-            require("lazyvim.util").info("Disable", { title = "Toggle auto completion" })
-          else
-            cmp.setup({ completion = { autocomplete = { cmp.TriggerEvent.TextChanged } } })
-            require("lazyvim.util").info("Enable", { title = "Toggle auto completion" })
-          end
-        end,
-        desc = "Toggle auto completion",
-      },
-    },
     opts = function(_, opts)
       local cmp = require("cmp")
       opts.sources = cmp.config.sources(vim.list_extend(opts.sources, {
@@ -60,7 +58,7 @@ return {
         ["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
         ["<C-u>"] = cmp.mapping.scroll_docs(-4),
         ["<C-d>"] = cmp.mapping.scroll_docs(4),
-        ["<C-g>"] = cmp.mapping.complete(),
+        ["<C-Space>"] = cmp.mapping.complete(),
         ["<C-y>"] = cmp.mapping.abort(),
         ["<CR>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
         ["<S-CR>"] = cmp.mapping.confirm({

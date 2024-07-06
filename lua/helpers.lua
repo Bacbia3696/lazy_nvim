@@ -22,7 +22,7 @@ end
 function M.copy(text)
   if type(text) == "string" then
     vim.fn.setreg("+", text)
-    require("lazyvim.util").info(text, { title = "Copied to clipboard" })
+    LazyVim.info(text, { title = "Copied to clipboard" })
   end
 end
 

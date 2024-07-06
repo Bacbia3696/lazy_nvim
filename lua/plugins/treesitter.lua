@@ -51,12 +51,12 @@ return {
           },
         },
         swap = {
-          enable = false,
+          enable = true,
           swap_next = {
-            ["<leader>a"] = "@parameter.inner",
+            ["<leader><Right>"] = "@parameter.inner",
           },
           swap_previous = {
-            ["<leader>A"] = "@parameter.inner",
+            ["<leader><Left>"] = "@parameter.inner",
           },
         },
       },

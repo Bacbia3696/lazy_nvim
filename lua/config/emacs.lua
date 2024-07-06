@@ -35,10 +35,10 @@ map("i", "<M-f>", "<C-o>e<Right>", { silent = true })
 map("c", "<M-f>", "<S-Right>", { silent = false })
 
 -- scroll-down-command
-map("i", "<M-v>", "<PageUp>", { silent = true })
+-- map("i", "<M-v>", "<PageUp>", { silent = true })
 
 -- scroll-up-command
-map("i", "<C-v>", "<PageDown>", { silent = true })
+-- map("i", "<C-v>", "<PageDown>", { silent = true })
 
 --
 --- Copy & Paste
