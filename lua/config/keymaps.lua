@@ -68,3 +68,16 @@ map("n", "<leader>gD", function()
     { size = { height = 0.8, width = 0.8 }, env = { LESS = "-SRX" } }
   )
 end, { desc = "Git diff current file" })
+
+Snacks.toggle
+  .new({
+    name = "diagnostics virtual text",
+    get = function()
+      return vim.b.virtual_text == nil and true or vim.b.virtual_text
+    end,
+    set = function(state)
+      vim.diagnostic.config({ virtual_text = state })
+      vim.b.virtual_text = state
+    end,
+  })
+  :map("<leader>uD")

@@ -1,6 +1,9 @@
 return {
   "ibhagwan/fzf-lua",
   opts = {
+    defaults = {
+      file_icons = "mini", -- devicons or mini
+    },
     winopts = {
       preview = {
         vertical = "down:65%",

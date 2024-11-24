@@ -34,15 +34,6 @@ return {
         "<cmd>FzfLua lsp_typedefs jump_to_single_result=true ignore_current_line=true<cr>",
         desc = "Goto T[y]pe Definition",
       })
-      table.insert(keys, {
-        "<leader>tD",
-        function()
-          local enable = vim.b.virtual_text == nil and true or vim.b.virtual_text
-          vim.b.virtual_text = not enable
-          vim.diagnostic.show(nil, nil, nil, { virtual_text = vim.b.virtual_text })
-        end,
-        desc = "Toggle diagnostic virtual_text",
-      })
     end,
     opts = {
       inlay_hints = { enabled = false },
