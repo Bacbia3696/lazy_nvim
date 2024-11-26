@@ -48,9 +48,21 @@ return {
     "stevearc/aerial.nvim",
     opts = function()
       return {
+        post_parse_symbol = function(_, item, _)
+          -- Check if the item is a method and contains a struct name
+          local pattern = "%(([^%*]+%*[^%)]+)%)%s+([^%s]+)"
+          local struct, method = item.name:match(pattern)
+          if struct and method then
+            -- Shorten the struct name
+            local shortened_struct = "*" .. struct:match("%*([^%)]+)"):sub(1, 5) .. "..."
+            -- Update the item name with the shortened struct and method
+            item.name = "(" .. shortened_struct .. ") " .. method
+          end
+          return true
+        end,
         backends = { "treesitter", "lsp", "markdown", "man" },
         layout = {
-          max_width = { 45, 0.2 },
+          max_width = { 50, 0.2 },
           width = nil,
           min_width = 25,
         },
