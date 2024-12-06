@@ -156,7 +156,7 @@ return {
       -- show lsp client instead of key
       opts.sections.lualine_b = {
         Util.lualine.root_dir(),
-        { Util.lualine.pretty_path({ modified_sign = " " }) },
+        { Util.lualine.pretty_path({ relative = "root", modified_sign = " ", length = 2 }) },
         -- { "filetype", icon_only = true, separator = "" },
         {
           "diagnostics",
