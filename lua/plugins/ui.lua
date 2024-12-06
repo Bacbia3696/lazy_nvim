@@ -1,4 +1,5 @@
 return {
+  { "Pocco81/HighStr.nvim" },
   {
     "OXY2DEV/helpview.nvim",
     lazy = false,
@@ -156,7 +157,7 @@ return {
       -- show lsp client instead of key
       opts.sections.lualine_b = {
         Util.lualine.root_dir(),
-        { Util.lualine.pretty_path({ modified_sign = " " }) },
+        { Util.lualine.pretty_path({ relative = "root", modified_sign = " ", length = 2 }) },
         -- { "filetype", icon_only = true, separator = "" },
         {
           "diagnostics",
@@ -177,7 +178,7 @@ return {
         },
       }
       opts.sections.lualine_c = {}
-      opts.sections.lualine_x[1] = {
+      opts.sections.lualine_x[2] = {
         -- Show lsp info
         function()
           return require("lsp-progress").progress({
@@ -239,5 +240,12 @@ return {
         extra_groups = extras,
       }
     end,
+  },
+  {
+    "jackplus-xyz/monaspace.nvim",
+    lazy = false,
+    opts = {
+      -- Add your configuration here
+    },
   },
 }

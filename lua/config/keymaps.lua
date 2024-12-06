@@ -36,7 +36,7 @@ end, { desc = "Save file and format" })
 require("which-key").add({ { "<leader>y", group = "clipboard", icon = "" } })
 
 map("n", "<leader>yo", function()
-  require("helpers").open(vim.fn.expand("%"))
+  vim.ui.open(vim.fn.expand("%"))
 end, { desc = "Open file" })
 map("n", "<leader>yp", function()
   require("helpers").copy(vim.fn.expand("%:p:h"))
@@ -47,7 +47,7 @@ end, { desc = "Copy filepath" })
 map("n", "<leader>yd", function()
   require("helpers").copy(vim.fn.expand("%:p") .. ":" .. vim.fn.line("."))
 end, { desc = "Copy filepath" })
-map("n", "<leader>yy", "<cmd>%y<cr>", { desc = "Copy all file" })
+map("n", "<leader>ya", "<cmd>%y<cr>", { desc = "Copy all file" })
 
 -- git
 -- map("n", "<leader>gb", function()
@@ -80,4 +80,6 @@ Snacks.toggle
       vim.b.virtual_text = state
     end,
   })
-  :map("<leader>uD")
+  :map("<leader>uv")
+
+map("n", "<leader>uV", "<cmd>DapVirtualTextToggle<cr>", { desc = "Toggle Dap virtual text" })
