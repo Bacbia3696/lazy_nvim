@@ -4,6 +4,10 @@ return {
     version = "*",
     lazy = true,
     ft = "markdown",
+    keys = {
+      { "<localleader>d", "<Cmd>ObsidianDailies<CR>", ft = "markdown" },
+      { "<localleader>t", "<Cmd>ObsidianToggleCheckbox<CR>", ft = "markdown" },
+    },
     opts = {
       ui = {
         enable = false,

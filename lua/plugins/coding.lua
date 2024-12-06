@@ -5,32 +5,11 @@ return {
     opts = {
       styles = {
         terminal = {
-          border = "rounded",
+          border = vim.g.border,
         },
       },
     },
   },
-  -- {
-  --   "gbprod/yanky.nvim",
-  --   opts = {
-  --     preserve_cursor_position = {
-  --       enabled = false,
-  --     },
-  --   },
-  -- },
-  -- {
-  --   "echasnovski/mini.ai",
-  --   enabled = false,
-  -- },
-  -- {
-  --   "echasnovski/mini.surround",
-  --   enabled = false,
-  -- },
-  -- {
-  --   "kylechui/nvim-surround",
-  --   event = "VeryLazy",
-  --   opts = {},
-  -- },
   {
     "echasnovski/mini.pairs",
     opts = {

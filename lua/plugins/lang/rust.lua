@@ -19,7 +19,7 @@ return {
     opts = {
       popup = {
         autofocus = true,
-        border = "rounded",
+        border = vim.g.border,
       },
     },
   },

@@ -3,6 +3,10 @@ return {
   opts = {
     defaults = {
       file_icons = "mini", -- devicons or mini
+      path_shorten = 7,
+    },
+    files = {
+      cwd_prompt = true,
     },
     winopts = {
       preview = {

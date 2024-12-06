@@ -54,17 +54,17 @@ map("!", "<M-BS>", "<C-w>", { silent = false })
 map("i", "<C-BS>", "<C-w>", { silent = true })
 
 -- kill-line
-map("i", "<C-k>", function()
-  local col = vim.api.nvim_win_get_cursor(0)[2]
-  local line = vim.api.nvim_get_current_line()
-
-  if #line <= col then
-    return "<Del><C-o>dw"
-  end
-
-  return "<C-o>dw"
-end, { silent = true, expr = true })
-map("c", "<C-k>", "<C-f>d$<C-c><End>", { silent = false })
+-- map("i", "<C-k>", function()
+--   local col = vim.api.nvim_win_get_cursor(0)[2]
+--   local line = vim.api.nvim_get_current_line()
+--
+--   if #line <= col then
+--     return "<Del><C-o>dw"
+--   end
+--
+--   return "<C-o>dw"
+-- end, { silent = true, expr = true })
+-- map("c", "<C-k>", "<C-f>d$<C-c><End>", { silent = false })
 
 -- kill-word
 map("i", "<M-d>", function()

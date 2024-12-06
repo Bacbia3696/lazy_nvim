@@ -30,6 +30,14 @@ return {
       { "<localleader><space>", "<Cmd>Leet<CR>" },
     },
     opts = {
+      hooks = {
+        ---@type fun(question: lc.ui.Question)[]
+        ["question_enter"] = {
+          function()
+            vim.opt.winfixbuf = false
+          end,
+        },
+      },
       arg = leet_arg,
       lang = "golang",
       console = {
@@ -38,7 +46,7 @@ return {
         },
       },
       description = {
-        width = "50%",
+        width = "55%",
       },
       injector = {
         ["rust"] = {

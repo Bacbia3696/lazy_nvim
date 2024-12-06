@@ -24,9 +24,9 @@ return {
   {
     "neovim/nvim-lspconfig",
     init = function()
-      require("lspconfig.ui.windows").default_options = {
-        border = "rounded",
-      }
+      -- require("lspconfig.ui.windows").default_options = {
+      --   border = vim.g.border,
+      -- }
       local keys = require("lazyvim.plugins.lsp.keymaps").get()
       -- table.insert(keys, { "gt", vim.lsp.buf.type_definition, desc = "Goto Type Definition" })
       table.insert(keys, {
@@ -43,7 +43,7 @@ return {
         },
       },
       diagnostics = {
-        float = { border = "rounded" },
+        float = { border = vim.g.border },
       },
       format = {
         timeout_ms = 5000,
@@ -53,7 +53,7 @@ return {
   {
     "williamboman/mason.nvim",
     opts = {
-      ui = { border = "rounded", width = 0.8, height = 0.8 },
+      ui = { border = vim.g.border, width = 0.8, height = 0.8 },
     },
   },
 }

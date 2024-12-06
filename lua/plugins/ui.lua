@@ -1,4 +1,5 @@
 return {
+  { "Pocco81/HighStr.nvim" },
   {
     "OXY2DEV/helpview.nvim",
     lazy = false,
@@ -109,22 +110,22 @@ return {
         hl.LineNr = { fg = colors.dark3 }
         hl.CursorLineNr = { fg = colors.blue }
         hl.StatusLineNC = { fg = colors.dark3 } -- more clear color for winbar when clicked
-        hl.Pmenu = { link = "FloatBorder" } -- for blink.cmp
+        -- hl.Pmenu = { link = "FloatBorder" } -- for blink.cmp
         hl.BlinkCmpGhostText = { fg = colors.fg_dark, italic = true }
         hl.CmpGhostText = { fg = "#444a73", italic = true }
 
         hl.MatchParen = { underline = true, bold = true }
         hl.WinSeparator = { fg = colors.dark3 }
         -- hl.LspInlayHint = { fg = "#4e8ca3", bg = colors.none, italic = true }
-        hl.LspInlayHint = { fg = "#0a8fb2", bg = "#1a2a34", italic = true }
-        hl.DiagnosticUnnecessary = { link = "NonText" }
+        -- hl.LspInlayHint = { fg = "#0a8fb2", bg = "#1a2a34", italic = true }
+        -- hl.DiagnosticUnnecessary = { link = "NonText" }
         hl.Todo = { bold = true }
         hl.WinBar = { bg = colors.none, bold = true, fg = colors.fg_dark }
         hl.WinBarNC = { bg = colors.none, italic = true, fg = colors.dark3 }
         hl.HelpviewInlineCodes = { link = "TablineSel" }
 
         hl.NvimDapVirtualText = { link = "DiagnosticVirtualTextHint" }
-        hl.FzfLuaCursorLine = { link = "FzfLuaFzfCursorLine" }
+        -- hl.FzfLuaCursorLine = { link = "FzfLuaFzfCursorLine" }
 
         for _, v in ipairs({ "Rare", "Cap", "Local", "Bad" }) do
           hl["Spell" .. v] = { undercurl = true }
@@ -156,7 +157,7 @@ return {
       -- show lsp client instead of key
       opts.sections.lualine_b = {
         Util.lualine.root_dir(),
-        { Util.lualine.pretty_path({ modified_sign = " " }) },
+        { Util.lualine.pretty_path({ relative = "root", modified_sign = " ", length = 2 }) },
         -- { "filetype", icon_only = true, separator = "" },
         {
           "diagnostics",
@@ -177,7 +178,7 @@ return {
         },
       }
       opts.sections.lualine_c = {}
-      opts.sections.lualine_x[1] = {
+      opts.sections.lualine_x[2] = {
         -- Show lsp info
         function()
           return require("lsp-progress").progress({
@@ -240,4 +241,17 @@ return {
       }
     end,
   },
+  {
+    "folke/trouble.nvim",
+    opts = {
+      focus = true,
+    },
+  },
+  -- {
+  --   "jackplus-xyz/monaspace.nvim",
+  --   lazy = false,
+  --   opts = {
+  --     -- Add your configuration here
+  --   },
+  -- },
 }
