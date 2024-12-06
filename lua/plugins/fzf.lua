@@ -3,14 +3,18 @@ return {
   opts = {
     defaults = {
       file_icons = "mini", -- devicons or mini
+      path_shorten = 7,
     },
-    winopts = {
-      preview = {
-        vertical = "down:65%",
-        layout = "vertical",
-        scrollchars = { "┃", "" },
-      },
+    files = {
+      cwd_prompt = true,
     },
+    -- winopts = {
+    --   preview = {
+    --     vertical = "down:65%",
+    --     layout = "vertical",
+    --     scrollchars = { "┃", "" },
+    --   },
+    -- },
     ui_select = function(fzf_opts, items)
       return vim.tbl_deep_extend("force", fzf_opts, {
         prompt = " ",

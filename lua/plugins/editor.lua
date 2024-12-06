@@ -35,7 +35,7 @@ return {
     "folke/which-key.nvim",
     opts = {
       win = {
-        border = "rounded", -- none, single, double, shadow
+        border = vim.g.border, -- none, single, double, shadow
       },
     },
   },
@@ -54,7 +54,7 @@ return {
           local struct, method = item.name:match(pattern)
           if struct and method then
             -- Shorten the struct name
-            local shortened_struct = "*" .. struct:match("%*([^%)]+)"):sub(1, 5) .. "..."
+            local shortened_struct = "*" .. struct:match("%*([^%)]+)"):sub(1, 8) .. ""
             -- Update the item name with the shortened struct and method
             item.name = "(" .. shortened_struct .. ") " .. method
           end
@@ -62,7 +62,7 @@ return {
         end,
         backends = { "treesitter", "lsp", "markdown", "man" },
         layout = {
-          max_width = { 50, 0.2 },
+          max_width = { 55, 0.25 },
           width = nil,
           min_width = 25,
         },

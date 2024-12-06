@@ -1,9 +1,15 @@
 return {
   {
     "ramilito/kubectl.nvim",
-    config = function()
-      require("kubectl").setup({})
-    end,
+    opts = {},
+  },
+  {
+    "mistricky/codesnap.nvim",
+    build = "make",
+    opts = {
+      -- bg_padding = 0,
+      watermark = "Leetcode",
+    },
   },
   {
     "mikavilpas/yazi.nvim",

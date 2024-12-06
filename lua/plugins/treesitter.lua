@@ -27,7 +27,7 @@ return {
       textobjects = {
         lsp_interop = {
           enable = true,
-          border = "rounded",
+          border = vim.g.border,
           floating_preview_opts = {},
           peek_definition_code = {
             ["<leader>ck"] = "@function.outer",
