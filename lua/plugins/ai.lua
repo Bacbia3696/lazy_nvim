@@ -11,7 +11,7 @@ return {
           __inherited_from = "openai",
           api_key_name = "cmd:bw get notes pplx-api",
           endpoint = "https://api.perplexity.ai",
-          model = "llama-3.1-sonar-large-128k-online",
+          model = "sonar",
         },
       },
     },
