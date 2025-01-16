@@ -1,6 +1,9 @@
 return {
   {
     "epwalsh/obsidian.nvim",
+    dependencies = {
+      "nvim-telescope/telescope.nvim",
+    },
     version = "*",
     lazy = true,
     ft = "markdown",
@@ -25,8 +28,23 @@ return {
     },
   },
   {
+    "OXY2DEV/markview.nvim",
+    enabled = false,
+    lazy = false,
+    opts = {
+      preview = {
+        icon_provider = "mini",
+      },
+    },
+  },
+  {
+    "iamcco/markdown-preview.nvim",
+    enabled = false,
+  },
+  {
     "MeanderingProgrammer/render-markdown.nvim",
     opts = {
+      render_modes = true,
       preset = "lazy",
       code = {
         sign = true,
@@ -35,7 +53,6 @@ return {
         sign = true,
         icons = { "󰲡 ", "󰲣 ", "󰲥 ", "󰲧 ", "󰲩 ", "󰲫 " },
       },
-      render_modes = true,
     },
   },
 }

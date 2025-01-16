@@ -81,9 +81,10 @@ return {
         documentation = {
           view = "hover",
           ---@type NoiceViewOptions
-          opts = {
-            win_options = { concealcursor = "n", conceallevel = 2 },
-          },
+          -- this is needed if I set custom treesitter queries
+          -- opts = {
+          --   win_options = { concealcursor = "n", conceallevel = 2 },
+          -- },
         },
       },
       messages = {

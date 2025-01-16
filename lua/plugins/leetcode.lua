@@ -4,10 +4,6 @@ return {
   {
     "kawre/leetcode.nvim",
     cond = vim.fn.argv()[1] == leet_arg,
-    dependencies = {
-      "nvim-telescope/telescope.nvim",
-      "linux-cultist/venv-selector.nvim",
-    },
     lazy = false,
     keys = {
       { "<localleader>t", "<Cmd>Leet tabs<CR>" },
