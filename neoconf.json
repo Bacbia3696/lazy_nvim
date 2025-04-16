@@ -2,7 +2,10 @@
   "neodev": {
     "library": {
       "enabled": true,
-      "plugins": ["nvim-lspconfig", "lsp"]
+      "plugins": [
+        "nvim-lspconfig",
+        "lsp"
+      ]
     }
   },
   "neoconf": {
@@ -32,7 +35,6 @@
       "javascript.referencesCodeLens.showOnAllFunctions": true,
       "javascript.referencesCodeLens.enabled": true,
       "javascript.implementationsCodeLens.enabled": true,
-
       "typescript.preferences.importModuleSpecifier": "non-relative",
       "typescript.referencesCodeLens.showOnAllFunctions": true,
       "typescript.referencesCodeLens.enabled": true,
