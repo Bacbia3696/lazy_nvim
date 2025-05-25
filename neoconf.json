@@ -1,0 +1,44 @@
+{
+  "neodev": {
+    "library": {
+      "enabled": true,
+      "plugins": [
+        "nvim-lspconfig",
+        "lsp"
+      ]
+    }
+  },
+  "neoconf": {
+    "plugins": {
+      "lua_ls": {
+        "enabled": true
+      }
+    }
+  },
+  "lspconfig": {
+    "lua_ls": {
+      "Lua.completion.callSnippet": "Replace"
+    },
+    "gopls": {
+      "gopls": {
+        "usePlaceholders": true,
+        "hints": {
+          "parameterNames": true
+        },
+        "analyses": {
+          "fieldalignment": false
+        }
+      }
+    },
+    "vtsls": {
+      "javascript.preferences.importModuleSpecifier": "non-relative",
+      "javascript.referencesCodeLens.showOnAllFunctions": true,
+      "javascript.referencesCodeLens.enabled": true,
+      "javascript.implementationsCodeLens.enabled": true,
+      "typescript.preferences.importModuleSpecifier": "non-relative",
+      "typescript.referencesCodeLens.showOnAllFunctions": true,
+      "typescript.referencesCodeLens.enabled": true,
+      "typescript.implementationsCodeLens.enabled": true
+    }
+  }
+}

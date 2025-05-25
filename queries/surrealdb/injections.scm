@@ -1,0 +1,2 @@
+	(scripting_content) @javascript
+	
