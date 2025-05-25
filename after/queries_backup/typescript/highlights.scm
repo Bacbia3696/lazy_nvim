@@ -1,0 +1,23 @@
+;; extends
+;; Keywords
+(("import"   @keyword) (#set! conceal  "󰋺"))
+(("from"  @keyword) (#set! conceal  ""))
+(("export"     @keyword) (#set! conceal ""))
+(("return"   @keyword) (#set! conceal ""))
+(("function"     @keyword) (#set! conceal "󰊕"))
+(("const"   @keyword) (#set! conceal ""))
+(("var"   @keyword) (#set! conceal ""))
+(("let"   @keyword) (#set! conceal ""))
+(("for"      @keyword) (#set! conceal ""))
+(("while"      @keyword) (#set! conceal "󰑖"))
+(("class"  @keyword) (#set! conceal  ""))
+(("async"  @keyword) (#set! conceal  ""))
+(("await"  @keyword) (#set! conceal  ""))
+(("if"      @keyword) (#set! conceal ""))
+(("else"      @keyword) (#set! conceal "󰅱"))
+; (("switch"      @keyword) (#set! conceal ""))
+; (("case"      @keyword) (#set! conceal ""))
+
+(("interface"  @keyword) (#set! conceal ""))
+(("type"  @keyword) (#set! conceal ""))
+(("enum"  @keyword) (#set! conceal ""))
