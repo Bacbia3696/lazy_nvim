@@ -52,7 +52,7 @@ return {
           before = { "package main" },
         },
       },
-      image_support = true,
+      image_support = false,
     },
   },
 }

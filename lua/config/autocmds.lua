@@ -61,3 +61,14 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
     vim.opt_local.textwidth = 80
   end,
 })
+
+-- Disable diagnostics for markdown and environment files
+vim.api.nvim_create_autocmd({ "FileType" }, {
+  pattern = { "markdown", "sh" },
+  group = require("helpers").augroup("disable_diagnostics"),
+  desc = "Disable diagnostics for markdown files",
+  callback = function(event)
+    vim.diagnostic.enable(false, { bufnr = event.buf })
+    vim.opt_local.spell = false
+  end,
+})

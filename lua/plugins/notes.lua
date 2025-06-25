@@ -1,33 +1,5 @@
 return {
   {
-    "epwalsh/obsidian.nvim",
-    dependencies = {
-      "nvim-telescope/telescope.nvim",
-    },
-    version = "*",
-    lazy = true,
-    ft = "markdown",
-    keys = {
-      { "<localleader>d", "<Cmd>ObsidianDailies<CR>", ft = "markdown" },
-      { "<localleader>t", "<Cmd>ObsidianToggleCheckbox<CR>", ft = "markdown" },
-    },
-    opts = {
-      ui = {
-        enable = false,
-      },
-      workspaces = {
-        {
-          name = "personal",
-          path = "~/obsidian/personal",
-        },
-        {
-          name = "work",
-          path = "~/obsidian/work",
-        },
-      },
-    },
-  },
-  {
     "OXY2DEV/markview.nvim",
     enabled = false,
     lazy = false,
@@ -48,6 +20,10 @@ return {
       preset = "lazy",
       code = {
         sign = true,
+        border = "thin",
+      },
+      checkbox = {
+        enabled = true,
       },
       heading = {
         sign = true,

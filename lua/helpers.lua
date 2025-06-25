@@ -26,4 +26,12 @@ function M.copy(text)
   end
 end
 
+--- Setup Ghostty terminal title
+function M.setup_ghostty()
+  if vim.fn.getenv("TERM_PROGRAM") == "ghostty" then
+    vim.opt.title = true
+    vim.opt.titlestring = " %{fnamemodify(getcwd(), ':t')}"
+  end
+end
+
 return M
