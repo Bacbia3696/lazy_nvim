@@ -66,7 +66,7 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 vim.api.nvim_create_autocmd({ "FileType" }, {
   pattern = { "markdown", "sh" },
   group = require("helpers").augroup("disable_diagnostics"),
-  desc = "Disable diagnostics for markdown files",
+  desc = "Disable diagnostics",
   callback = function(event)
     vim.diagnostic.enable(false, { bufnr = event.buf })
     vim.opt_local.spell = false

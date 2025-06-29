@@ -27,7 +27,6 @@ return {
     },
     opts = {
       hooks = {
-        ---@type fun(question: lc.ui.Question)[]
         ["question_enter"] = {
           function()
             vim.opt.winfixbuf = false

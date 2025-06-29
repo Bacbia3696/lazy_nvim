@@ -10,13 +10,12 @@ return {
       enabled = true,
     },
     picker = {
+      ui_select = { enabled = true },
       sources = {
         explorer = {
           hidden = true,
           ignored = true,
           follow = true,
-          -- your explorer picker configuration comes here
-          -- or leave it empty to use the default settings
         },
       },
       -- formatters = {
