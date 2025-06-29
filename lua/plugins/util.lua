@@ -1,4 +1,5 @@
 return {
+  { "nanotee/zoxide.vim" },
   {
     "folke/persistence.nvim",
     -- add folds options when persist session
@@ -17,6 +18,7 @@ return {
           require("smart-splits").resize_left()
         end,
         desc = "Resize left",
+        mode = { "t", "n" },
       },
       {
         "<A-j>",
@@ -24,6 +26,7 @@ return {
           require("smart-splits").resize_down()
         end,
         desc = "Resize down",
+        mode = { "t", "n" },
       },
       {
         "<A-k>",
@@ -31,6 +34,7 @@ return {
           require("smart-splits").resize_up()
         end,
         desc = "Resize up",
+        mode = { "t", "n" },
       },
       {
         "<A-l>",
@@ -38,6 +42,7 @@ return {
           require("smart-splits").resize_right()
         end,
         desc = "Resize right",
+        mode = { "t", "n" },
       },
       {
         "<C-h>",
@@ -75,9 +80,6 @@ return {
         desc = "Move cursor to previous split",
       },
     },
-  },
-  {
-    "grafana/vim-alloy",
   },
   {
     "mistweaverco/kulala.nvim",

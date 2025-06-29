@@ -111,22 +111,17 @@ return {
         hl.LineNr = { fg = colors.dark3 }
         hl.CursorLineNr = { fg = colors.blue }
         hl.StatusLineNC = { fg = colors.dark3 } -- more clear color for winbar when clicked
-        -- hl.Pmenu = { link = "FloatBorder" } -- for blink.cmp
         hl.BlinkCmpGhostText = { fg = colors.fg_dark, italic = true }
         hl.CmpGhostText = { fg = "#444a73", italic = true }
 
         hl.MatchParen = { underline = true, bold = true }
         hl.WinSeparator = { fg = colors.dark3 }
-        -- hl.LspInlayHint = { fg = "#4e8ca3", bg = colors.none, italic = true }
-        -- hl.LspInlayHint = { fg = "#0a8fb2", bg = "#1a2a34", italic = true }
-        -- hl.DiagnosticUnnecessary = { link = "NonText" }
         hl.Todo = { bold = true }
         hl.WinBar = { bg = colors.none, bold = true, fg = colors.fg_dark }
         hl.WinBarNC = { bg = colors.none, italic = true, fg = colors.dark3 }
         hl.HelpviewInlineCodes = { link = "TablineSel" }
 
         hl.NvimDapVirtualText = { link = "DiagnosticVirtualTextHint" }
-        -- hl.FzfLuaCursorLine = { link = "FzfLuaFzfCursorLine" }
 
         for _, v in ipairs({ "Rare", "Cap", "Local", "Bad" }) do
           hl["Spell" .. v] = { undercurl = true }
@@ -179,6 +174,7 @@ return {
         },
       }
       opts.sections.lualine_c = {}
+      -- replace key with lsp progress (maybe 2 or 3 depend on copilot enable or not)
       opts.sections.lualine_x[2] = {
         -- Show lsp info
         function()
@@ -229,13 +225,6 @@ return {
         "WinBarNC",
         "NeoTreeNormal",
         "NeoTreeNormalNC",
-        -- "RenderMarkdownH1Bg",
-        -- "RenderMarkdownH2Bg",
-        -- "RenderMarkdownH3Bg",
-        -- "RenderMarkdownH4Bg",
-        -- "RenderMarkdownH5Bg",
-        -- "RenderMarkdownH6Bg",
-        -- "RenderMarkdownCodeInline",
       }
       return {
         extra_groups = extras,
@@ -248,11 +237,4 @@ return {
       focus = true,
     },
   },
-  -- {
-  --   "jackplus-xyz/monaspace.nvim",
-  --   lazy = false,
-  --   opts = {
-  --     -- Add your configuration here
-  --   },
-  -- },
 }

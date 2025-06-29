@@ -10,13 +10,18 @@ return {
       enabled = true,
     },
     picker = {
+      ui_select = { enabled = true },
       sources = {
         explorer = {
           hidden = true,
           ignored = true,
           follow = true,
-          -- your explorer picker configuration comes here
-          -- or leave it empty to use the default settings
+        },
+      },
+      previewers = {
+        git = {
+          builtin = false, -- use Neovim for previewing git output (true) or use git (false)
+          args = {}, -- additional arguments passed to the git command. Useful to set pager options usin `-c ...`
         },
       },
       -- formatters = {

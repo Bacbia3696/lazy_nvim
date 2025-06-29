@@ -18,12 +18,10 @@ function M.augroup(name)
 end
 
 --- Copy `text` to system clipboard
----@param text any
+---@param text string
 function M.copy(text)
-  if type(text) == "string" then
-    vim.fn.setreg("+", text)
-    LazyVim.info(text, { title = "Copied to clipboard" })
-  end
+  vim.fn.setreg("+", text)
+  LazyVim.info(text, { title = "Copied to clipboard" })
 end
 
 --- Setup Ghostty terminal title
