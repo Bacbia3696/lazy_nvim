@@ -3,7 +3,7 @@ return {
     "lewis6991/gitsigns.nvim",
     keys = {
       { "<leader>ghtb", require("gitsigns").toggle_current_line_blame, desc = "Toggle git current line blame" },
-      { "<leader>ghtd", require("gitsigns").toggle_deleted, desc = "Toggle git deleted lines" },
+      { "<leader>ghtd", require("gitsigns").preview_hunk_inline, desc = "Toggle preview hunk inline" },
       { "<leader>ghth", require("gitsigns").toggle_linehl, desc = "Toggle git line highlight" },
     },
     opts = function(_, opts)

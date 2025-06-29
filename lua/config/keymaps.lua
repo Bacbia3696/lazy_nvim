@@ -7,7 +7,7 @@ map("n", "<M-a>", "ggVG")
 map({ "n", "v" }, ";", ":", { nowait = true, silent = false })
 map("n", "0", "^", { nowait = true })
 map("n", "<C-q>", "<Cmd>quit<cr>")
--- map("t", "<C-q>", "<C-\\><C-n>")
+map("t", "<C-q>", "<C-\\><C-n>", { desc = "Exit terminal insert mode" })
 map("n", "<leader>W", "<Cmd>noa wa<cr>", { desc = "Save without format" })
 map("n", "<C-g>", "2<C-g>")
 
@@ -46,16 +46,13 @@ map("n", "<leader>yf", function()
 end, { desc = "Copy filepath" })
 map("n", "<leader>yd", function()
   require("helpers").copy(vim.fn.expand("%:p") .. ":" .. vim.fn.line("."))
-end, { desc = "Copy filepath" })
+end, { desc = "Copy filepath with linenumber" })
+map("n", "<leader>yy", function()
+  require("helpers").copy(vim.fn.expand("%:t"))
+end, { desc = "Copy filename" })
 map("n", "<leader>ya", "<cmd>%y<cr>", { desc = "Copy all file" })
 
 -- git
--- map("n", "<leader>gb", function()
---   Util.terminal(
---     { "git", "blame", vim.fn.expand("%") },
---     { size = { height = 0.8, width = 0.8 }, env = { LESS = "-SRX" } }
---   )
--- end, { desc = "Git blame current file" })
 map("n", "<leader>gw", function()
   Snacks.terminal(
     { "git", "whatchanged", "-p", vim.fn.expand("%") },

@@ -1,34 +1,63 @@
-local function get_args(config)
-  local args = type(config.args) == "function" and (config.args() or {}) or config.args or {}
-  config = vim.deepcopy(config)
-  ---@cast args string[]
-  config.args = function()
-    local new_args = vim.fn.input("Run with args: ", table.concat(args, " ")) --[[@as string]]
-    return vim.split(vim.fn.expand(new_args) --[[@as string]], " ")
-  end
-  return config
-end
-
 return {
-  "mfussenegger/nvim-dap",
-  -- stylua: ignore
-  keys = {
-    { "<F21>", function() require("dap").set_breakpoint(vim.fn.input('Breakpoint condition: ')) end, desc = "Breakpoint Condition" },
-    { "<F9>", function() require("dap").toggle_breakpoint() end, desc = "Toggle Breakpoint" },
-    { "<F5>", function() require("dap").continue() end, desc = "Continue" },
-    { "<F17>", function() require("dap").continue({ before = get_args }) end, desc = "Run with Args" },
-    { "<leader>dC", function() require("dap").run_to_cursor() end, desc = "Run to Cursor" },
-    { "<leader>dg", function() require("dap").goto_() end, desc = "Go to Line (No Execute)" },
-    { "<F11>", function() require("dap").step_into() end, desc = "Step Into" },
-    { "<leader>dj", function() require("dap").down() end, desc = "Down" },
-    { "<leader>dk", function() require("dap").up() end, desc = "Up" },
-    { "<leader>dl", function() require("dap").run_last() end, desc = "Run Last" },
-    { "<F23>", function() require("dap").step_out() end, desc = "Step Out" },
-    { "<F10>", function() require("dap").step_over() end, desc = "Step Over" },
-    { "<leader>dp", function() require("dap").pause() end, desc = "Pause" },
-    { "<leader>dr", function() require("dap").repl.toggle() end, desc = "Toggle REPL" },
-    { "<leader>ds", function() require("dap").session() end, desc = "Session" },
-    { "<leader>dt", function() require("dap").terminate() end, desc = "Terminate" },
-    { "<leader>dw", function() require("dap.ui.widgets").hover() end, desc = "Widgets" },
+  {
+    "mfussenegger/nvim-dap",
+    dependencies = {
+      "igorlfs/nvim-dap-view",
+      init = function()
+        vim.api.nvim_create_autocmd({ "FileType" }, {
+          pattern = { "dap-view", "dap-view-term", "dap-repl" }, -- dap-repl is set by `nvim-dap`
+          callback = function(evt)
+            vim.keymap.set("n", "q", "<C-w>q", { buffer = evt.buf })
+          end,
+        })
+      end,
+      opts = {
+        winbar = {
+          default_section = "scopes",
+        },
+        windows = {
+          terminal = {
+            width = 0.3,
+            position = "right",
+            -- List of debug adapters for which the terminal should be ALWAYS hidden
+            hide = { "go", "node", "pwa-node" },
+          },
+        },
+      },
+      keys = {
+        { "<leader>dd", "<cmd>DapViewToggle<cr>", desc = "Toggle DAP View" },
+      },
+      config = function(_, opts)
+        local dap = require("dap")
+        local dapview = require("dap-view")
+        dapview.setup(opts)
+        dap.listeners.after.event_initialized["dapview_config"] = function()
+          dapview.open()
+        end
+        dap.listeners.before.event_terminated["dapview_config"] = function()
+          dapview.close()
+        end
+        dap.listeners.before.event_exited["dapview_config"] = function()
+          dapview.close()
+        end
+      end,
+    },
+    keys = {
+      {
+        "<leader>dn",
+        function()
+          require("dap").step_over()
+        end,
+        desc = "Step Over",
+      },
+    },
+  },
+  {
+    "rcarriga/nvim-dap-ui",
+    enabled = false,
+  },
+  {
+    "theHamsta/nvim-dap-virtual-text",
+    enabled = false,
   },
 }

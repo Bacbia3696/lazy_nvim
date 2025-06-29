@@ -24,9 +24,6 @@ return {
   {
     "neovim/nvim-lspconfig",
     init = function()
-      -- require("lspconfig.ui.windows").default_options = {
-      --   border = vim.g.border,
-      -- }
       local keys = require("lazyvim.plugins.lsp.keymaps").get()
       -- table.insert(keys, { "gt", vim.lsp.buf.type_definition, desc = "Goto Type Definition" })
       table.insert(keys, {

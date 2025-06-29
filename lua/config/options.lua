@@ -22,11 +22,12 @@ vim.o.pumblend = 0 -- transparent cmp
 vim.o.listchars = [[eol:¬,tab:▸·,trail:●]]
 vim.o.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
 
--- turn on spell check
-vim.o.spell = true
+-- spell check
+vim.o.spell = false
 vim.o.spelllang = "en_us"
 vim.opt.spelloptions:append("camel")
 
+vim.o.statuscolumn = "%!v:lua.require'snacks.statuscolumn'.get()"
 -- conceal options
 -- vim.o.concealcursor = "nc"
 
