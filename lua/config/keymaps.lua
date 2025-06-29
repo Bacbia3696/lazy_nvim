@@ -50,12 +50,6 @@ end, { desc = "Copy filepath" })
 map("n", "<leader>ya", "<cmd>%y<cr>", { desc = "Copy all file" })
 
 -- git
--- map("n", "<leader>gb", function()
---   Util.terminal(
---     { "git", "blame", vim.fn.expand("%") },
---     { size = { height = 0.8, width = 0.8 }, env = { LESS = "-SRX" } }
---   )
--- end, { desc = "Git blame current file" })
 map("n", "<leader>gw", function()
   Snacks.terminal(
     { "git", "whatchanged", "-p", vim.fn.expand("%") },
