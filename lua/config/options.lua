@@ -13,6 +13,7 @@ vim.o.swapfile = false -- disable swap file
 vim.o.linebreak = true
 vim.o.wrap = true
 vim.o.relativenumber = false
+vim.o.jumpoptions = 'clean'
 
 -- ui options
 vim.o.showtabline = 0

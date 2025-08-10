@@ -140,9 +140,6 @@ return {
       local Util = require("lazyvim.util")
       local icons = require("lazyvim.config").icons
 
-      local auto_theme_custom = require("lualine.themes.auto")
-      auto_theme_custom.normal.c.bg = "none"
-      -- auto_theme_custom.normal.b.bg = "none"
       -- show lsp client instead of key
       opts.sections.lualine_b = {
         Util.lualine.root_dir(),
@@ -161,9 +158,9 @@ return {
       opts.sections.lualine_a = {
         {
           "mode",
-          fmt = function(str)
-            return str:sub(1, 1)
-          end,
+          -- fmt = function(str)
+          --   return str:sub(1, 1)
+          -- end,
         },
       }
       opts.sections.lualine_c = {}
@@ -196,8 +193,6 @@ return {
       return vim.tbl_deep_extend("force", opts, {
         options = {
           section_separators = { left = "", right = "" },
-          -- component_separators = { left = "", right = "" },
-          theme = auto_theme_custom,
         },
       })
     end,

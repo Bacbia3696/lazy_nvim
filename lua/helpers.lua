@@ -27,8 +27,11 @@ end
 --- Setup Ghostty terminal title
 function M.setup_ghostty()
   if vim.fn.getenv("TERM_PROGRAM") == "ghostty" then
+    if vim.fn.expand("%:t"):find("kubectl-edit", 1, true) then
+      return
+    end
     vim.opt.title = true
-    vim.opt.titlestring = " %{fnamemodify(getcwd(), ':t')}"
+    vim.opt.titlestring = "%{&buftype=='terminal'?' ':' '} %{fnamemodify(getcwd(), ':t')}"
   end
 end
 

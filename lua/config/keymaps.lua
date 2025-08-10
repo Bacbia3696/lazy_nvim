@@ -80,3 +80,41 @@ Snacks.toggle
   :map("<leader>uv")
 
 map("n", "<leader>uV", "<cmd>DapVirtualTextToggle<cr>", { desc = "Toggle Dap virtual text" })
+
+-- send selection text to terminal
+vim.keymap.set("v", "<leader><leader>", function()
+  local visual = require("snacks.picker.util").visual()
+  if not visual or not visual.text then
+    vim.notify("No visual selection found", vim.log.levels.WARN)
+    return
+  end
+
+  local terminals = require("snacks").terminal.list()
+  if #terminals == 0 then
+    vim.notify("No terminals found", vim.log.levels.WARN)
+    return
+  end
+
+  local terminal = terminals[#terminals]
+  local job_id = vim.b[terminal.buf].terminal_job_id
+
+  if job_id then
+    -- Use paste mode to prevent shell interpretation
+    vim.fn.chansend(job_id, "\x1b[200~") -- Start paste mode
+    vim.fn.chansend(job_id, visual.text)
+    vim.fn.chansend(job_id, "\x1b[201~") -- End paste mode
+
+    terminal:show()
+
+    vim.fn.chansend(job_id, "\n")
+
+    -- Scroll to bottom
+    vim.api.nvim_buf_call(terminal.buf, function()
+      vim.cmd("normal! G")
+    end)
+  else
+    vim.notify("Terminal job not found", vim.log.levels.ERROR)
+  end
+end, {
+  desc = "Send visual selection to terminal",
+})
