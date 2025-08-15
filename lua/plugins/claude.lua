@@ -15,7 +15,7 @@ return {
     opts = {
       port_range = { min = 10000, max = 65535 },
       auto_start = true,
-
+      terminal_cmd = "~/.claude/local/claude", -- Point to local installation
       -- Selection Tracking
       track_selection = true,
       visual_demotion_delay_ms = 50,

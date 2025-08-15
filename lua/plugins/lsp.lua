@@ -33,14 +33,10 @@ return {
       })
     end,
     opts = {
-      inlay_hints = { enabled = false },
-      servers = {
-        clangd = {
-          filetypes = { "c", "cpp", "objc", "objcpp", "cuda" },
-        },
-      },
+      inlay_hints = { enabled = true },
       diagnostics = {
         float = { border = vim.g.border },
+        virtual_text = false,
       },
       format = {
         timeout_ms = 5000,

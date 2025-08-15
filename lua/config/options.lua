@@ -13,7 +13,6 @@ vim.o.swapfile = false -- disable swap file
 vim.o.linebreak = true
 vim.o.wrap = true
 vim.o.relativenumber = false
-vim.o.jumpoptions = 'clean'
 
 -- ui options
 vim.o.showtabline = 0
@@ -34,3 +33,5 @@ vim.o.statuscolumn = "%!v:lua.require'snacks.statuscolumn'.get()"
 
 -- add Cfilter plugin so that we can filter in quickfix window
 vim.cmd("packadd cfilter")
+
+vim.g.lazyvim_python_lsp = "basedpyright"
