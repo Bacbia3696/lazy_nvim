@@ -70,16 +70,25 @@ Snacks.toggle
   .new({
     name = "diagnostics virtual text",
     get = function()
-      return vim.b.virtual_text == nil and true or vim.b.virtual_text
+      return vim.diagnostic.config().virtual_text ~= false
     end,
     set = function(state)
-      vim.diagnostic.config({ virtual_text = state })
-      vim.b.virtual_text = state
+      vim.diagnostic.config({
+        virtual_text = state and {
+          spacing = 4,
+          source = "if_many",
+          prefix = "●",
+        } or false,
+      })
     end,
   })
   :map("<leader>uv")
 
 map("n", "<leader>uV", "<cmd>DapVirtualTextToggle<cr>", { desc = "Toggle Dap virtual text" })
+map("n", "<C-`>", function()
+  Snacks.terminal(nil, { cwd = LazyVim.root() })
+end, { desc = "Terminal (Root Dir)" })
+map("t", "<C-`>", "<cmd>close<cr>", { desc = "Hide Terminal" })
 
 -- send selection text to terminal
 vim.keymap.set("v", "<leader><leader>", function()
@@ -101,13 +110,10 @@ vim.keymap.set("v", "<leader><leader>", function()
   if job_id then
     -- Use paste mode to prevent shell interpretation
     vim.fn.chansend(job_id, "\x1b[200~") -- Start paste mode
-    vim.fn.chansend(job_id, visual.text)
-    vim.fn.chansend(job_id, "\x1b[201~") -- End paste mode
+    vim.fn.chansend(job_id, visual.text .. "\n")
+    vim.fn.chansend(job_id, "\x1b[201~\n") -- End paste mode
 
     terminal:show()
-
-    vim.fn.chansend(job_id, "\n")
-
     -- Scroll to bottom
     vim.api.nvim_buf_call(terminal.buf, function()
       vim.cmd("normal! G")
