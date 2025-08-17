@@ -16,6 +16,34 @@ return {
         },
       },
     },
+    picker = {
+      previewers = {
+        diff = {
+          builtin = false,
+          cmd = { "delta" },
+        },
+        git = {
+          builtin = false,
+          args = {},
+        },
+      },
+      ui_select = { enabled = true },
+      sources = {
+        explorer = {
+          hidden = true,
+          ignored = true,
+          follow = true,
+          win = {
+            list = {
+              keys = {
+                ["<C-l>"] = { "<C-w><C-l>", expr = true },
+                ["<C-h>"] = { "<C-w><C-h>", expr = true },
+              },
+            },
+          },
+        },
+      },
+    },
     dashboard = {
       sections = {
         function()
@@ -75,16 +103,6 @@ return {
         end,
         { section = "keys", gap = 1, padding = 1 },
         { section = "startup" },
-      },
-    },
-    picker = {
-      ui_select = { enabled = true },
-      sources = {
-        explorer = {
-          hidden = true,
-          ignored = true,
-          follow = true,
-        },
       },
     },
   },
