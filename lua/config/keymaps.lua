@@ -3,17 +3,12 @@ require("config.emacs")
 
 local map = require("helpers").map
 
-map("n", "<M-a>", "ggVG")
+map("n", "<M-a>", "<cmd>%y<cr>", { desc = "yank all" })
 map({ "n", "v" }, ";", ":", { nowait = true, silent = false })
 map("n", "0", "^", { nowait = true })
 map("n", "<C-q>", "<Cmd>quit<cr>")
 map("t", "<C-q>", "<C-\\><C-n>", { desc = "Exit terminal insert mode" })
 map("n", "<leader>W", "<Cmd>noa wa<cr>", { desc = "Save without format" })
-map("n", "<C-g>", "2<C-g>")
-
--- reset key
-map("v", "<", "<")
-map("v", ">", ">")
 
 -- Move Lines
 map("n", "<M-Down>", "<cmd>m .+1<cr>==", { desc = "Move down" })
@@ -52,20 +47,6 @@ map("n", "<leader>yy", function()
 end, { desc = "Copy filename" })
 map("n", "<leader>ya", "<cmd>%y<cr>", { desc = "Copy all file" })
 
--- git
-map("n", "<leader>gw", function()
-  Snacks.terminal(
-    { "git", "whatchanged", "-p", vim.fn.expand("%") },
-    { size = { height = 0.8, width = 0.8 }, env = { LESS = "-SRX" } }
-  )
-end, { desc = "Git whatchanged current file" })
-map("n", "<leader>gD", function()
-  Snacks.terminal(
-    { "git", "diff", "-p", vim.fn.expand("%") },
-    { size = { height = 0.8, width = 0.8 }, env = { LESS = "-SRX" } }
-  )
-end, { desc = "Git diff current file" })
-
 Snacks.toggle
   .new({
     name = "diagnostics virtual text",
@@ -86,6 +67,6 @@ Snacks.toggle
 
 map("n", "<leader>uV", "<cmd>DapVirtualTextToggle<cr>", { desc = "Toggle Dap virtual text" })
 map("n", "<C-`>", function()
-  Snacks.terminal(nil, { cwd = LazyVim.root() })
+  Snacks.terminal(nil, { cwd = LazyVim.root(), win = { position = "right" } })
 end, { desc = "Terminal (Root Dir)" })
 map("t", "<C-`>", "<cmd>close<cr>", { desc = "Hide Terminal" })
