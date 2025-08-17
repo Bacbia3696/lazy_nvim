@@ -33,7 +33,7 @@ return {
       })
     end,
     opts = {
-      inlay_hints = { enabled = true },
+      inlay_hints = { enabled = false },
       diagnostics = {
         float = { border = vim.g.border },
         virtual_text = false,

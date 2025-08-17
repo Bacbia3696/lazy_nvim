@@ -36,10 +36,6 @@ return {
     },
   },
   {
-    "nvzone/volt",
-    { "nvzone/timerly", cmd = "TimerlyToggle" },
-  },
-  {
     "epwalsh/pomo.nvim",
     event = "VeryLazy",
     cmd = { "TimerStart", "TimerRepeat" },

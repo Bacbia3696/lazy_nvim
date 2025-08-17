@@ -18,6 +18,9 @@ return {
     opts = {
       render_modes = true,
       preset = "lazy",
+      sign = {
+        enabled = false,
+      },
       code = {
         sign = true,
         border = "thin",
