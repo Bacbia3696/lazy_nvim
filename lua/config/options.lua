@@ -14,14 +14,15 @@ vim.o.swapfile = false -- disable swap file
 vim.o.linebreak = true
 vim.o.wrap = true
 vim.o.relativenumber = false
+vim.o.cursorline = false
 
 -- ui options
 vim.o.showtabline = 0
-vim.o.pumblend = 0 -- transparent cmp
+-- vim.o.pumblend = 0 -- transparent cmp
 -- vim.o.signcolumn = "number"
 -- vim.o.listchars = [[eol:¬,tab:▸·,trail:●,nbsp:⎵]]
 vim.o.listchars = [[eol:¬,tab:▸·,trail:●]]
-vim.o.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
+-- vim.o.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
 
 -- spell check
 vim.o.spell = false

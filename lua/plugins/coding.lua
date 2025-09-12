@@ -1,16 +1,6 @@
 return {
   {
-    "folke/snacks.nvim",
-    opts = {
-      styles = {
-        terminal = {
-          border = vim.g.border,
-        },
-      },
-    },
-  },
-  {
-    "echasnovski/mini.pairs",
+    "nvim-mini/mini.pairs",
     opts = {
       -- skip autopair when next character is one of these
       skip_next = [=[[%w%%%[%.%$]]=],

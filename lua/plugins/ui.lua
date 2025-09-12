@@ -105,16 +105,17 @@ return {
     opts = {
       transparent = true,
       on_highlights = function(hl, colors)
-        hl.FoldColumn = { bg = colors.none, fg = colors.comment }
+        -- hl.FoldColumn = { bg = colors.none, fg = colors.comment }
+        -- hl.Folded = { bg = colors.none, fg = colors.comment }
         hl.SignColumn = { bg = colors.none }
         hl.WinBar = { bg = colors.none, bold = true, fg = colors.fg_dark }
         hl.WinBarNC = { bg = colors.none, italic = true, fg = colors.dark3 }
         hl.WinSeparator = { fg = colors.dark3 }
         hl.HelpviewInlineCodes = { link = "TablineSel" }
         hl.NvimDapVirtualText = { link = "DiagnosticVirtualTextHint" }
-        hl.BlinkCmpGhostText = { fg = colors.fg_dark, italic = true }
-        hl.CmpGhostText = { fg = "#444a73", italic = true }
-        hl.DiagnosticUnnecessary = { italic = true, fg = colors.fg_dark, undercurl = true }
+        hl.ComplHint = { fg = "#6178a8", italic = true }
+        -- hl.BlinkCmpGhostText = { fg = colors.fg_dark, italic = true }
+        hl.DiagnosticUnnecessary = { italic = true, fg = colors.fg_dark, undercurl = false }
 
         for _, v in ipairs({ "Rare", "Cap", "Local", "Bad" }) do
           hl["Spell" .. v] = { undercurl = true }
@@ -137,9 +138,9 @@ return {
     opts = function()
       local extras = {
         "CodeBlock",
-        "Folded",
+        -- "Folded",
+        -- "FoldColumn",
         "SignColumn",
-        "FoldColumn",
         "WinBar",
         "WinBarNC",
         "NeoTreeNormal",
