@@ -34,37 +34,9 @@ map("c", "<M-b>", "<S-Left>", { silent = false })
 map("i", "<M-f>", "<C-o>e<Right>", { silent = true })
 map("c", "<M-f>", "<S-Right>", { silent = false })
 
--- scroll-down-command
--- map("i", "<M-v>", "<PageUp>", { silent = true })
-
--- scroll-up-command
--- map("i", "<C-v>", "<PageDown>", { silent = true })
-
---
---- Copy & Paste
-
--- delete-char
--- map("!", "<C-d>", "<Del>", { silent = false })
-
---
---- Editing
-
 -- kill-region
 map("!", "<M-BS>", "<C-w>", { silent = false })
 map("i", "<C-BS>", "<C-w>", { silent = true })
-
--- kill-line
--- map("i", "<C-k>", function()
---   local col = vim.api.nvim_win_get_cursor(0)[2]
---   local line = vim.api.nvim_get_current_line()
---
---   if #line <= col then
---     return "<Del><C-o>dw"
---   end
---
---   return "<C-o>dw"
--- end, { silent = true, expr = true })
--- map("c", "<C-k>", "<C-f>d$<C-c><End>", { silent = false })
 
 -- kill-word
 map("i", "<M-d>", function()

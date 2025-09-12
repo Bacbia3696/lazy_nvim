@@ -13,6 +13,9 @@ return {
         },
       }
     end,
+    opts = {
+      server = { status_notify_level = false },
+    },
   },
   {
     "Saecki/crates.nvim",

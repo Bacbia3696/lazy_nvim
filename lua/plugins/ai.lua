@@ -1,7 +1,45 @@
 return {
   {
+    "folke/sidekick.nvim",
+    keys = {
+      {
+        "<leader>ac",
+        function()
+          require("sidekick.cli").toggle({ name = "cursor", focus = true })
+        end,
+        desc = "Sidekick Cursor Toggle",
+        mode = { "n", "v" },
+      },
+      {
+        "<leader>aC",
+        function()
+          require("sidekick.cli").toggle({ name = "codex", focus = true })
+        end,
+        desc = "Sidekick Codex Toggle",
+        mode = { "n", "v" },
+      },
+      {
+        "<leader>ag",
+        function()
+          require("sidekick.cli").toggle({ name = "gemini", focus = true })
+        end,
+        desc = "Sidekick Gemini Toggle",
+        mode = { "n", "v" },
+      },
+      {
+        "<leader>aq",
+        function()
+          require("sidekick.cli").toggle({ name = "qwen", focus = true })
+        end,
+        desc = "Sidekick Qwen Toggle",
+        mode = { "n", "v" },
+      },
+    },
+  },
+  {
     "coder/claudecode.nvim",
     dependencies = { "folke/snacks.nvim" },
+    enabled = false,
     config = true,
     keys = {
       { "<leader>a", nil, desc = "AI/Claude Code" },
@@ -39,13 +77,6 @@ return {
         open_in_current_tab = false,
         keep_terminal_focus = false, -- If true, moves focus back to terminal after diff opens
       },
-    },
-  },
-  {
-    "zbirenbaum/copilot.lua",
-    enabled = false,
-    opts = {
-      copilot_node_command = "/opt/homebrew/bin/node", -- Node.js version must be > 20
     },
   },
 }

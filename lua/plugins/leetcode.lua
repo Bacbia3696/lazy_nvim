@@ -41,7 +41,7 @@ return {
         },
       },
       description = {
-        width = "55%",
+        width = "60%",
       },
       injector = {
         ["rust"] = {

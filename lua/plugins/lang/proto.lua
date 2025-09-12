@@ -1,5 +1,9 @@
 return {
   {
+    "mason-org/mason.nvim",
+    opts = { ensure_installed = { "buf" } },
+  },
+  {
     "stevearc/conform.nvim",
     optional = true,
     opts = {

@@ -32,4 +32,5 @@ return {
     "goerz/jupytext.nvim",
     opts = {}, -- see Options
   },
+  { "mfussenegger/nvim-dap-python", build = false }, -- not sure why, but this fix python-dap isues
 }

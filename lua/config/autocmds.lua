@@ -16,7 +16,8 @@ local bind_key = function()
 
       local terminals = require("snacks").terminal.list()
       if #terminals == 0 then
-        vim.notify("No terminals found", vim.log.levels.WARN)
+        -- fallback to default behavior
+        require("snacks").picker.files()
         return
       end
 

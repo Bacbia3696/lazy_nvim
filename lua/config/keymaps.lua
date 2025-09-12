@@ -6,6 +6,8 @@ local map = require("helpers").map
 map("n", "<M-a>", "<cmd>%y<cr>", { desc = "yank all" })
 map({ "n", "v" }, ";", ":", { nowait = true, silent = false })
 map("n", "0", "^", { nowait = true })
+
+-- Quit window
 map("n", "<C-q>", "<Cmd>quit<cr>")
 map("t", "<C-q>", "<C-\\><C-n>", { desc = "Exit terminal insert mode" })
 map("n", "<leader>W", "<Cmd>noa wa<cr>", { desc = "Save without format" })
@@ -24,12 +26,11 @@ map({ "i", "x", "n", "s" }, "<C-s>", function()
   LazyVim.format({ force = true })
   vim.cmd.stopi()
   vim.cmd.up()
-  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "n", true)
+  -- vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "n", true)
 end, { desc = "Save file and format" })
 
 -- path manipulation
 require("which-key").add({ { "<leader>y", group = "clipboard", icon = "" } })
-
 map("n", "<leader>yo", function()
   vim.ui.open(vim.fn.expand("%"))
 end, { desc = "Open file" })
@@ -47,6 +48,7 @@ map("n", "<leader>yy", function()
 end, { desc = "Copy filename" })
 map("n", "<leader>ya", "<cmd>%y<cr>", { desc = "Copy all file" })
 
+-- toggle
 Snacks.toggle
   .new({
     name = "diagnostics virtual text",
@@ -65,7 +67,10 @@ Snacks.toggle
   })
   :map("<leader>uv")
 
+-- dap
 map("n", "<leader>uV", "<cmd>DapVirtualTextToggle<cr>", { desc = "Toggle Dap virtual text" })
+
+-- hotkey open float terminal
 map("n", "<C-`>", function()
   Snacks.terminal(nil, { cwd = LazyVim.root(), win = { position = "right" } })
 end, { desc = "Terminal (Root Dir)" })
