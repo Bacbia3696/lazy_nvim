@@ -35,7 +35,7 @@ return {
     }
     opts.sections.lualine_c = {}
     -- replace key with lsp progress (maybe 2 or 3 depend on copilot enable or not)
-    opts.sections.lualine_x[2] = {
+    opts.sections.lualine_x[3] = {
       -- Show lsp info
       function()
         return require("lsp-progress").progress({

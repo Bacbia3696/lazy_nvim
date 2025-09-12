@@ -17,7 +17,7 @@ return {
     },
   },
   {
-    "echasnovski/mini.files",
+    "nvim-mini/mini.files",
     opts = {
       mappings = {
         go_in_plus = "L",
@@ -43,10 +43,6 @@ return {
         HACK = { icon = " ", color = "warning", alt = { "SAFETY", "Safety" } },
       },
     },
-  },
-  {
-    "folke/flash.nvim",
-    enabled = false,
   },
   {
     "folke/which-key.nvim",

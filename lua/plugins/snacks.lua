@@ -38,6 +38,14 @@ return {
     },
   },
   opts = {
+    styles = {
+      terminal = {
+        border = vim.g.border,
+      },
+    },
+    dim = {
+      enabled = true,
+    },
     zen = {
       toggles = {
         dim = false,

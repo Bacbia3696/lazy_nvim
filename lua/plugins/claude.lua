@@ -41,11 +41,4 @@ return {
       },
     },
   },
-  {
-    "zbirenbaum/copilot.lua",
-    enabled = false,
-    opts = {
-      copilot_node_command = "/opt/homebrew/bin/node", -- Node.js version must be > 20
-    },
-  },
 }

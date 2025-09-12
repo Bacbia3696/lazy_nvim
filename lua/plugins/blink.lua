@@ -1,11 +1,6 @@
 return {
   "saghen/blink.cmp",
   opts = {
-    cmdline = {
-      enabled = true,
-      -- keymap = { preset = "inherit" },
-      -- completion = { menu = { auto_show = true } },
-    },
     completion = {
       menu = {
         border = vim.g.border,
