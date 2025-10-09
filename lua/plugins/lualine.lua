@@ -59,6 +59,17 @@ return {
     opts.sections.lualine_z = {
       { "progress", separator = " ", padding = { left = 1, right = 0 } },
       { "location", padding = { left = 0, right = 1 } },
+      {
+        function()
+          local manager = require("timers.manager")
+          local t = manager.get_closest_timer()
+          if t == nil then
+            return ""
+          end
+          return t.icon .. " " .. t:expire_in():into_hms()
+        end,
+        color = { fg = "#88304E", gui = "italic,bold" },
+      },
     }
     return vim.tbl_deep_extend("force", opts, {
       options = {

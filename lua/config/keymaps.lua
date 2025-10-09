@@ -26,7 +26,7 @@ map({ "i", "x", "n", "s" }, "<C-s>", function()
   LazyVim.format({ force = true })
   vim.cmd.stopi()
   vim.cmd.up()
-  -- vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "n", true)
+  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "n", true)
 end, { desc = "Save file and format" })
 
 -- path manipulation
