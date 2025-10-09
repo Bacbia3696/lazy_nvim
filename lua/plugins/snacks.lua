@@ -68,7 +68,7 @@ local preview_image = function()
     col = 0,
     row = 0,
     style = "minimal",
-    border = "none",
+    border = vim.g.border,
   })
 
   -- Show image with auto-resize
@@ -98,6 +98,9 @@ return {
   opts = {
     styles = {
       terminal = {
+        border = vim.g.border,
+      },
+      snacks_image = {
         border = vim.g.border,
       },
     },
