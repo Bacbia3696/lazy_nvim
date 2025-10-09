@@ -31,7 +31,7 @@ function M.setup_ghostty()
       return
     end
     vim.opt.title = true
-    vim.opt.titlestring = "%{&buftype=='terminal'?' ':' '} %{fnamemodify(getcwd(), ':t')}"
+    vim.opt.titlestring = "%{&buftype=='terminal'?'  ':' '} %{fnamemodify(getcwd(), ':t')}"
   end
 end
 

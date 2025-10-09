@@ -3,6 +3,14 @@ return {
     "folke/sidekick.nvim",
     keys = {
       {
+        "<leader>aA",
+        function()
+          require("sidekick.cli").toggle({ name = "claude", focus = true })
+        end,
+        desc = "Sidekick Claude Toggle",
+        mode = { "n", "v" },
+      },
+      {
         "<leader>ac",
         function()
           require("sidekick.cli").toggle({ name = "cursor", focus = true })
@@ -33,6 +41,16 @@ return {
         end,
         desc = "Sidekick Qwen Toggle",
         mode = { "n", "v" },
+      },
+    },
+    opts = {
+      -- Work with AI cli tools directly from within Neovim
+      cli = {
+        win = {
+          keys = {
+            prompt = { "<a-p>", "prompt", mode = "t", desc = "insert prompt or context" },
+          },
+        },
       },
     },
   },

@@ -3,7 +3,13 @@ require("config.emacs")
 
 local map = require("helpers").map
 
-map("n", "<M-a>", "<cmd>%y<cr>", { desc = "yank all" })
+-- Select all without animation
+vim.keymap.set("n", "<M-a>", function()
+  local prev = vim.b.snacks_animate
+  vim.b.snacks_animate = false
+  vim.cmd("normal! ggVG")
+  vim.b.snacks_animate = prev
+end, { desc = "Select all (no animation)" })
 map({ "n", "v" }, ";", ":", { nowait = true, silent = false })
 map("n", "0", "^", { nowait = true })
 
@@ -26,7 +32,7 @@ map({ "i", "x", "n", "s" }, "<C-s>", function()
   LazyVim.format({ force = true })
   vim.cmd.stopi()
   vim.cmd.up()
-  -- vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "n", true)
+  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "n", true)
 end, { desc = "Save file and format" })
 
 -- path manipulation
