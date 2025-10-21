@@ -9,6 +9,10 @@ vim.g.loaded_python3_provider = 0 -- Disable the built-in Python 3 provider
 vim.g.autoformat = false
 vim.g.maplocalleader = ","
 vim.g.lazyvim_python_lsp = "basedpyright"
+vim.g.root_spec = { "cwd" }
+
+-- disable animation
+-- vim.g.snacks_animate = false
 
 vim.o.swapfile = false -- disable swap file
 vim.o.linebreak = true

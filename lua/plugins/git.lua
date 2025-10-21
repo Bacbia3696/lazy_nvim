@@ -1,23 +1,46 @@
 return {
   {
-    "lewis6991/gitsigns.nvim",
-    keys = {
-      { "<leader>ghtb", require("gitsigns").toggle_current_line_blame, desc = "Toggle git current line blame" },
-      { "<leader>ghtd", require("gitsigns").preview_hunk_inline, desc = "Toggle preview hunk inline" },
-      { "<leader>ghth", require("gitsigns").toggle_linehl, desc = "Toggle git line highlight" },
+    "gitsigns.nvim",
+    opts = {
+      current_line_blame = true,
     },
-    opts = function(_, opts)
-      opts.current_line_blame = true
-    end,
   },
   {
-    "sindrets/diffview.nvim",
+    "ahkohd/difft.nvim",
     keys = {
-      { "<leader>gd", "", desc = "+diffview" },
-      { "<leader>gdo", "<Cmd>DiffviewOpen<CR>", desc = "Open Diffview" },
-      { "<leader>gdc", "<Cmd>DiffviewClose<CR>", desc = "Close Diffview" },
-      { "<leader>gdh", "<Cmd>DiffviewFileHistory %<CR>", desc = "Diffview current file history" },
+      {
+        "<leader>gt",
+        function()
+          if Difft.is_visible() then
+            Difft.hide()
+          else
+            Difft.diff()
+          end
+        end,
+        desc = "Toggle Difft",
+      },
     },
-    lazy = false,
+    opts = {
+      command = "GIT_EXTERNAL_DIFF='difft --color=always' git diff",
+      layout = "float", -- Centered floating window
+      keymaps = {
+        next = "<C-j>", -- Next file change
+        prev = "<C-k>", -- Previous file change
+        close = "q", -- Close diff window (float only)
+        refresh = "r", -- Refresh diff
+        first = "gg", -- First file change
+        last = "G", -- Last file change
+      },
+      diff = {
+        highlights = {
+          add = "DiffAdd", -- Additions (green) - ANSI codes 32, 92
+          delete = "DiffDelete", -- Deletions (red) - ANSI codes 31, 91
+          change = "DiffChange", -- Changes (yellow) - ANSI codes 33, 93
+          info = "DiagnosticInfo", -- Info (blue/cyan) - ANSI codes 34, 94, 36, 96
+          hint = "DiagnosticHint", -- Hints (magenta) - ANSI codes 35, 95
+          dim = "Comment", -- Dim text (gray/white) - ANSI codes 30, 90, 37, 97
+        },
+      },
+    },
   },
 }

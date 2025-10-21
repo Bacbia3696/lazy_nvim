@@ -13,7 +13,7 @@ return {
     -- show lsp client instead of key
     opts.sections.lualine_b = {
       Util.lualine.root_dir(),
-      { Util.lualine.pretty_path({ relative = "root", modified_sign = " ", length = 3 }) },
+      { Util.lualine.pretty_path({ modified_sign = " ", length = 5 }) },
       -- { "filetype", icon_only = true, separator = "" },
       {
         "diagnostics",
@@ -57,23 +57,52 @@ return {
     }
     opts.sections.lualine_y = { "branch" }
     opts.sections.lualine_z = {
-      { "progress", separator = " ", padding = { left = 1, right = 0 } },
-      { "location", padding = { left = 0, right = 1 } },
+      { "progress" },
+      { "location", separator = "" },
       {
         function()
-          local manager = require("timers.manager")
-          local t = manager.get_closest_timer()
-          if t == nil then
+          local t = require("timers.manager").get_closest_timer()
+          if not t then
             return ""
           end
-          return t.icon .. " " .. t:expire_in():into_hms()
+          local status_icon = ""
+          if t:paused() then
+            status_icon = "⏸ "
+          else
+            local ok, spinner = pcall(require, "noice.util.spinners")
+            if ok then
+              status_icon = spinner.spin("aesthetic") .. " "
+            end
+          end
+          return t.icon .. " " .. status_icon .. t:expire_in():into_hms()
         end,
-        color = { fg = "#88304E", gui = "italic,bold" },
+        color = function()
+          local t = require("timers.manager").get_closest_timer()
+          if not t then
+            return nil
+          end
+          local sec = t:expire_in():asSeconds()
+          return sec < 60 and "lualine_a_replace" or sec < 300 and "lualine_a_command" or "lualine_a_terminal"
+        end,
+      },
+      {
+        function()
+          local t = require("timers.manager").get_closest_timer()
+          -- Only show pomodoro count when there's an active timer and count > 0
+          if t and _G.pomodoro_count and _G.pomodoro_count > 0 then
+            return "🍅×" .. _G.pomodoro_count
+          end
+          return ""
+        end,
+        color = "lualine_a_visual",
       },
     }
     return vim.tbl_deep_extend("force", opts, {
       options = {
         section_separators = { left = "", right = "" },
+        refresh = {
+          statusline = 100,
+        },
       },
     })
   end,

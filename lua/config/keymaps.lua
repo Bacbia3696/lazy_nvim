@@ -36,7 +36,9 @@ map({ "i", "x", "n", "s" }, "<C-s>", function()
 end, { desc = "Save file and format" })
 
 -- path manipulation
-require("which-key").add({ { "<leader>y", group = "clipboard", icon = "" } })
+pcall(function()
+  require("which-key").add({ { "<leader>y", group = "clipboard", icon = "" } })
+end)
 map("n", "<leader>yo", function()
   vim.ui.open(vim.fn.expand("%"))
 end, { desc = "Open file" })
