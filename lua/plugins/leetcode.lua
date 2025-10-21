@@ -35,11 +35,6 @@ return {
       },
       arg = leet_arg,
       lang = "golang",
-      console = {
-        result = {
-          size = "62%", -- avoid space at the end
-        },
-      },
       description = {
         width = "60%",
       },
