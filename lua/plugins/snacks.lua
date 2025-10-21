@@ -72,17 +72,27 @@ local preview_image = function()
   })
 
   -- Show image with auto-resize
-  Snacks.image.placement.new(buf, text, {
+  local placement = Snacks.image.placement.new(buf, text, {
     pos = { 1, 1 },
     auto_resize = true,
   })
 
-  vim.keymap.set("n", "q", function()
-    vim.api.nvim_win_close(win, true)
-  end, { buffer = buf })
-  vim.keymap.set("n", "<esc>", function()
-    vim.api.nvim_win_close(win, true)
-  end, { buffer = buf })
+  local close_preview = function()
+    -- Close the placement first to clean up the image
+    if placement then
+      placement:close()
+    end
+    -- Then close the window and delete the buffer
+    if vim.api.nvim_win_is_valid(win) then
+      vim.api.nvim_win_close(win, true)
+    end
+    if vim.api.nvim_buf_is_valid(buf) then
+      vim.api.nvim_buf_delete(buf, { force = true })
+    end
+  end
+
+  vim.keymap.set("n", "q", close_preview, { buffer = buf })
+  vim.keymap.set("n", "<esc>", close_preview, { buffer = buf })
 end
 
 return {
@@ -123,6 +133,29 @@ return {
       },
     },
     picker = {
+      layout = {
+        preset = "ivy",
+      },
+      layouts = {
+        ivy = {
+          layout = {
+            box = "vertical",
+            backdrop = false,
+            row = -1,
+            width = 0,
+            height = 0.55, -- Changed from 0.4 to 0.55 (55%)
+            border = "top",
+            title = " {title} {live} {flags}",
+            title_pos = "left",
+            { win = "input", height = 1, border = "bottom" },
+            {
+              box = "horizontal",
+              { win = "list", border = "none" },
+              { win = "preview", title = "{preview}", width = 0.6, border = "left" },
+            },
+          },
+        },
+      },
       win = {
         -- input window
         input = {
