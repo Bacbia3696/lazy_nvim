@@ -7,7 +7,7 @@ return {
   },
   -- open file with format filename:linenumber
   { "lewis6991/fileline.nvim" },
-  { "meznaric/key-analyzer.nvim", opts = {} },
+  { "meznaric/key-analyzer.nvim", event = "VeryLazy", opts = {} },
   {
     "mrjones2014/smart-splits.nvim",
     lazy = false,

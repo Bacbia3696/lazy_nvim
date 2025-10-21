@@ -1,10 +1,20 @@
 return {
   {
+    "rcarriga/nvim-dap-ui",
+    enabled = false,
+  },
+  {
+    "theHamsta/nvim-dap-virtual-text",
+    enabled = false,
+  },
+  {
     "mfussenegger/nvim-dap",
     dependencies = {
       "igorlfs/nvim-dap-view",
       init = function()
+        local augroup = vim.api.nvim_create_augroup("dap_view_q_close", { clear = true })
         vim.api.nvim_create_autocmd({ "FileType" }, {
+          group = augroup,
           pattern = { "dap-view", "dap-view-term", "dap-repl" }, -- dap-repl is set by `nvim-dap`
           callback = function(evt)
             vim.keymap.set("n", "q", "<C-w>q", { buffer = evt.buf })
@@ -17,7 +27,7 @@ return {
         },
         windows = {
           terminal = {
-            width = 0.3,
+            size = 0.3,
             position = "right",
             -- List of debug adapters for which the terminal should be ALWAYS hidden
             hide = { "go", "node", "pwa-node" },
@@ -51,13 +61,5 @@ return {
         desc = "Step Over",
       },
     },
-  },
-  {
-    "rcarriga/nvim-dap-ui",
-    enabled = false,
-  },
-  {
-    "theHamsta/nvim-dap-virtual-text",
-    enabled = false,
   },
 }

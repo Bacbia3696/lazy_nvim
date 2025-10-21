@@ -1,15 +1,5 @@
 return {
   {
-    "OXY2DEV/markview.nvim",
-    enabled = false,
-    lazy = false,
-    opts = {
-      preview = {
-        icon_provider = "mini",
-      },
-    },
-  },
-  {
     "iamcco/markdown-preview.nvim",
     enabled = false,
   },

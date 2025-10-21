@@ -5,10 +5,13 @@
 -- global variable to set border in neovim
 vim.g.border = "rounded" -- double,none,rounded,shadow,single
 vim.g.snacks_animate = true
-vim.g.loaded_python3_provider = 0 -- Disable the built-in Python 3 provider
 vim.g.autoformat = false
 vim.g.maplocalleader = ","
 vim.g.lazyvim_python_lsp = "basedpyright"
+vim.g.root_spec = { "cwd" }
+
+-- disable animation
+-- vim.g.snacks_animate = false
 
 vim.o.swapfile = false -- disable swap file
 vim.o.linebreak = true
@@ -29,8 +32,6 @@ vim.o.spell = false
 vim.o.spelllang = "en_us"
 vim.opt.spelloptions:append("camel")
 
--- disable all default keymaps of ftplugins come as default in Neovim
-vim.g.no_plugin_maps = 1
 
 -- conceal options
 -- vim.o.concealcursor = "nc"

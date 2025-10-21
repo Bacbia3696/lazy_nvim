@@ -23,15 +23,9 @@ return {
   },
   {
     "neovim/nvim-lspconfig",
-    init = function()
-      local keys = require("lazyvim.plugins.lsp.keymaps").get()
-      -- table.insert(keys, { "gt", vim.lsp.buf.type_definition, desc = "Goto Type Definition" })
-      table.insert(keys, {
-        "gt",
-        "<cmd>FzfLua lsp_typedefs jump_to_single_result=true ignore_current_line=true<cr>",
-        desc = "Goto T[y]pe Definition",
-      })
-    end,
+    keys = {
+      { "gt", vim.lsp.buf.type_definition, desc = "Goto Type Definition" },
+    },
     opts = {
       inlay_hints = { enabled = false },
       diagnostics = {

@@ -54,8 +54,8 @@ return {
   },
   {
     "johmsalas/text-case.nvim",
+    cmd = { "TextCase" },
     opts = true,
-    lazy = false,
   },
   {
     "stevearc/aerial.nvim",

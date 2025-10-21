@@ -8,7 +8,7 @@ return {
       skip_ts = {},
       mappings = {
         -- exclude b'', and <' for Rust
-        ["'"] = { action = "closeopen", pair = "''", neigh_pattern = "[^ac-z\\&<].", register = { cr = false } },
+        ["'"] = { action = "closeopen", pair = "''", neigh_pattern = "[^a-z\\&<].", register = { cr = false } },
         ["`"] = { action = "closeopen", pair = "``", neigh_pattern = "[^\\].", register = { cr = false } },
       },
     },

@@ -18,7 +18,7 @@ return {
       servers = {
         basedpyright = {
           settings = {
-            python = {
+            basedpyright = {
               analysis = {
                 typeCheckingMode = "basic",
               },

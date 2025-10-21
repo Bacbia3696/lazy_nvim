@@ -1,31 +1,14 @@
 return {
-  { "Pocco81/HighStr.nvim" },
+  {
+    "akinsho/bufferline.nvim",
+    enabled = false,
+  },
   {
     "OXY2DEV/helpview.nvim",
     lazy = false,
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
     },
-  },
-  {
-    "akinsho/bufferline.nvim",
-    enabled = false,
-  },
-  {
-    "HiPhish/rainbow-delimiters.nvim",
-    enabled = false,
-    config = function()
-      local rainbow = require("rainbow-delimiters")
-      vim.g.rainbow_delimiters = {
-        strategy = {
-          [""] = rainbow.strategy["local"],
-        },
-        query = {
-          [""] = "rainbow-delimiters",
-          tsx = "rainbow-parens",
-        },
-      }
-    end,
   },
   {
     "Bekaboo/dropbar.nvim",
@@ -40,6 +23,13 @@ return {
       }
       return {
         bar = {
+          update_events = {
+            buf = {
+              "FileChangedShellPost",
+              "TextChanged",
+              "ModeChanged",
+            },
+          },
           sources = function(buf, _)
             if vim.bo[buf].ft == "markdown" then
               return {
@@ -66,11 +56,12 @@ return {
   },
   {
     "folke/noice.nvim",
-    -- stylua: ignore
     keys = function(_, keys)
-      -- use <c-d> and <c-u> for scrolling
-      keys[6] = { "<c-d>", function() if not require("noice.lsp").scroll(4) then return "<c-d>" end end, silent = true, expr = true, desc = "Scroll forward", mode = {"i", "n", "s"} }
-      keys[7] = { "<c-u>", function() if not require("noice.lsp").scroll(-4) then return "<c-u>" end end, silent = true, expr = true, desc = "Scroll backward", mode = {"i", "n", "s"}}
+      -- add <c-d> and <c-u> for noice preview scrolling
+      return vim.list_extend(keys, {
+        { "<c-d>", function() if not require("noice.lsp").scroll(4) then return "<c-d>" end end, silent = true, expr = true, desc = "Scroll forward", mode = { "i", "n", "s" } },
+        { "<c-u>", function() if not require("noice.lsp").scroll(-4) then return "<c-u>" end end, silent = true, expr = true, desc = "Scroll backward", mode = { "i", "n", "s" } },
+      })
     end,
     opts = {
       lsp = {
