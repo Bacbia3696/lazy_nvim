@@ -5,17 +5,18 @@ return {
       "linrongbin16/lsp-progress.nvim",
       opts = {
         format = function(messages)
-          if #messages > 0 then
-            return table.concat(messages, " ")
-          end
-          local clients = vim.lsp.get_clients({ bufnr = vim.api.nvim_get_current_buf() })
           local names = {}
-          for _, client in ipairs(clients) do
+          for _, client in ipairs(vim.lsp.get_clients({ bufnr = vim.api.nvim_get_current_buf() })) do
             if client.name ~= "" then
-              table.insert(names, 1, client.name)
+              names[#names + 1] = client.name
             end
           end
-          return table.concat(names, "")
+
+          local status = table.concat(names, "")
+          if #messages > 0 then
+            status = status .. (status ~= "" and " " or "") .. table.concat(messages, " ")
+          end
+          return status
         end,
       },
     },
@@ -69,9 +70,15 @@ return {
       },
     }
 
-    -- Section B: Root dir → File path → Filetype icon → Diagnostics
+    -- Section B: Git branch → File path
     opts.sections.lualine_b = {
-      Util.lualine.root_dir(),
+      {
+        "branch",
+        icon = "",
+        cond = function()
+          return vim.o.columns > 70
+        end,
+      },
       {
         Util.lualine.pretty_path({
           modified_sign = " ●",
@@ -79,12 +86,10 @@ return {
           length = 5,
         }),
       },
-      {
-        "filetype",
-        icon_only = true,
-        separator = "",
-        padding = { left = 1, right = 0 },
-      },
+    }
+
+    -- Section C: Diagnostics → Macro recording
+    opts.sections.lualine_c = {
       {
         "diagnostics",
         symbols = {
@@ -93,22 +98,16 @@ return {
           info = icons.diagnostics.Info,
           hint = icons.diagnostics.Hint,
         },
+        cond = function()
+          return vim.o.columns > 90
+        end,
       },
-    }
-
-    -- Section C: Empty (reserve for macro recording, search count, etc.)
-    opts.sections.lualine_c = {
       {
-        "macro",
-        fmt = function()
+        function()
           local reg = vim.fn.reg_recording()
-          if reg ~= "" then
-            return "󰑋 Recording @" .. reg
-          end
-          return ""
+          return reg ~= "" and "󰑋 Recording @" .. reg or ""
         end,
         color = "lualine_a_replace",
-        draw_empty = false,
       },
     }
 
@@ -143,12 +142,8 @@ return {
       },
     }
 
-    -- Section Y: Git branch + diff stats
+    -- Section Y: Git diff
     opts.sections.lualine_y = {
-      {
-        "branch",
-        icon = "",
-      },
       {
         "diff",
         symbols = {
@@ -162,10 +157,17 @@ return {
       },
     }
 
-    -- Section Z: Progress → Location → Timer → Pomodoro
+    -- Section Z: Position → Timer → Pomodoro
     opts.sections.lualine_z = {
-      { "progress", separator = "", padding = 1 },
-      { "location", separator = "", padding = 1 },
+      {
+        function()
+          local line = vim.fn.line(".")
+          local total = vim.fn.line("$")
+          local progress = total > 0 and math.floor(line / total * 100) or 0
+          return string.format("%d%%%% %d:%d", progress, line, vim.fn.virtcol("."))
+        end,
+        padding = 1,
+      },
       {
         function()
           local t = require("timers.manager").get_closest_timer()
@@ -205,17 +207,6 @@ return {
         separator = { left = "", right = "" },
       },
     }
-
-    -- Inactive windows: simpler, dimmer
-    opts.inactive_sections = opts.inactive_sections or {}
-    opts.inactive_sections.lualine_a = {}
-    opts.inactive_sections.lualine_b = {
-      { "filename", path = 1, symbols = { modified = " ●", readonly = " " } },
-    }
-    opts.inactive_sections.lualine_c = {}
-    opts.inactive_sections.lualine_x = {}
-    opts.inactive_sections.lualine_y = {}
-    opts.inactive_sections.lualine_z = { "location" }
 
     return opts
   end,

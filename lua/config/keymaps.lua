@@ -42,6 +42,7 @@ pcall(function()
     { "<leader>g", group = "git", icon = "" },
     { "<leader>s", group = "search", icon = "" },
     { "<leader>d", group = "debug", icon = "" },
+    { "<leader>u", group = "ui/toggles", icon = "" },
   })
 end)
 map("n", "<leader>yo", function()
@@ -91,6 +92,30 @@ Snacks.toggle
     end,
   })
   :map("<leader>uh")
+
+Snacks.toggle
+  .new({
+    name = "auto format",
+    get = function()
+      return vim.g.autoformat
+    end,
+    set = function(state)
+      vim.g.autoformat = state
+    end,
+  })
+  :map("<leader>uf")
+
+Snacks.toggle
+  .new({
+    name = "spell check",
+    get = function()
+      return vim.wo.spell
+    end,
+    set = function(state)
+      vim.wo.spell = state
+    end,
+  })
+  :map("<leader>us")
 
 -- hotkey open float terminal
 map("n", "<C-`>", function()

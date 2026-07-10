@@ -27,22 +27,6 @@ return {
         mode = { "n", "v" },
       },
       {
-        "<leader>ag",
-        function()
-          require("sidekick.cli").toggle({ name = "gemini", focus = true })
-        end,
-        desc = "Sidekick Gemini Toggle",
-        mode = { "n", "v" },
-      },
-      {
-        "<leader>aq",
-        function()
-          require("sidekick.cli").toggle({ name = "qwen", focus = true })
-        end,
-        desc = "Sidekick Qwen Toggle",
-        mode = { "n", "v" },
-      },
-      {
         "<leader>ao",
         function()
           require("sidekick.cli").toggle({ name = "opencode", focus = true })
@@ -50,11 +34,29 @@ return {
         desc = "Sidekick OpenCode Toggle",
         mode = { "n", "v" },
       },
+      {
+        "<leader>am",
+        function()
+          require("sidekick.cli").toggle({ name = "omp", focus = true })
+        end,
+        desc = "Sidekick Omp Toggle",
+        mode = { "n", "v" },
+      },
     },
     opts = {
       -- Work with AI cli tools directly from within Neovim
       cli = {
+        tools = {
+          omp = {
+            cmd = { "omp" },
+            is_proc = "\\<omp\\>",
+            resume = { "--resume" },
+            continue = { "--continue" },
+            native_scroll = false,
+          },
+        },
         win = {
+          layout = "right",
           keys = {
             prompt = { "<a-p>", "prompt", mode = "t", desc = "insert prompt or context" },
           },

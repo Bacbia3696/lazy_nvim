@@ -209,6 +209,10 @@ return {
         border = vim.g.border,
       },
     },
+    scroll = {
+      enabled = true,
+      animate = { duration = { step = 15, total = 100 } },
+    },
     dim = {
       enabled = true,
     },

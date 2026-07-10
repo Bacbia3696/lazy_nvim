@@ -31,8 +31,22 @@ function M.setup_ghostty()
       return
     end
     vim.opt.title = true
-    vim.opt.titlestring = "%{&buftype=='terminal'?'  ':' '} %{fnamemodify(getcwd(), ':t')}"
+    vim.opt.titlestring = "%{&buftype=='terminal'?'🐚 ':'📚 '} %{fnamemodify(getcwd(), ':t')}"
   end
+end
+
+-- Statuscolumn: hidden on special buffers, line numbers + fold column elsewhere
+local special_fts = { snacks_dashboard = true, alpha = true, lazy = true, mason = true, help = true }
+function M.statuscolumn()
+  if special_fts[vim.bo.filetype] then
+    return ""
+  end
+  local lnum = vim.v.lnum
+
+  if lnum == 0 then
+    return " "
+  end
+  return string.format("%%s%3d%%C", lnum)
 end
 
 return M

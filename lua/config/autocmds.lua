@@ -38,3 +38,35 @@ vim.api.nvim_create_autocmd("LspAttach", {
     end
   end,
 })
+
+-- Contextual cursorline: show only in active window
+vim.api.nvim_create_autocmd({ "WinEnter", "BufEnter" }, {
+  group = augroup("cursorline_active"),
+  desc = "Cursorline only in active window",
+  callback = function()
+    vim.wo.cursorline = true
+    vim.api.nvim_create_autocmd("WinLeave", {
+      group = augroup("cursorline_inactive"),
+      desc = "Disable cursorline in inactive windows",
+      once = true,
+      callback = function()
+        vim.wo.cursorline = false
+      end,
+    })
+  end,
+})
+
+-- Statuscolumn: calls helpers.statuscolumn() (hidden on special buffers)
+vim.opt.statuscolumn = "%{%v:lua.require('helpers').statuscolumn()%}"
+
+-- Disable number and signcolumn for special buffers
+vim.api.nvim_create_autocmd("FileType", {
+  group = augroup("clean_special_buffers"),
+  desc = "No line numbers on dashboard and special buffers",
+  pattern = { "snacks_dashboard", "alpha", "dashboard", "lazy", "mason", "help" },
+  callback = function()
+    vim.wo.number = false
+    vim.wo.relativenumber = false
+    vim.wo.signcolumn = "no"
+  end,
+})

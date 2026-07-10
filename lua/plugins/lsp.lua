@@ -29,8 +29,25 @@ return {
     opts = {
       inlay_hints = { enabled = false },
       diagnostics = {
-        float = { border = vim.g.border },
-        virtual_text = false,
+        severity_sort = true,
+        underline = false,
+        update_in_insert = false,
+        float = {
+          border = vim.g.border,
+          max_width = 80,
+          header = false,
+          prefix = function(diag)
+            local icons = {
+              [vim.diagnostic.severity.ERROR] = " ",
+              [vim.diagnostic.severity.WARN] = " ",
+              [vim.diagnostic.severity.INFO] = " ",
+              [vim.diagnostic.severity.HINT] = " ",
+            }
+            return icons[diag.severity] or ""
+          end,
+          source = "if_many",
+        },
+        virtual_text = true,
       },
       format = {
         timeout_ms = 5000,

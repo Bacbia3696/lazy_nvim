@@ -59,11 +59,41 @@ return {
     keys = function(_, keys)
       -- add <c-d> and <c-u> for noice preview scrolling
       return vim.list_extend(keys, {
-        { "<c-d>", function() if not require("noice.lsp").scroll(4) then return "<c-d>" end end, silent = true, expr = true, desc = "Scroll forward", mode = { "i", "n", "s" } },
-        { "<c-u>", function() if not require("noice.lsp").scroll(-4) then return "<c-u>" end end, silent = true, expr = true, desc = "Scroll backward", mode = { "i", "n", "s" } },
+        {
+          "<c-d>",
+          function()
+            if not require("noice.lsp").scroll(4) then
+              return "<c-d>"
+            end
+          end,
+          silent = true,
+          expr = true,
+          desc = "Scroll forward",
+          mode = { "i", "n", "s" },
+        },
+        {
+          "<c-u>",
+          function()
+            if not require("noice.lsp").scroll(-4) then
+              return "<c-u>"
+            end
+          end,
+          silent = true,
+          expr = true,
+          desc = "Scroll backward",
+          mode = { "i", "n", "s" },
+        },
       })
     end,
     opts = {
+      cmdline = {
+        view = "cmdline_popup",
+        opts = {
+          border = { style = vim.g.border, padding = { 0, 1 } },
+          position = "50%",
+          size = { width = 60 },
+        },
+      },
       lsp = {
         progress = { enabled = false },
         hover = {
@@ -71,42 +101,54 @@ return {
         },
         documentation = {
           view = "hover",
-          ---@type NoiceViewOptions
-          -- this is needed if I set custom treesitter queries
-          -- opts = {
-          --   win_options = { concealcursor = "n", conceallevel = 2 },
-          -- },
         },
       },
       messages = {
-        view_error = "mini", -- view for errors
+        view_error = "mini",
       },
       presets = {
-        lsp_doc_border = true, -- add a border to hover docs and signature help
+        lsp_doc_border = true,
+        bottom_search = false,
+        command_palette = true,
       },
-      ---@type NoiceConfigViews
       views = {
         mini = { win_options = { winblend = 0 } },
         hover = { border = { padding = { 0, 0 } } },
-      }, ---@see section on views
+        cmdline_popup = {
+          border = { style = vim.g.border },
+          position = { row = "50%", col = "50%" },
+        },
+      },
     },
   },
   {
     "folke/tokyonight.nvim",
     opts = {
+      style = "night",
       transparent = true,
       on_highlights = function(hl, colors)
-        -- hl.FoldColumn = { bg = colors.none, fg = colors.comment }
-        -- hl.Folded = { bg = colors.none, fg = colors.comment }
         hl.SignColumn = { bg = colors.none }
+        hl.CursorLine = { bg = colors.bg_highlight }
+        hl.CursorLineNr = { fg = colors.warning, bold = true }
+        hl.LineNr = { fg = colors.dark3 }
+        hl.StatusColumn = { bg = colors.none }
+        hl.Folded = { bg = colors.bg_highlight, fg = colors.blue }
+        hl.FoldColumn = { bg = colors.none, fg = colors.dark3 }
         hl.WinBar = { bg = colors.none, bold = true, fg = colors.fg_dark }
         hl.WinBarNC = { bg = colors.none, italic = true, fg = colors.dark3 }
         hl.WinSeparator = { fg = colors.dark3 }
+        hl.NormalFloat = { bg = colors.none }
+        hl.FloatBorder = { bg = colors.none, fg = colors.blue0 }
+        hl.FloatTitle = { bg = colors.none, fg = colors.blue, bold = true }
+        hl.Pmenu = { bg = colors.bg_dark, fg = colors.fg }
+        hl.PmenuSel = { bg = colors.bg_highlight, fg = colors.fg, bold = true }
+        hl.PmenuSbar = { bg = colors.bg_dark }
+        hl.PmenuThumb = { bg = colors.blue0 }
+        hl.MiniIndentscopeSymbol = { fg = colors.blue0, nocombine = true }
         hl.HelpviewInlineCodes = { link = "TablineSel" }
-        hl.NvimDapVirtualText = { link = "DiagnosticVirtualTextHint" }
         hl.ComplHint = { fg = "#6178a8", italic = true }
-        -- hl.BlinkCmpGhostText = { fg = colors.fg_dark, italic = true }
         hl.DiagnosticUnnecessary = { italic = true, fg = colors.fg_dark, undercurl = false }
+        hl.ColorColumn = { bg = colors.bg_highlight }
 
         for _, v in ipairs({ "Rare", "Cap", "Local", "Bad" }) do
           hl["Spell" .. v] = { undercurl = true }
