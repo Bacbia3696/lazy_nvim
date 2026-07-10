@@ -1,5 +1,4 @@
 return {
-  -- { "kevinhwang91/nvim-bqf", ft = "qf", opts = { preview = { winblend = 0 } } },
   {
     "s1n7ax/nvim-window-picker",
     event = "VeryLazy",

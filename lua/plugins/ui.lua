@@ -5,7 +5,7 @@ return {
   },
   {
     "OXY2DEV/helpview.nvim",
-    lazy = false,
+    ft = "help",
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
     },
@@ -122,25 +122,19 @@ return {
   },
   {
     "xiyaowong/transparent.nvim",
-    lazy = false,
     keys = {
       { "<leader>ut", "<Cmd>TransparentToggle<CR>", desc = "Toggle transparent" },
     },
-    opts = function()
-      local extras = {
+    opts = {
+      extra_groups = {
         "CodeBlock",
-        -- "Folded",
-        -- "FoldColumn",
         "SignColumn",
         "WinBar",
         "WinBarNC",
         "NeoTreeNormal",
         "NeoTreeNormalNC",
-      }
-      return {
-        extra_groups = extras,
-      }
-    end,
+      },
+    },
   },
   {
     "folke/trouble.nvim",

@@ -305,6 +305,12 @@ return {
             },
           },
         },
+        lsp_symbols = {
+          layout = { preset = "ivy_split" },
+        },
+        lsp_references = {
+          layout = { preset = "ivy_split" },
+        },
       },
     },
     dashboard = {

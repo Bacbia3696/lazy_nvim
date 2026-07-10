@@ -8,15 +8,14 @@ return {
           if #messages > 0 then
             return table.concat(messages, " ")
           end
-          local client_names = {}
-          local bufnr = vim.api.nvim_get_current_buf()
-          local clients = vim.lsp.get_clients()
+          local clients = vim.lsp.get_clients({ bufnr = vim.api.nvim_get_current_buf() })
+          local names = {}
           for _, client in ipairs(clients) do
-            if client and client.name ~= "" and vim.lsp.buf_is_attached(bufnr, client.id) then
-              table.insert(client_names, 1, client.name)
+            if client.name ~= "" then
+              table.insert(names, 1, client.name)
             end
           end
-          return table.concat(client_names, "")
+          return table.concat(names, "")
         end,
       },
     },

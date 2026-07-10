@@ -10,7 +10,7 @@ vim.api.nvim_create_autocmd("BufEnter", {
   group = augroup("close_with_q2"),
   desc = "Make q empty filetype window",
   callback = function(event)
-    if vim.o.filetype == "" then
+    if vim.bo[event.buf].filetype == "" then
       set_quit_keymap(event.buf)
     end
   end,

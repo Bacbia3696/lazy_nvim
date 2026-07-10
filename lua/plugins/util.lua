@@ -10,7 +10,7 @@ return {
   { "meznaric/key-analyzer.nvim", event = "VeryLazy", opts = {} },
   {
     "mrjones2014/smart-splits.nvim",
-    lazy = false,
+    event = "VeryLazy",
     keys = {
       {
         "<A-h>",

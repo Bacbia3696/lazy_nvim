@@ -21,20 +21,12 @@ vim.o.cursorline = false
 
 -- ui options
 vim.o.showtabline = 0
--- vim.o.pumblend = 0 -- transparent cmp
--- vim.o.signcolumn = "number"
--- vim.o.listchars = [[eol:¬,tab:▸·,trail:●,nbsp:⎵]]
 vim.o.listchars = [[eol:¬,tab:▸·,trail:●]]
--- vim.o.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
 
 -- spell check
 vim.o.spell = false
 vim.o.spelllang = "en_us"
 vim.opt.spelloptions:append("camel")
-
-
--- conceal options
--- vim.o.concealcursor = "nc"
 
 -- add Cfilter plugin so that we can filter in quickfix window
 vim.cmd("packadd cfilter")

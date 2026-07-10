@@ -30,14 +30,19 @@ map("v", "<M-Up>", ":m '<-2<cr>gv=gv", { desc = "Move up" })
 map({ "i", "x", "n", "s" }, "<C-S-s>", "<cmd>up<cr>", { desc = "Save file" })
 map({ "i", "x", "n", "s" }, "<C-s>", function()
   LazyVim.format({ force = true })
-  vim.cmd.stopi()
+  vim.cmd.stopinsert()
   vim.cmd.up()
   vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "n", true)
 end, { desc = "Save file and format" })
 
 -- path manipulation
 pcall(function()
-  require("which-key").add({ { "<leader>y", group = "clipboard", icon = "" } })
+  require("which-key").add({
+    { "<leader>y", group = "clipboard", icon = "" },
+    { "<leader>g", group = "git", icon = "" },
+    { "<leader>s", group = "search", icon = "" },
+    { "<leader>d", group = "debug", icon = "" },
+  })
 end)
 map("n", "<leader>yo", function()
   vim.ui.open(vim.fn.expand("%"))
@@ -74,6 +79,18 @@ Snacks.toggle
     end,
   })
   :map("<leader>uv")
+
+Snacks.toggle
+  .new({
+    name = "inlay hints",
+    get = function()
+      return vim.lsp.inlay_hint.is_enabled({ bufnr = 0 })
+    end,
+    set = function(state)
+      vim.lsp.inlay_hint.enable(0, state)
+    end,
+  })
+  :map("<leader>uh")
 
 -- hotkey open float terminal
 map("n", "<C-`>", function()
