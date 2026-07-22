@@ -1,5 +1,5 @@
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
+if not vim.uv.fs_stat(lazypath) then
   -- bootstrap lazy.nvim
   -- stylua: ignore
   vim.fn.system({ "git", "clone", "--filter=blob:none", "https://github.com/folke/lazy.nvim.git", "--branch=stable",
@@ -40,7 +40,7 @@ require("lazy").setup({
     },
   },
   rocks = {
-    hererocks = true, -- recommended if you do not have global installation of Lua 5.1.
+    enabled = false,
   },
 })
 

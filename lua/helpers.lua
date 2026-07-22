@@ -12,7 +12,7 @@ function M.map(mode, lhs, rhs, opts)
 end
 
 --- Util to create augroup
----@param name string:
+---@param name string
 function M.augroup(name)
   return vim.api.nvim_create_augroup("custom_" .. name, { clear = true })
 end
@@ -36,17 +36,28 @@ function M.setup_ghostty()
 end
 
 -- Statuscolumn: hidden on special buffers, line numbers + fold column elsewhere
-local special_fts = { snacks_dashboard = true, alpha = true, lazy = true, mason = true, help = true }
+local special_fts = {
+  snacks_dashboard = true,
+  alpha = true,
+  lazy = true,
+  mason = true,
+  help = true,
+  aerial = true,
+  ["grug-far"] = true,
+}
 function M.statuscolumn()
   if special_fts[vim.bo.filetype] then
     return ""
+  end
+  if not vim.wo.number then
+    return "%s" -- keep signs, hide line number
   end
   local lnum = vim.v.lnum
 
   if lnum == 0 then
     return " "
   end
-  return string.format("%%s%3d%%C", lnum)
+  return string.format("%%s%3d%%C ", lnum)
 end
 
 return M

@@ -30,7 +30,9 @@ return {
   },
   {
     "goerz/jupytext.nvim",
+    -- lazy.nvim re-triggers BufReadCmd after loading, so the plugin's read handler runs
+    event = "BufReadCmd *.ipynb",
     opts = {}, -- see Options
   },
-  { "mfussenegger/nvim-dap-python", build = false }, -- not sure why, but this fix python-dap isues
+  -- nvim-dap-python is provided by the LazyVim lang.python extra
 }

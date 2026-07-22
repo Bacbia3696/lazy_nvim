@@ -1,5 +1,5 @@
 return {
-  { "nanotee/zoxide.vim" },
+  { "nanotee/zoxide.vim", cmd = { "Z", "Zi", "Lz", "Lzi", "Tz", "Tzi" } },
   {
     "folke/persistence.nvim",
     -- add folds options when persist session
@@ -81,6 +81,7 @@ return {
         function()
           require("smart-splits").move_cursor_previous()
         end,
+        mode = { "t", "n" },
         desc = "Move cursor to previous split",
       },
     },

@@ -29,22 +29,16 @@ map("v", "<M-Up>", ":m '<-2<cr>gv=gv", { desc = "Move up" })
 -- save file
 map({ "i", "x", "n", "s" }, "<C-S-s>", "<cmd>up<cr>", { desc = "Save file" })
 map({ "i", "x", "n", "s" }, "<C-s>", function()
-  LazyVim.format({ force = true })
-  vim.cmd.stopinsert()
-  vim.cmd.up()
-  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "n", true)
+  -- format via conform (LSP fallback included), then save once formatting finished
+  require("conform").format({}, function()
+    vim.cmd.stopinsert()
+    vim.cmd.up()
+    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "n", true)
+  end)
 end, { desc = "Save file and format" })
 
 -- path manipulation
-pcall(function()
-  require("which-key").add({
-    { "<leader>y", group = "clipboard", icon = "" },
-    { "<leader>g", group = "git", icon = "" },
-    { "<leader>s", group = "search", icon = "" },
-    { "<leader>d", group = "debug", icon = "" },
-    { "<leader>u", group = "ui/toggles", icon = "" },
-  })
-end)
+-- (which-key groups for <leader>y/g/s/d/u are declared in lua/plugins/editor.lua)
 map("n", "<leader>yo", function()
   vim.ui.open(vim.fn.expand("%"))
 end, { desc = "Open file" })
@@ -60,7 +54,7 @@ end, { desc = "Copy filepath with linenumber" })
 map("n", "<leader>yy", function()
   require("helpers").copy(vim.fn.expand("%:t"))
 end, { desc = "Copy filename" })
-map("n", "<leader>ya", "<cmd>%y<cr>", { desc = "Copy all file" })
+map("n", "<leader>ya", "<cmd>%y+<cr>", { desc = "Copy all file" })
 
 -- toggle
 Snacks.toggle
@@ -73,7 +67,7 @@ Snacks.toggle
       vim.diagnostic.config({
         virtual_text = state and {
           spacing = 4,
-          source = "if_many",
+          source = true,
           prefix = "●",
         } or false,
       })
@@ -88,7 +82,7 @@ Snacks.toggle
       return vim.lsp.inlay_hint.is_enabled({ bufnr = 0 })
     end,
     set = function(state)
-      vim.lsp.inlay_hint.enable(0, state)
+      vim.lsp.inlay_hint.enable(state, { bufnr = 0 })
     end,
   })
   :map("<leader>uh")

@@ -79,9 +79,52 @@ return {
     opts = function(_, opts)
       vim.list_extend(opts.ensure_installed, { "http" })
     end,
+    init = function()
+      -- drop selection history when a buffer goes away
+      vim.api.nvim_create_autocmd({ "BufDelete", "BufWipeout" }, {
+        group = vim.api.nvim_create_augroup("custom_ts_selection", { clear = true }),
+        callback = function(ev)
+          M.nodes[ev.buf] = nil
+        end,
+      })
+    end,
     keys = {
-      { "<CR>", M.increment, mode = { "n", "x" }, desc = "Incremental selection" },
+      {
+        "<CR>",
+        function()
+          -- keep builtin <CR> in quickfix, help, terminal, ... buffers
+          if vim.bo.buftype ~= "" then
+            return vim.cmd("normal! \r")
+          end
+          -- no parser for this buffer: keep the default <CR> behavior
+          if not vim.treesitter.get_node() then
+            return vim.cmd("normal! \r")
+          end
+          M.increment()
+        end,
+        mode = { "n", "x" },
+        desc = "Incremental selection",
+      },
       { "<BS>", M.decrement, mode = "x", desc = "Shrink selection" },
+      -- markdown code block textobjects (after/queries/markdown/textobjects.scm)
+      {
+        "im",
+        function()
+          require("nvim-treesitter-textobjects.select").select_textobject("@code_block.inner")
+        end,
+        mode = { "x", "o" },
+        ft = "markdown",
+        desc = "inner code block",
+      },
+      {
+        "am",
+        function()
+          require("nvim-treesitter-textobjects.select").select_textobject("@code_block.outer")
+        end,
+        mode = { "x", "o" },
+        ft = "markdown",
+        desc = "around code block",
+      },
     },
   },
 }

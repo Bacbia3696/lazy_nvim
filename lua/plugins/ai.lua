@@ -3,7 +3,7 @@ return {
     "folke/sidekick.nvim",
     keys = {
       {
-        "<leader>aA",
+        "<leader>ac",
         function()
           require("sidekick.cli").toggle({ name = "claude", focus = true })
         end,
@@ -11,19 +11,11 @@ return {
         mode = { "n", "v" },
       },
       {
-        "<leader>ac",
-        function()
-          require("sidekick.cli").toggle({ name = "cursor", focus = true })
-        end,
-        desc = "Sidekick Cursor Toggle",
-        mode = { "n", "v" },
-      },
-      {
         "<leader>aC",
         function()
-          require("sidekick.cli").toggle({ name = "copilot", focus = true })
+          require("sidekick.cli").toggle({ name = "codex", focus = true })
         end,
-        desc = "Sidekick Copilot Toggle",
+        desc = "Sidekick Codex Toggle",
         mode = { "n", "v" },
       },
       {

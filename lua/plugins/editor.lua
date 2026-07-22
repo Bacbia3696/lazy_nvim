@@ -50,12 +50,10 @@ return {
       win = {
         border = vim.g.border, -- none, single, double, shadow
       },
+      spec = {
+        { "<leader>y", group = "clipboard", icon = "󰆏" },
+      },
     },
-  },
-  {
-    "johmsalas/text-case.nvim",
-    cmd = { "TextCase" },
-    opts = true,
   },
   {
     "stevearc/aerial.nvim",

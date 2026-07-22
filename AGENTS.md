@@ -15,8 +15,10 @@ This is a LazyVim-based Neovim configuration. There is no build, test, or lint s
 - `helpers.map(mode, lhs, rhs, opts)` — keymap wrapper
 - `helpers.augroup(name)` — create an autocmd group with `clear = true`
 - `helpers.copy(text)` — copy to system clipboard
-- `helpers.statuscolumn()` — statuscolumn rendering (hides on dashboard/special buffers)
+- `helpers.statuscolumn()` — statuscolumn rendering (hides on dashboard/special buffers, respects `number`)
 - `helpers.setup_ghostty()` — Ghostty terminal title integration
+
+`lua/img_preview.lua` — image URL detection + Snacks-based previews, wired to `<leader>i` / `<leader>I` in `lua/plugins/snacks.lua`
 
 ## Code conventions
 
@@ -27,7 +29,7 @@ This is a LazyVim-based Neovim configuration. There is no build, test, or lint s
 
 ## LSP config
 
-`neoconf.json` configures language servers: `lua_ls` (callSnippet=Replace), `gopls` (placeholders+hints, fieldalignment=off), `vtsls` (non-relative imports, code lens on)
+`neoconf.json` configures language servers: `lua_ls` (callSnippet=Replace), `gopls` (placeholders+hints, fieldalignment=off). TypeScript uses `tsgo` (LazyVim extra disables `vtsls`); Python formats via `ruff` LSP (no `black` extra).
 
 ## Verified context (not obvious from filenames)
 
@@ -36,5 +38,5 @@ This is a LazyVim-based Neovim configuration. There is no build, test, or lint s
 - `vim.g.lazyvim_python_lsp = "basedpyright"` — overrides LazyVim's default pyright
 - Emacs-style keymaps apply in insert mode via mode label `"!"` (see `lua/config/emacs.lua:36`)
 - Ghostty terminal title is set on startup (`lua/config/lazy.lua:47`)
-- On start with no args, Snacks explorer opens automatically (`lua/config/autocmds.lua:75`)
-- Copilot is detached from files under the LeetCode data directory (`lua/config/autocmds.lua:20`)
+- Copilot is detached from files under the LeetCode data directory (`lua/config/autocmds.lua:21`)
+- linters are skipped outside the cwd, toggled persistently with `:LintToggle [name]`, and inspected with `:LintStatus [name]`; Go uses revive

@@ -12,6 +12,7 @@ return {
   },
   {
     "Bekaboo/dropbar.nvim",
+    event = "LazyFile",
     opts = function()
       local utils = require("dropbar.utils")
       local sources = require("dropbar.sources")
@@ -90,7 +91,6 @@ return {
         view = "cmdline_popup",
         opts = {
           border = { style = vim.g.border, padding = { 0, 1 } },
-          position = "50%",
           size = { width = 60 },
         },
       },
@@ -132,6 +132,8 @@ return {
         hl.CursorLineNr = { fg = colors.warning, bold = true }
         hl.LineNr = { fg = colors.dark3 }
         hl.StatusColumn = { bg = colors.none }
+        hl.StatusLine = { bg = colors.none, fg = colors.fg }
+        hl.StatusLineNC = { bg = colors.none, fg = colors.dark3 }
         hl.Folded = { bg = colors.bg_highlight, fg = colors.blue }
         hl.FoldColumn = { bg = colors.none, fg = colors.dark3 }
         hl.WinBar = { bg = colors.none, bold = true, fg = colors.fg_dark }
@@ -171,10 +173,10 @@ return {
       extra_groups = {
         "CodeBlock",
         "SignColumn",
+        "StatusLine",
+        "StatusLineNC",
         "WinBar",
         "WinBarNC",
-        "NeoTreeNormal",
-        "NeoTreeNormalNC",
       },
     },
   },

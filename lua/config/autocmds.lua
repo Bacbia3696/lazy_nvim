@@ -8,9 +8,10 @@ local augroup = require("helpers").augroup
 vim.api.nvim_create_autocmd("BufEnter", {
   pattern = "*",
   group = augroup("close_with_q2"),
-  desc = "Make q empty filetype window",
+  desc = "Close special buffers (terminal, scratch) with q",
   callback = function(event)
-    if vim.bo[event.buf].filetype == "" then
+    -- buftype ~= "" excludes normal buffers, e.g. a fresh :enew buffer
+    if vim.bo[event.buf].filetype == "" and vim.bo[event.buf].buftype ~= "" then
       set_quit_keymap(event.buf)
     end
   end,
@@ -40,19 +41,19 @@ vim.api.nvim_create_autocmd("LspAttach", {
 })
 
 -- Contextual cursorline: show only in active window
+local cursorline_group = augroup("cursorline_active")
 vim.api.nvim_create_autocmd({ "WinEnter", "BufEnter" }, {
-  group = augroup("cursorline_active"),
+  group = cursorline_group,
   desc = "Cursorline only in active window",
   callback = function()
     vim.wo.cursorline = true
-    vim.api.nvim_create_autocmd("WinLeave", {
-      group = augroup("cursorline_inactive"),
-      desc = "Disable cursorline in inactive windows",
-      once = true,
-      callback = function()
-        vim.wo.cursorline = false
-      end,
-    })
+  end,
+})
+vim.api.nvim_create_autocmd("WinLeave", {
+  group = cursorline_group,
+  desc = "Disable cursorline in inactive windows",
+  callback = function()
+    vim.wo.cursorline = false
   end,
 })
 
@@ -63,7 +64,7 @@ vim.opt.statuscolumn = "%{%v:lua.require('helpers').statuscolumn()%}"
 vim.api.nvim_create_autocmd("FileType", {
   group = augroup("clean_special_buffers"),
   desc = "No line numbers on dashboard and special buffers",
-  pattern = { "snacks_dashboard", "alpha", "dashboard", "lazy", "mason", "help" },
+  pattern = { "snacks_dashboard", "alpha", "dashboard", "lazy", "mason", "help", "aerial", "grug-far" },
   callback = function()
     vim.wo.number = false
     vim.wo.relativenumber = false
