@@ -139,7 +139,7 @@ return {
       })
     end,
     keys = {
-      { "<leader>uL", "<cmd>LintToggle<cr>", desc = "Toggle Linter (Project)" },
+      { "<leader>ue", "<cmd>LintToggle<cr>", desc = "Toggle Linter (Project)" },
     },
     opts = function(_, opts)
       opts.linters_by_ft = opts.linters_by_ft or {}

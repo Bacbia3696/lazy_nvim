@@ -71,3 +71,21 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.wo.signcolumn = "no"
   end,
 })
+
+-- Detach LSP clients from non-file buffers (diffview:// git-object buffers, fugitive://, etc.).
+-- gopls and other servers reject any DocumentURI whose scheme isn't "file", spamming
+-- "-32700: JSON RPC parse error: DocumentURI scheme is not 'file'".
+vim.api.nvim_create_autocmd("LspAttach", {
+  group = augroup("no_lsp_on_virtual_buffers"),
+  desc = "Detach LSP from diffview/fugitive virtual buffers",
+  callback = function(args)
+    local scheme = vim.uri_from_bufnr(args.buf):match("^(%a[%w+.-]*)://")
+    if scheme and scheme ~= "file" then
+      vim.schedule(function()
+        if vim.api.nvim_buf_is_valid(args.buf) then
+          vim.lsp.buf_detach_client(args.buf, args.data.client_id)
+        end
+      end)
+    end
+  end,
+})

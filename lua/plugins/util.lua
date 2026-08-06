@@ -57,7 +57,7 @@ return {
         function()
           require("smart-splits").move_cursor_down()
         end,
-        -- mode = { "t", "n" },
+        mode = { "t", "n" },
         desc = "Move cursor down",
       },
       {

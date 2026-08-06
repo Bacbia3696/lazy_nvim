@@ -29,7 +29,7 @@ This is a LazyVim-based Neovim configuration. There is no build, test, or lint s
 
 ## LSP config
 
-`neoconf.json` configures language servers: `lua_ls` (callSnippet=Replace), `gopls` (placeholders+hints, fieldalignment=off). TypeScript uses `tsgo` (LazyVim extra disables `vtsls`); Python formats via `ruff` LSP (no `black` extra).
+`lua/plugins/lsp.lua` configures language servers: `lua_ls` (callSnippet=Replace), `gopls` (shutdown timeout, resource limits, placeholders+hints, selected analyses off). TypeScript uses `tsgo` (LazyVim extra disables `vtsls`); Python formats via `ruff` LSP (no `black` extra). Neoconf remains enabled for project-local overrides.
 
 ## Verified context (not obvious from filenames)
 

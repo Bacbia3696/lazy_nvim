@@ -6,6 +6,37 @@ return {
     },
     opts = {
       inlay_hints = { enabled = false },
+      servers = {
+        lua_ls = {
+          settings = {
+            Lua = {
+              completion = {
+                callSnippet = "Replace",
+              },
+            },
+          },
+        },
+        gopls = {
+          exit_timeout = 1000,
+          cmd_env = {
+            GOMAXPROCS = "2",
+            GOMEMLIMIT = "1536MiB",
+          },
+          settings = {
+            gopls = {
+              usePlaceholders = true,
+              hints = {
+                parameterNames = true,
+              },
+              analyses = {
+                SA4023 = false,
+                ST1000 = false,
+                fieldalignment = false,
+              },
+            },
+          },
+        },
+      },
       diagnostics = {
         severity_sort = true,
         underline = false,
@@ -33,6 +64,16 @@ return {
       },
       format = {
         timeout_ms = 5000,
+      },
+    },
+  },
+  {
+    "folke/neoconf.nvim",
+    opts = {
+      plugins = {
+        lua_ls = {
+          enabled = true,
+        },
       },
     },
   },

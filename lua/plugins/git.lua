@@ -5,6 +5,42 @@ return {
       current_line_blame = true,
     },
   },
+  -- snacks_picker defines <leader>gd/gD for git diff; Diffview owns those here
+  {
+    "folke/snacks.nvim",
+    optional = true,
+    keys = {
+      { "<leader>gd", false },
+      { "<leader>gD", false },
+    },
+  },
+  {
+    "sindrets/diffview.nvim",
+    cmd = { "DiffviewOpen", "DiffviewClose", "DiffviewToggleFiles", "DiffviewFocusFiles", "DiffviewFileHistory" },
+    keys = {
+      { "<leader>gd", "<cmd>DiffviewOpen<cr>", desc = "Diffview (working tree)" },
+      { "<leader>gD", "<cmd>DiffviewOpen origin/master...HEAD<cr>", desc = "Diffview (branch vs master)" },
+      { "<leader>gv", "<cmd>DiffviewFileHistory<cr>", desc = "Diffview file history (repo)" },
+      { "<leader>gV", "<cmd>DiffviewFileHistory %<cr>", desc = "Diffview file history (current file)" },
+    },
+    opts = {
+      enhanced_diff_hl = true,
+      view = {
+        merge_tool = { layout = "diff3_mixed" },
+      },
+      keymaps = {
+        view = {
+          { "n", "q", "<cmd>DiffviewClose<cr>", { desc = "Close Diffview" } },
+        },
+        file_panel = {
+          { "n", "q", "<cmd>DiffviewClose<cr>", { desc = "Close Diffview" } },
+        },
+        file_history_panel = {
+          { "n", "q", "<cmd>DiffviewClose<cr>", { desc = "Close Diffview" } },
+        },
+      },
+    },
+  },
   {
     "ahkohd/difft.nvim",
     keys = {
@@ -13,11 +49,32 @@ return {
         function()
           if Difft.is_visible() then
             Difft.hide()
-          else
-            Difft.diff()
+            return
           end
+          local file = vim.fn.expand("%:p")
+          if file == "" then
+            vim.notify("No file in buffer to diff", vim.log.levels.WARN)
+            return
+          end
+          -- Set config.command so "r" (refresh) stays file-scoped
+          require("difft").get_config().command =
+            "GIT_EXTERNAL_DIFF='difft --color=always' git diff -- " .. vim.fn.shellescape(file)
+          Difft.diff()
         end,
-        desc = "Toggle Difft",
+        desc = "Toggle Difft (current file)",
+      },
+      {
+        "<leader>gT",
+        function()
+          if Difft.is_visible() then
+            Difft.hide()
+            return
+          end
+          -- Reset config.command so "r" (refresh) covers all changes
+          require("difft").get_config().command = "GIT_EXTERNAL_DIFF='difft --color=always' git diff"
+          Difft.diff()
+        end,
+        desc = "Toggle Difft (all changes)",
       },
     },
     opts = {
