@@ -1,6 +1,45 @@
 return {
+  { "rcarriga/nvim-dap-ui", enabled = false },
   {
     "mfussenegger/nvim-dap",
+    init = function()
+      -- init, not config: LazyVim's dap extra owns nvim-dap's config (signs, launch.json).
+      local dap = require("dap")
+      local last_port = "38697"
+
+      dap.adapters.go_headless = function(callback, config)
+        callback({ type = "server", host = config.host or "127.0.0.1", port = config.port })
+      end
+
+      dap.configurations.go = dap.configurations.go or {}
+      local exists = false
+      for _, c in ipairs(dap.configurations.go) do
+        if c.name == "Attach to headless dlv" then
+          exists = true
+          break
+        end
+      end
+      if not exists then
+        table.insert(dap.configurations.go, {
+          type = "go_headless",
+          name = "Attach to headless dlv",
+          request = "attach",
+          mode = "remote",
+          host = "127.0.0.1",
+          port = function()
+            return coroutine.create(function(dap_run_co)
+              vim.ui.input({ prompt = "dlv port: ", default = last_port }, function(input)
+                local port = tonumber(input or "")
+                if port then
+                  last_port = tostring(port)
+                end
+                coroutine.resume(dap_run_co, port or dap.ABORT)
+              end)
+            end)
+          end,
+        })
+      end
+    end,
     dependencies = {
       "igorlfs/nvim-dap-view",
       init = function()
@@ -21,8 +60,9 @@ return {
           terminal = {
             size = 0.3,
             position = "right",
-            -- List of debug adapters for which the terminal should be ALWAYS hidden
-            hide = { "go", "node", "pwa-node" },
+            -- No terminal pane for delve flavors: dap-view creates none,
+            -- and remote dlv output lives in the shell that launched it.
+            hide = { "go", "go_headless", "delve", "node", "pwa-node" },
           },
         },
       },
@@ -33,15 +73,10 @@ return {
         local dap = require("dap")
         local dapview = require("dap-view")
         dapview.setup(opts)
-        dap.listeners.after.event_initialized["dapview_config"] = function()
-          dapview.open()
-        end
-        dap.listeners.before.event_terminated["dapview_config"] = function()
-          dapview.close()
-        end
-        dap.listeners.before.event_exited["dapview_config"] = function()
-          dapview.close()
-        end
+        local id = "dapview_config"
+        dap.listeners.after.event_initialized[id] = dapview.open
+        dap.listeners.before.event_terminated[id] = dapview.close
+        dap.listeners.before.event_exited[id] = dapview.close
       end,
     },
     keys = {
