@@ -7,6 +7,9 @@ return {
     -- build = 'cargo build --release',
     dependencies = "saghen/blink.download",
     cmd = { "Kubectl", "K", "Kubens", "Kubectx" },
+    keys = {
+      { "<leader>k", "<cmd>Kubectl toggle<cr>", desc = "Kubectl" },
+    },
     opts = {},
   },
   {

@@ -8,6 +8,8 @@ return {
         "buf",
         "graphql-language-service-cli",
         "revive",
+        "shfmt",
+        "stylua",
       },
     },
   },

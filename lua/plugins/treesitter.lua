@@ -92,25 +92,27 @@ return {
       {
         "<CR>",
         function()
-          -- keep builtin <CR> in quickfix, help, terminal, ... buffers
+          -- keep builtin <CR> in special buffers (quickfix, help, terminal, ...)
           if vim.bo.buftype ~= "" then
-            return vim.cmd("normal! \r")
+            return "<CR>"
           end
           -- no parser for this buffer: keep the default <CR> behavior
           if not vim.treesitter.get_node() then
-            return vim.cmd("normal! \r")
+            return "<CR>"
           end
           M.increment()
         end,
         mode = { "n", "x" },
+        expr = true,
         desc = "Incremental selection",
       },
       { "<BS>", M.decrement, mode = "x", desc = "Shrink selection" },
       -- markdown code block textobjects (after/queries/markdown/textobjects.scm)
+      -- requires nvim-treesitter-textobjects (LazyVim treesitter extra)
       {
         "im",
         function()
-          require("nvim-treesitter-textobjects.select").select_textobject("@code_block.inner")
+          require("nvim-treesitter-textobjects.select").select_textobject("@code_block.inner", "textobjects")
         end,
         mode = { "x", "o" },
         ft = "markdown",
@@ -119,7 +121,7 @@ return {
       {
         "am",
         function()
-          require("nvim-treesitter-textobjects.select").select_textobject("@code_block.outer")
+          require("nvim-treesitter-textobjects.select").select_textobject("@code_block.outer", "textobjects")
         end,
         mode = { "x", "o" },
         ft = "markdown",

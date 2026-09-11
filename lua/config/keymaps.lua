@@ -30,10 +30,9 @@ map("v", "<M-Up>", ":m '<-2<cr>gv=gv", { desc = "Move up" })
 map({ "i", "x", "n", "s" }, "<C-S-s>", "<cmd>up<cr>", { desc = "Save file" })
 map({ "i", "x", "n", "s" }, "<C-s>", function()
   -- format via conform (LSP fallback included), then save once formatting finished
-  require("conform").format({}, function()
+  require("conform").format({ lsp_format = "fallback" }, function()
     vim.cmd.stopinsert()
     vim.cmd.up()
-    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "n", true)
   end)
 end, { desc = "Save file and format" })
 
@@ -91,13 +90,25 @@ Snacks.toggle
   .new({
     name = "auto format",
     get = function()
-      return vim.g.autoformat
+      return vim.g.autoformat ~= false
     end,
     set = function(state)
       vim.g.autoformat = state
     end,
   })
   :map("<leader>uf")
+
+Snacks.toggle
+  .new({
+    name = "auto format (buffer)",
+    get = function()
+      return vim.b.autoformat ~= false
+    end,
+    set = function(state)
+      vim.b.autoformat = state
+    end,
+  })
+  :map("<leader>uF")
 
 Snacks.toggle
   .new({

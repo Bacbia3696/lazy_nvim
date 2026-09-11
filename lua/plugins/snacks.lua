@@ -209,7 +209,9 @@ return {
     },
     dashboard = {
       sections = {
-        render_quote,
+        function()
+          return render_quote()
+        end,
         { section = "keys", gap = 1, padding = 1 },
         { section = "startup" },
       },

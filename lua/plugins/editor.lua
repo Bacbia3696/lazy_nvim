@@ -52,6 +52,7 @@ return {
       },
       spec = {
         { "<leader>y", group = "clipboard", icon = "󰆏" },
+        { "<leader>k", group = "kubectl" },
       },
     },
   },

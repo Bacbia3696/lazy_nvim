@@ -57,7 +57,7 @@ function M.statuscolumn()
   if lnum == 0 then
     return " "
   end
-  return string.format("%%s%3d%%C ", lnum)
+  return "%s%3l%C "
 end
 
 return M
