@@ -17,7 +17,6 @@ return {
           },
         },
         gopls = {
-          exit_timeout = 1000,
           cmd_env = {
             GOMAXPROCS = "2",
             GOMEMLIMIT = "1536MiB",

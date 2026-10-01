@@ -115,7 +115,6 @@ end
 return {
   {
     "mfussenegger/nvim-lint",
-    optional = true,
     init = function()
       vim.api.nvim_create_user_command("LintToggle", function(cmd)
         select_linter(cmd.args)

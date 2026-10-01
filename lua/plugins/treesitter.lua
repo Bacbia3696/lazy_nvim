@@ -100,7 +100,8 @@ return {
           if not vim.treesitter.get_node() then
             return "<CR>"
           end
-          M.increment()
+          vim.schedule(M.increment)
+          return "<Ignore>"
         end,
         mode = { "n", "x" },
         expr = true,

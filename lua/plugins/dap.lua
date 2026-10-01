@@ -41,43 +41,45 @@ return {
       end
     end,
     dependencies = {
-      "igorlfs/nvim-dap-view",
-      init = function()
-        local augroup = vim.api.nvim_create_augroup("dap_view_q_close", { clear = true })
-        vim.api.nvim_create_autocmd({ "FileType" }, {
-          group = augroup,
-          pattern = { "dap-view", "dap-view-term", "dap-repl" }, -- dap-repl is set by `nvim-dap`
-          callback = function(evt)
-            vim.keymap.set("n", "q", "<C-w>q", { buffer = evt.buf })
-          end,
-        })
-      end,
-      opts = {
-        winbar = {
-          default_section = "scopes",
-        },
-        windows = {
-          terminal = {
-            size = 0.3,
-            position = "right",
-            -- No terminal pane for delve flavors: dap-view creates none,
-            -- and remote dlv output lives in the shell that launched it.
-            hide = { "go", "go_headless", "delve", "node", "pwa-node" },
+      {
+        "igorlfs/nvim-dap-view",
+        init = function()
+          local augroup = vim.api.nvim_create_augroup("dap_view_q_close", { clear = true })
+          vim.api.nvim_create_autocmd({ "FileType" }, {
+            group = augroup,
+            pattern = { "dap-view", "dap-view-term", "dap-repl" }, -- dap-repl is set by `nvim-dap`
+            callback = function(evt)
+              vim.keymap.set("n", "q", "<C-w>q", { buffer = evt.buf })
+            end,
+          })
+        end,
+        opts = {
+          winbar = {
+            default_section = "scopes",
+          },
+          windows = {
+            terminal = {
+              size = 0.3,
+              position = "right",
+              -- No terminal pane for delve flavors: dap-view creates none,
+              -- and remote dlv output lives in the shell that launched it.
+              hide = { "go", "go_headless", "delve", "node", "pwa-node" },
+            },
           },
         },
+        keys = {
+          { "<leader>dd", "<cmd>DapViewToggle<cr>", desc = "Toggle DAP View" },
+        },
+        config = function(_, opts)
+          local dap = require("dap")
+          local dapview = require("dap-view")
+          dapview.setup(opts)
+          local id = "dapview_config"
+          dap.listeners.after.event_initialized[id] = dapview.open
+          dap.listeners.before.event_terminated[id] = dapview.close
+          dap.listeners.before.event_exited[id] = dapview.close
+        end,
       },
-      keys = {
-        { "<leader>dd", "<cmd>DapViewToggle<cr>", desc = "Toggle DAP View" },
-      },
-      config = function(_, opts)
-        local dap = require("dap")
-        local dapview = require("dap-view")
-        dapview.setup(opts)
-        local id = "dapview_config"
-        dap.listeners.after.event_initialized[id] = dapview.open
-        dap.listeners.before.event_terminated[id] = dapview.close
-        dap.listeners.before.event_exited[id] = dapview.close
-      end,
     },
     keys = {
       {

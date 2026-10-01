@@ -34,7 +34,10 @@ vim.api.nvim_create_autocmd("LspAttach", {
     -- Detach Copilot if buffer is in leetcode directory
     if bufname:match(vim.pesc(leetcode_path)) then
       vim.schedule(function()
-        vim.lsp.buf_detach_client(bufnr, client.id)
+        local c = vim.lsp.get_client_by_id(args.data.client_id)
+        if c then
+          vim.lsp.buf_detach_client(bufnr, c.id)
+        end
       end)
     end
   end,
@@ -83,7 +86,10 @@ vim.api.nvim_create_autocmd("LspAttach", {
     if scheme and scheme ~= "file" then
       vim.schedule(function()
         if vim.api.nvim_buf_is_valid(args.buf) then
-          vim.lsp.buf_detach_client(args.buf, args.data.client_id)
+          local c = vim.lsp.get_client_by_id(args.data.client_id)
+          if c then
+            vim.lsp.buf_detach_client(args.buf, c.id)
+          end
         end
       end)
     end
